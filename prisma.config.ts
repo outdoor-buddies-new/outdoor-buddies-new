@@ -6,6 +6,7 @@ import { defineConfig } from 'prisma/config';
 export default defineConfig({
   schema: 'prisma/schema.prisma',
   datasource: {
+    // This reads the localhost database URL from your .env file
     url: process.env.DATABASE_URL, 
   },
 });

@@ -9,12 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  // for local development
-  // url      = env("postgres://fa9221ceaf2f0068ee1738f8c609f680eba846a248e43dd259a5a9d3de70da7e:sk_vNE6eMPZGSOaKbAZCuaUm@db.prisma.io:5432/postgres?sslmode=require")
-  // for Vercel
-  url       = env("postgres://fa9221ceaf2f0068ee1738f8c609f680eba846a248e43dd259a5a9d3de70da7e:sk_vNE6eMPZGSOaKbAZCuaUm@db.prisma.io:5432/postgres?sslmode=require")
-  directUrl = env("postgres://fa9221ceaf2f0068ee1738f8c609f680eba846a248e43dd259a5a9d3de70da7e:sk_vNE6eMPZGSOaKbAZCuaUm@db.prisma.io:5432/postgres?sslmode=require")
+  provider = "postgresql"
 }
 
 enum Role {
