@@ -5,11 +5,11 @@ import { defineConfig } from 'prisma/config';
 
 export default defineConfig({
   schema: 'prisma/schema.prisma',
-  migrations: {
-      seed: 'bun·./prisma/seed.ts',
-    },
   datasource: {
-    // This reads the localhost database URL from your .env file
     url: process.env.DATABASE_URL, 
+  },
+  // Add this section below:
+  migrations: {
+    seed: 'npx tsx ./prisma/seed.ts',
   },
 });
