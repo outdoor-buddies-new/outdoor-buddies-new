@@ -7,7 +7,7 @@
     "dev": "next dev",
     "build": "npx prisma db push && npx prisma db seed && next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "next lint",
     "seed": "npx tsx src/seed.ts",
     "playwright": "npx playwright test"
   },
