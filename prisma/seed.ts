@@ -1,8 +1,15 @@
 import { Prisma, PrismaClient, Role } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg'; // <--- Add this import
+import pg from 'pg';                          // <--- Add this import
 import { hash } from 'bcrypt';
 import * as config from '../config/settings.development.json';
 
-const prisma = new PrismaClient();
+// Initialize the native pg driver pool
+const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+// Wrap it in the Prisma Driver Adapter
+const adapter = new PrismaPg(pool);
+// Pass the adapter into the Prisma Client constructor
+const prisma = new PrismaClient({ adapter });
 
 async function main() {
   console.log('Seeding the database');
