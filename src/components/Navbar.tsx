@@ -12,7 +12,7 @@ const NavBar: React.FC = () => {
   const currentUser = session?.user?.email;
   const role = session?.user?.role;
   return (
-    <Navbar bg="dark" expand="lg">
+    <Navbar bg="light" expand="lg">
       <Container>
         <Navbar.Brand href="/">Testing if changes apply to deployed site</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

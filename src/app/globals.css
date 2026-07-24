@@ -1,10 +1,20 @@
-html,
-body {
-  --bs-light-rgb: 236, 236, 236;
+:root {
+  --font-primary: "Montserrat", sans-serif;
+  --nat-navbar-bg: #0cc0df;
+  --nat-navbar-bg-rgb: 12, 192, 223;
+  --nat-navbar-text-color: white;
+  --nat-navbar-highlight-text: #F4D35E;
+}
+
+html, body {
+  --bs-light: dark: var(--nat-navbar-bg);
+  --bs-light-rgb: var(--nat-navbar-bg-rgb);
   box-sizing: border-box;
   height: 100%;
   padding: 0;
   margin: 0;
+  background-image: url(/palmtrail-kahuku.jpg);
+  background-repeat: no-repeat;
 }
 .wrapper {
   box-sizing: border-box;
@@ -12,3 +22,28 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+body .navbar {
+  --bs-navbar-active-color: var(--nat-navbar-highlight-text);
+  --bs-navbar-brand-color: var(--nat-navbar-text-color);
+  --bs-navbar-brand-hover-color: var(--nat-navbar-highlight-text);
+  --bs-navbar-color: var(--nat-navbar-text-color);
+  --bs-navbar-hover-color: var(--nat-navbar-highlight-text);
+}
+
+.hero-title {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 800;
+  font-size: 4rem;
+  color: #FFFFFF;
+  text-shadow: 2px 3px 8px rgba(0,0,0,0.6);
+}
+
+.hero-subtitle {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 800;
+  font-size: 2rem;
+  color: #FFFFFF;
+  text-shadow: 2px 3px 8px rgba(0,0,0,0.6);
+}
+
