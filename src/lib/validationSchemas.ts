@@ -14,3 +14,12 @@ export const EditStuffSchema = Yup.object({
   condition: Yup.string().oneOf(['excellent', 'good', 'fair', 'poor']).required(),
   owner: Yup.string().required(),
 });
+
+export interface Profile {
+  firstName: string;
+  lastName: string;
+  address: string;
+  groupname : string;
+  image: string;
+  description: string;
+}
