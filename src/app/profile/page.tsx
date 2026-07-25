@@ -35,6 +35,16 @@ const ProfilesPage = async () => {
   return (
     <main>
       <Container className="py-3">
+        <h1 className="mb-4">Profiles</h1>
+        {/*<div className="my-3 d-flex gap-3">
+            <Form.Control
+              type="search"
+              placeholder="Find your place"
+            />
+            <Button type="submit">
+              Search
+            </Button>
+          </div>*/}
         <h2 className="text-center py-3 text-white">Profiles</h2>
         <Row xs={1} md={2} lg={3} className="g-4">
           {profile.map((profile) => (
