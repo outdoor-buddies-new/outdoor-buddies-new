@@ -5,7 +5,7 @@ import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // import swal from 'sweetalert';
-import { redirect } from 'next/navigation';
+// import { redirect } from 'next/navigation';
 // import { addStuff } from '@/lib/dbActions';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { AddStuffSchema } from '@/lib/validationSchemas';
@@ -24,9 +24,9 @@ const HikingRecommendations: React.FC = () => {
   if (status === 'loading') {
     return <LoadingSpinner />;
   }
-  if (status === 'unauthenticated') {
-    redirect('/auth/signin');
-  }
+//  if (status === 'unauthenticated') {
+//    redirect('/auth/signin');
+//  }
 
   return (
     <Container className="py-3 justify-content-center">
