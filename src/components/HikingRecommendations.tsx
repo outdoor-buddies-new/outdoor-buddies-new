@@ -30,6 +30,7 @@ const HikingRecommendations: React.FC = () => {
 
   return (
     <Container className="py-3 justify-content-center">
+      <h1 className="mb-4">Hiking Recommendations</h1>
       <div className="my-3 d-flex gap-3">
             <Form.Control
               type="search"
