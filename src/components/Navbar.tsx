@@ -2,8 +2,9 @@
 
 import { useSession } from 'next-auth/react'; // v5 compatible
 import { usePathname } from 'next/navigation';
-import { Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Container, Nav, Navbar, NavDropdown, Image } from 'react-bootstrap';
 import { BoxArrowRight, Lock, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
+import Link from 'next/link';
 
 const NavBar: React.FC = () => {
   const { data: session, status } = useSession();
@@ -14,17 +15,22 @@ const NavBar: React.FC = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="/">Testing if changes apply to deployed site</Navbar.Brand>
+        <Navbar.Brand as={Link} href="/">
+          <Image src="/oblogo-better.png" alt="Outdoor Buddies Logo" width={150}/>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto justify-content-start">
+          <Nav className="me-auto justify-content-start gap-3">
             {currentUser && (
               <>
-                <Nav.Link id="add-stuff-nav" href="/add" active={pathName === '/add'}>
-                  Add Stuff
+                <Nav.Link id="events-nav" href="/events" active={pathName === '/events'}>
+                  Events
                 </Nav.Link>
-                <Nav.Link id="list-stuff-nav" href="/list" active={pathName === '/list'}>
-                  List Stuff
+                <Nav.Link id="hike-rec-nav" href="/hikes" active={pathName === '/hikes'}>
+                  Hike Recommendation
+                </Nav.Link>
+                <Nav.Link id="groups-nav" href="/groups" active={pathName === '/groups'}>
+                  Groups
                 </Nav.Link>
               </>
             )}
@@ -37,13 +43,13 @@ const NavBar: React.FC = () => {
           <Nav>
             {session ? (
               <NavDropdown id="login-dropdown" title={currentUser}>
+                <NavDropdown.Item id="profile-nav" href="/profile">
+                  <PersonFill />
+                  View Profile
+                </NavDropdown.Item>
                 <NavDropdown.Item id="login-dropdown-sign-out" href="/api/auth/signout">
                   <BoxArrowRight />
                   Sign Out
-                </NavDropdown.Item>
-                <NavDropdown.Item id="login-dropdown-change-password" href="/auth/change-password">
-                  <Lock />
-                  Change Password
                 </NavDropdown.Item>
               </NavDropdown>
             ) : (

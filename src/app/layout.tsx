@@ -33,7 +33,7 @@ export default function RootLayout({
       <body className={classString}>
        <Providers>
           <NavBar />
-          {children}
+              {children}
           <Footer />
         </Providers>
       </body>

@@ -1,18 +1,45 @@
-import { Col, Container } from 'react-bootstrap';
+import { Col, Container, Row, Form, Button } from 'react-bootstrap';
+import { TwitterX, Instagram, Facebook, Tiktok } from 'react-bootstrap-icons';
 
 /** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
 const Footer = () => (
-  <footer className="mt-auto py-3 bg-dark">
+  <footer className="footer mt-auto py-3">
     <Container>
-      <Col className="text-center">
-        Department of Information and Computer Sciences
-        <br />
-        University of Hawaii
-        <br />
-        Honolulu, HI 96822
-        <br />
-        <a href="http://ics-software-engineering.github.io/nextjs-application-template">Template Home Page</a>
-      </Col>
+      <Row>
+        <Col className="text-center">
+          <div className="mb-2">About Us</div>
+          <div className="mb-2">Contact Us</div>
+          <a href="https://outdoor-buddies.github.io/">Group Home Page</a>
+        </Col>
+        <Col className="text-center">
+          Department of Information and Computer Sciences
+          <br />
+          University of Hawaii
+          <br />
+          Honolulu, HI 96822
+          <br />
+        </Col >
+        <Col className="text-center">
+          Sign up for our newsletter!
+          <br />
+          <div className="mb-3 mt-3 d-flex gap-2">
+            <Form.Control
+              type="email"
+              placeholder="Enter your email"
+            />
+            <Button type="submit">
+              Subscribe
+            </Button>
+          </div>
+          <div className="d-flex gap-2 justify-content-end">
+            <TwitterX size={25} />
+            <Instagram size={25} />
+            <Facebook size={25} />
+            <Tiktok size={25} />
+          </div>
+
+        </Col>
+      </Row>
     </Container>
   </footer>
 );

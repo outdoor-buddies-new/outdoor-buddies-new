@@ -2,7 +2,7 @@ import { loggedInProtectedPage } from '@/lib/page-protection';
 import AddStuffForm from '@/components/AddStuffForm';
 import { auth } from '@/lib/auth';
 
-const AddStuff = async () => {
+const HikeRecommendations = async () => {
   // Protect the page, only logged in users can access it.
   const session = await auth();
   loggedInProtectedPage(
@@ -12,9 +12,9 @@ const AddStuff = async () => {
   );
   return (
     <main>
-      <AddStuffForm />
+      
     </main>
   );
 };
 
-export default AddStuff;
+export default HikeRecommendations;
