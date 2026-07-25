@@ -24,8 +24,8 @@ const NavBar: React.FC = () => {
           <Nav className="me-auto justify-content-start gap-3 text-white">
 
               <>
-                <Nav.Link id="events-nav" href="/events" active={pathName === '/events'}>
-                  Events
+                <Nav.Link id="events-nav" href="/announcements" active={pathName === '/announcements'}>
+                  Announcements
                 </Nav.Link>
                 <Nav.Link id="hike-rec-nav" href="/hikes" active={pathName === '/hikes'}>
                   Hike Recommendation
