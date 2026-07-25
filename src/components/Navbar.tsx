@@ -22,6 +22,8 @@ const NavBar: React.FC = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto justify-content-start gap-3">
 
+          <Nav className="me-auto justify-content-start gap-3 text-white">
+            {currentUser && (
               <>
                 <Nav.Link id="events-nav" href="/events" active={pathName === '/events'}>
                   Events
@@ -31,6 +33,9 @@ const NavBar: React.FC = () => {
                 </Nav.Link>
                 <Nav.Link id="groups-nav" href="/groups" active={pathName === '/groups'}>
                   Groups
+                </Nav.Link>
+                <Nav.Link id="profiles-nav" href="/profile" active={pathName === '/profile'}>
+                  Profiles
                 </Nav.Link>
               </>
 
