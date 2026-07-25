@@ -1,10 +1,10 @@
 import { loggedInProtectedPage } from '@/lib/page-protection';
-import AddStuffForm from '@/components/AddStuffForm';
+import AnnouncementList from '@/components/AnnouncementList';
 import { auth } from '@/lib/auth';
 
-/** The Events page. */
+/** The Announcements page. */
 
-const Events = async () => {
+const Announcement = async () => {
   // Protect the page, only logged in users can access it.
 //  const session = await auth();
 //  loggedInProtectedPage(
@@ -14,9 +14,9 @@ const Events = async () => {
 //  );
   return (
     <main>
-      
+      <AnnouncementList />
     </main>
   );
 };
 
-export default Events;
+export default Announcement;
