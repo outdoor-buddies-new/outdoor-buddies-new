@@ -35,7 +35,7 @@ const ProfilesPage = async () => {
   return (
     <main>
       <Container className="py-3">
-        <h1 className="mb-4">Hiking Recommendations</h1>
+        <h1 className="mb-4">Profiles</h1>
           {/*<div className="my-3 d-flex gap-3">
             <Form.Control
               type="search"
