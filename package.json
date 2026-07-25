@@ -4,12 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "prisma generate && prisma db push && prisma db seed && next build",
-    "start": "next start",
-    "lint": "eslint",
-    "seed": "npx tsx src/seed.ts",
-    "playwright": "npx playwright test"
+  "dev": "next dev",
+  "postinstall": "prisma generate",
+  "build": "next build",
+  "start": "next start",
+  "lint": "eslint",
+  "db:push": "prisma db push",
+  "db:seed": "prisma db seed",
+  "playwright": "npx playwright test"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
