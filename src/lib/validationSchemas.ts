@@ -23,3 +23,10 @@ export interface Profile {
   image: string;
   description: string;
 }
+
+export interface Groups {
+  name : string;
+  image: string;
+  people: number;
+  description: string;
+}
