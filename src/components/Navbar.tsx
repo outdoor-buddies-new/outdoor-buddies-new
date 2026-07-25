@@ -20,8 +20,9 @@ const NavBar: React.FC = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
+
           <Nav className="me-auto justify-content-start gap-3 text-white">
-            {currentUser && (
+
               <>
                 <Nav.Link id="events-nav" href="/events" active={pathName === '/events'}>
                   Events
@@ -36,7 +37,7 @@ const NavBar: React.FC = () => {
                   Profiles
                 </Nav.Link>
               </>
-            )}
+
             {currentUser && role === 'ADMIN' && (
               <Nav.Link id="admin-stuff-nav" href="/admin" active={pathName === '/admin'}>
                 Admin
