@@ -28,6 +28,7 @@
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.26.21",
     "ts-node": "^10.9.2",
+    "valibot": "^1.4.2",
     "yup": "^1.7.1"
   },
   "devDependencies": {
