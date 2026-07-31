@@ -93,3 +93,7 @@ export async function changePassword(credentials: { email: string; password: str
     },
   });
 }
+
+export async function getTrails() {
+  return prisma.trail.findMany();
+}
