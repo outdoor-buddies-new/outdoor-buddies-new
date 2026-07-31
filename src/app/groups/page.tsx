@@ -6,6 +6,7 @@ import { auth } from '@/lib/auth';*/
 
 
 
+
 /** Render a list of stuff for the logged in user. */
 /*const Groups = async () => {
   // Protect the page, only logged in users can access it.
