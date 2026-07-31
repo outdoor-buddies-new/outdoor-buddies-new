@@ -4,9 +4,7 @@ import { useSession } from 'next-auth/react'; // v5 compatible
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-// import swal from 'sweetalert';
-// import { redirect } from 'next/navigation';
-// import { addStuff } from '@/lib/dbActions';
+ import { redirect } from 'next/navigation';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { AddStuffSchema } from '@/lib/validationSchemas';
 
@@ -27,9 +25,9 @@ const AnnouncementList: React.FC = () => {
     return <LoadingSpinner />;
   }
 
-// if (status === 'unauthenticated') {
-//   redirect('/auth/signin');
-// }
+ if (status === 'unauthenticated') {
+   redirect('/auth/signin');
+ }
 
   return (
     <Container className="py-4">
