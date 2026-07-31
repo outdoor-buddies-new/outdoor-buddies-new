@@ -38,3 +38,51 @@ model Stuff {
   condition Condition @default(good)
   owner     String
 }
+
+enum Difficulty {
+  EASY
+  MODERATE
+  HARD
+}
+
+model Trail {
+  id          String      @id @default(cuid())
+  name        String
+  location    String
+  difficulty  Difficulty
+  distance    Float
+  description String?
+  image       String
+
+  hikeGroups  HikeGroup[]
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model HikeGroup {
+  id          String      @id @default(cuid())
+  title       String
+  description String?
+  date        DateTime
+  maxPeople   Int?
+  owner       String
+
+  trailId     String
+  trail       Trail       @relation(fields: [trailId], references: [id])
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model Event {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  date        DateTime
+  location    String?
+  image       String?
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
