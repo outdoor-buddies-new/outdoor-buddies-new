@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient, Role } from '@prisma/client';
+import { Prisma, PrismaClient, Role, Difficulty } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg'; // <--- Add this import
 import pg from 'pg';                          // <--- Add this import
 import { hash } from 'bcrypt';
@@ -10,6 +10,33 @@ const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
 // Pass the adapter into the Prisma Client constructor
 const prisma = new PrismaClient({ adapter });
+
+const defaultTrails = [
+  {
+    name: 'Diamond Head',
+    location: '4204 Diamond Head Road',
+    difficulty: Difficulty.MODERATE,
+    distance: 0.8,
+    description: 'A popular hiking trail with scenic views of Waikiki.',
+    image: '/diamond.head.jpg',
+  },
+  {
+    name: 'Koko Head',
+    location: '423 Kaumakani Street',
+    difficulty: Difficulty.HARD,
+    distance: 0.75,
+    description: 'A steep climb with rewarding views at the top.',
+    image: '/koko-head.jpg',
+  },
+  {
+    name: 'Manoa Falls',
+    location: '3860 Manoa Road',
+    difficulty: Difficulty.EASY,
+    distance: 0.8,
+    description: 'A rainforest trail leading to a waterfall.',
+    image: '/manoa-falls.jpg',
+  },
+];
 
 async function main() {
   console.log('Seeding the database');
@@ -43,6 +70,18 @@ async function main() {
         owner: data.owner,
         condition,
       },
+    });
+  }
+
+  for (const trail of defaultTrails) {
+    console.log(`Adding trail: ${trail.name}`);
+
+    await prisma.trail.upsert({
+      where: {
+        name: trail.name,
+      },
+      update: {},
+      create: trail,
     });
   }
 }
