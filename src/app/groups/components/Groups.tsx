@@ -6,8 +6,8 @@ interface GroupProps {
   group: {
     name : string;
     image: string;
-    people: number;
     description: string;
+    members: number;
   };
 }
 
@@ -28,7 +28,7 @@ export default function GroupCard({ group }: GroupProps) {
           {group.name}
         </Card.Title>
         <Card.Subtitle className="mb-3 text-muted small">
-          {group.people}
+          {group.members}
         </Card.Subtitle>
         <Card.Text className="text-secondary small flex-grow-1">
           {group.description}

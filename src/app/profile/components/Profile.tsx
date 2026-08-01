@@ -6,7 +6,6 @@ interface ProfileProps {
   profile: {
     firstName: string;
     lastName: string;
-    address: string;
     groupname : string;
     description: string;
     image: string;

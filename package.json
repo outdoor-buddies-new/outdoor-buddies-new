@@ -4,15 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
-  "dev": "next dev",
-  "postinstall": "prisma generate",
-  "build": "next build",
-  "start": "next start",
-  "lint": "eslint",
-  "db:push": "prisma db push",
-  "db:seed": "prisma db seed",
-  "seed": "prisma db seed",
-  "playwright": "npx playwright test"
+    "dev": "next dev",
+    "postinstall": "prisma generate",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "db:push": "prisma db push",
+    "db:seed": "prisma db seed",
+    "seed": "prisma db seed",
+    "playwright": "npx playwright test"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
