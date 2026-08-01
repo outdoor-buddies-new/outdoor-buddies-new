@@ -97,7 +97,10 @@ model Group {
 
 model Profile {
   id          String    @id @default(cuid())
-  name        String
+  firstName   String
+  lastName    String
+  address     String
+  groupname   String
   description String?
   image       String?
 }
