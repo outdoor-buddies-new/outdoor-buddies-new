@@ -97,3 +97,7 @@ export async function changePassword(credentials: { email: string; password: str
 export async function getTrails() {
   return prisma.trail.findMany();
 }
+
+export async function getEvents() {
+  return prisma.event.findMany();
+}

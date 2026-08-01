@@ -1,25 +1,20 @@
 'use client';
 
 import { useSession } from 'next-auth/react'; // v5 compatible
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
- import { redirect } from 'next/navigation';
+import { Button, Col, Container, Row } from 'react-bootstrap';
+import { redirect } from 'next/navigation';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { AddStuffSchema } from '@/lib/validationSchemas';
+import EventCard from '@/components/EventCard';
+import { Event } from '@prisma/client';
 
-const AnnouncementList: React.FC = () => {
+interface AnnouncementListProps {
+  events: Event[];
+}
+
+const AnnouncementList: React.FC<AnnouncementListProps> = ({ events }) => {
   const { data: session, status } = useSession();
   const currentUser = session?.user?.email || '';
   const role = session?.user?.role;
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(AddStuffSchema),
-  });
 
   if (status === 'loading') {
     return <LoadingSpinner />;
@@ -55,66 +50,12 @@ const AnnouncementList: React.FC = () => {
         Upcoming Events
       </h2>
 
-      <Row>
-        <Col md={4}>
-          <Card>
-            <Card.Body>
-              <Card.Title>
-                Summer Hiking Meetup
-              </Card.Title>
-
-              <Card.Text>
-                Join fellow hikers for a community hike at Manoa Falls.
-                <br />
-                Date: July 30, 2026
-              </Card.Text>
-
-              <Button>
-                View Details
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        <Col md={4}>
-          <Card>
-            <Card.Body>
-              <Card.Title>
-                Trail Cleanup Day
-              </Card.Title>
-
-              <Card.Text>
-                Help keep Hawaii trails beautiful with our cleanup event.
-                <br />
-                Date: August 15, 2026
-              </Card.Text>
-
-              <Button>
-                View Details
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-
-        <Col md={4}>
-          <Card>
-            <Card.Body>
-              <Card.Title>
-                New Hiking Recommendations
-              </Card.Title>
-
-              <Card.Text>
-                We added new trails and recommendations to explore.
-                <br />
-                Posted: July 24, 2026
-              </Card.Text>
-
-              <Button>
-                Read More
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
+      <Row className="g-4">
+        {events.map((event) => (
+          <Col md={4} key={event.id}>
+            <EventCard event={event} />
+          </Col>
+        ))}
       </Row>
     </Container>
   );
