@@ -5,7 +5,7 @@ import { Stuff } from '@prisma/client';
 import { Group } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
-import { prisma } from './prisma';
+import { prisma } from '@/lib/prisma';
 
 /**
  * Adds a new stuff to the database.
@@ -128,3 +128,76 @@ export async function editProfile(profile: Profile) {
 }
 
 //do a delete profile/account but later
+export async function getTrails() {
+  return prisma.trail.findMany();
+}
+
+/**
+ * Gets all events from the database.
+ */
+export async function getEvents() {
+  return prisma.event.findMany();
+}
+
+/**
+ * Adds a new event to the database.
+ * @param event, an object with the following properties: title, description, date.
+ */
+export async function addEvent(event: { title: string; description: string; date: Date; }) {
+  await prisma.event.create({
+    data: {
+      title: event.title,
+      description: event.description,
+      date: event.date,
+    },
+  });
+  redirect('/announcements');
+}
+
+/**
+ * Edits an existing event in the database.
+ * @param event, an object with the following properties: id, title, description, date.
+ */
+export async function editEvent(event: { id: string; title: string; description: string; date: Date }) {
+  await prisma.event.update({
+    where: { id: event.id },
+    data: {
+      title: event.title,
+      description: event.description,
+      date: event.date,
+    },
+  });
+  redirect('/announcements');
+}
+
+/**
+ * Searches for trails based on a search term.
+ * @param searchTerm, the term to search for.
+ * @returns a list of trails matching the search term in name and location.
+ */
+export async function searchTrails(searchTerm: string) {
+  return prisma.trail.findMany({
+    where: {
+      OR: [
+        {
+          name: {
+            contains: searchTerm,
+            mode: 'insensitive',
+          },
+        },
+        {
+          location: {
+            contains: searchTerm,
+            mode: 'insensitive',
+          },
+        },
+        {
+          description: {
+            contains: searchTerm,
+            mode: 'insensitive',
+          },
+        },
+      ],
+    },
+  });
+}

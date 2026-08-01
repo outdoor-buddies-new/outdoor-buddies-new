@@ -1,8 +1,5 @@
-/*import { loggedInProtectedPage } from '@/lib/page-protection';
-import AddStuffForm from '@/components/AddStuffForm';
+import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
-*/
-
 import { Container, Row, Col } from 'react-bootstrap';
 import { Profile } from '@/lib/validationSchemas';
 import ProfileCard from '@/app/profile/components/Profile';
@@ -26,12 +23,12 @@ const profile: Profile[] = [{
 
 const ProfilesPage = async () => {
   // Protect the page, only logged in users can access it.
-  /*const session = await auth();
+  const session = await auth();
   loggedInProtectedPage(
     session as {
       user: { email: string; id: string; name: string };
     } | null,
-  );*/
+  );
   return (
     <main>
       <Container className="py-3">

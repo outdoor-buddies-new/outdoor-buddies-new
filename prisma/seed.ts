@@ -38,6 +38,33 @@ const defaultTrails = [
   },
 ];
 
+const defaultEvents = [
+  {
+    id: 'summer-hiking-meetup',
+    title: 'Summer Hiking Meetup',
+    description: 'Join fellow hikers for a community hike at Manoa Falls.',
+    date: new Date('2026-07-30T09:00:00'),
+    location: 'Manoa Falls',
+    image: '/manoa-falls.jpg',
+  },
+  {
+    id: 'trail-cleanup-day',
+    title: 'Trail Cleanup Day',
+    description: 'Help keep Hawaii trails beautiful with our cleanup event.',
+    date: new Date('2026-08-15T09:00:00'),
+    location: 'TBD',
+    image: '/trail-cleanup.jpg',
+  },
+  {
+    id: 'new-hiking-recommendations',
+    title: 'New Hiking Recommendations',
+    description: 'We added new trails and recommendations to explore.',
+    date: new Date('2026-07-24T09:00:00'),
+    location: 'Online',
+    image: '/oblogo-better.png',
+  },
+];
+
 async function main() {
   console.log('Seeding the database');
   const password = await hash('changeme', 10);
@@ -82,6 +109,18 @@ async function main() {
       },
       update: {},
       create: trail,
+    });
+  }
+
+  for (const event of defaultEvents) {
+    console.log(`Adding event: ${event.title}`);
+
+    await prisma.event.upsert({
+      where: {
+        id: event.id,
+      },
+      update: {},
+      create: event,
     });
   }
 }

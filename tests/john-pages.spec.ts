@@ -1,33 +1,64 @@
 import { test, expect } from './auth-utils';
 
 test.slow();
-test('can authenticate a specific user', async ({ getUserPage }) => {
 
-  // Call the getUserPage fixture with users signin info to get authenticated session for user
-  const customUserPage = await getUserPage('john@foo.com', 'changeme');
+test('test user access to available pages', async ({ getUserPage }) => {
+  // Authenticate as a regular user
+  const userPage = await getUserPage('john@foo.com', 'changeme');
 
-  // Navigate to the home page and wait for post-login indicator
-  await customUserPage.goto('http://localhost:3000/');
+  // Navigate home
+  await userPage.goto('http://localhost:3000/');
+
+  // Confirm logged in
   await expect(
-    customUserPage.getByRole('button', { name: 'john@foo.com' })
+    userPage.getByRole('button', { name: 'john@foo.com' })
   ).toBeVisible({ timeout: 10000 });
 
-  // Now check for navigation links and headings
+  // Check navigation links
   await expect(
-    customUserPage.getByRole('link', { name: 'Add Stuff' })
-  ).toBeVisible({ timeout: 5000 });
-  await expect(
-    customUserPage.getByRole('link', { name: 'List Stuff' })
+    userPage.getByRole('link', { name: 'Announcements' })
   ).toBeVisible({ timeout: 5000 });
 
-  await customUserPage.getByRole('link', { name: 'Add Stuff' }).click();
   await expect(
-    customUserPage.getByRole('heading', { name: 'Add Stuff' })
+    userPage.getByRole('link', { name: 'Hike Recommendation' })
   ).toBeVisible({ timeout: 5000 });
 
-  await customUserPage.getByRole('link', { name: 'List Stuff' }).click();
   await expect(
-    customUserPage.getByRole('heading', { name: 'Stuff' })
+    userPage.getByRole('link', { name: 'Groups' })
   ).toBeVisible({ timeout: 5000 });
 
+  await expect(
+    userPage.getByRole('link', { name: 'Profiles' })
+  ).toBeVisible({ timeout: 5000 });
+
+  // Test Announcements page
+  await userPage.goto('http://localhost:3000/announcements');
+
+  await expect(
+    userPage.getByRole('heading', { name: 'Announcements & Events' })
+  ).toBeVisible({ timeout: 5000 });
+
+  // Test Hike Recommendations page
+  await userPage.goto('http://localhost:3000/hikes');
+
+  await expect(
+    userPage.getByRole('heading', { name: 'Hiking Recommendations' })
+  ).toBeVisible({ timeout: 5000 });
+
+  // Test Hike Recommendations search
+  await userPage.goto('http://localhost:3000/hikes');
+
+  await expect(
+    userPage.getByRole('heading', { name: 'Hiking Recommendations' })
+  ).toBeVisible({ timeout: 5000 });
+
+  const searchBox = userPage.getByPlaceholder('Find your place');
+
+  await searchBox.fill('Manoa');
+
+  await userPage.getByRole('button', { name: 'Search' }).click();
+
+  await expect(
+    userPage.getByText('Manoa Falls')
+  ).toBeVisible({ timeout: 5000 });
 });

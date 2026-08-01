@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react'; // v5 compatible
 import { usePathname } from 'next/navigation';
 import { Container, Nav, Navbar, NavDropdown, Image } from 'react-bootstrap';
-import { BoxArrowRight, Lock, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
+import { BoxArrowRight, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
 import Link from 'next/link';
 
 const NavBar: React.FC = () => {
@@ -11,7 +11,6 @@ const NavBar: React.FC = () => {
   const pathName = usePathname();
   if (status === 'loading') return null;
   const currentUser = session?.user?.email;
-  const role = session?.user?.role;
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -22,7 +21,7 @@ const NavBar: React.FC = () => {
         <Navbar.Collapse id="basic-navbar-nav">
 
           <Nav className="me-auto justify-content-start gap-3 text-white">
-
+          
               <>
                 <Nav.Link id="events-nav" href="/announcements" active={pathName === '/announcements'}>
                   Announcements
@@ -37,12 +36,6 @@ const NavBar: React.FC = () => {
                   Profiles
                 </Nav.Link>
               </>
-
-            {currentUser && role === 'ADMIN' && (
-              <Nav.Link id="admin-stuff-nav" href="/admin" active={pathName === '/admin'}>
-                Admin
-              </Nav.Link>
-            )}
           </Nav>
           <Nav>
             {session ? (

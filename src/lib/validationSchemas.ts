@@ -45,3 +45,16 @@ export const EditProfileSchema = Yup.object({
   description: Yup.string().required(),
   members: Yup.number().positive().required(),
 });
+}
+
+export const AddEventSchema = Yup.object({
+  title: Yup.string().required('Title is required'),
+  description: Yup.string().required('Description is required'),
+  date: Yup.date().required('Date is required'),
+});
+
+export const EditEventSchema = Yup.object({
+  title: Yup.string().required('Title is required'),
+  description: Yup.string().required('Description is required'),
+  date: Yup.string().required('Date is required'),
+});
