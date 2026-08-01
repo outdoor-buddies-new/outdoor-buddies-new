@@ -2,6 +2,7 @@
 
 import { Condition } from '@prisma/client';
 import { Stuff } from '@prisma/client';
+import { Group } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
@@ -94,6 +95,39 @@ export async function changePassword(credentials: { email: string; password: str
   });
 }
 
+/**
+ * Adds a new group  to the database.
+ * @param group, an object with the following properties: id, name, description, image, members
+ */
+export async function addGroup(group: { name: string; description: string; image: string; members: number;}) {
+  // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
+  await prisma.group.create({
+    data: {
+      name: group.name,
+      description: group.description,
+      image: group.image,
+      members: group.members,
+    },
+  });
+}
+
+/**
+ * Edits an existing group in the database.
+ * @param group, an object with the following properties: id, name, description, image, members
+ */
+export async function editProfile(profile: Profile) {
+  // console.log(`editStuff data: ${JSON.stringify(stuff, null, 2)}`);
+  await prisma.group.update({
+    where: { id: profile.id },
+    data: {
+      name: profile.name,
+      description: profile.description,
+      image: profile.image,
+    },
+  });
+}
+
+//do a delete profile/account but later
 export async function getTrails() {
   return prisma.trail.findMany();
 }

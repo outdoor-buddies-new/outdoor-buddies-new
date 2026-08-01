@@ -25,10 +25,26 @@ export interface Profile {
 }
 
 export interface Groups {
+  id : number;
   name : string;
   image: string;
-  people: number;
   description: string;
+  members: number;
+}
+
+export const AddGroupSchema = Yup.object({
+  name: Yup.string().required(),
+  image: Yup.string().required(),
+  description: Yup.string().required(),
+  members: Yup.number().positive().required(),
+});
+
+export const EditProfileSchema = Yup.object({
+  name: Yup.string().required(),
+  image: Yup.string().required(),
+  description: Yup.string().required(),
+  members: Yup.number().positive().required(),
+});
 }
 
 export const AddEventSchema = Yup.object({
