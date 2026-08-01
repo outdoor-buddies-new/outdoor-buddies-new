@@ -135,3 +135,35 @@ export async function editEvent(event: { id: string; title: string; description:
   });
   redirect('/announcements');
 }
+
+/**
+ * Searches for trails based on a search term.
+ * @param searchTerm, the term to search for.
+ * @returns a list of trails matching the search term in name and location.
+ */
+export async function searchTrails(searchTerm: string) {
+  return prisma.trail.findMany({
+    where: {
+      OR: [
+        {
+          name: {
+            contains: searchTerm,
+            mode: 'insensitive',
+          },
+        },
+        {
+          location: {
+            contains: searchTerm,
+            mode: 'insensitive',
+          },
+        },
+        {
+          description: {
+            contains: searchTerm,
+            mode: 'insensitive',
+          },
+        },
+      ],
+    },
+  });
+}
