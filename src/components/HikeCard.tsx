@@ -17,7 +17,7 @@ const HikeCard = ({ trail }: HikeCardProps) => (
         {trail.name}
       </Card.Title>
       <Button>
-        View
+        Create Group
       </Button>
     </div>
     <Row className="mt-3">
