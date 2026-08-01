@@ -56,10 +56,11 @@ const AddEventForm: React.FC = () => {
             <Card.Body>
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group>
-                  <Form.Label>
+                  <Form.Label htmlFor="title">
                     Title
                   </Form.Label>
                   <input
+                    id="title"
                     type="text"
                     {...register('title')}
                     className={`form-control ${errors.title ? 'is-invalid' : ''}`}
@@ -70,10 +71,11 @@ const AddEventForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mt-3">
-                  <Form.Label>
+                  <Form.Label htmlFor="description">
                     Description
                   </Form.Label>
                   <textarea
+                    id="description"
                     {...register('description')}
                     className={`form-control ${errors.description ? 'is-invalid' : ''}`}
                   />
@@ -83,10 +85,11 @@ const AddEventForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mt-3">
-                  <Form.Label>
+                  <Form.Label htmlFor="date">
                     Event Date
                   </Form.Label>
                   <input
+                    id="date"
                     type="date"
                     {...register('date')}
                     className={`form-control ${errors.date ? 'is-invalid' : ''}`}

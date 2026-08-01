@@ -11,7 +11,6 @@ const NavBar: React.FC = () => {
   const pathName = usePathname();
   if (status === 'loading') return null;
   const currentUser = session?.user?.email;
-  const role = session?.user?.role;
   return (
     <Navbar bg="light" expand="lg">
       <Container>
@@ -37,12 +36,6 @@ const NavBar: React.FC = () => {
                   Profiles
                 </Nav.Link>
               </>
-
-            {currentUser && role === 'ADMIN' && (
-              <Nav.Link id="admin-stuff-nav" href="/admin" active={pathName === '/admin'}>
-                Admin
-              </Nav.Link>
-            )}
           </Nav>
           <Nav>
             {session ? (

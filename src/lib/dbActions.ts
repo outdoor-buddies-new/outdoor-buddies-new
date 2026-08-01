@@ -1,7 +1,7 @@
 'use server';
 
 import { Condition } from '@prisma/client';
-import { Stuff, Event } from '@prisma/client';
+import { Stuff } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
