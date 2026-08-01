@@ -115,7 +115,7 @@ export async function addGroup(group: { name: string; description: string; image
  * Edits an existing group in the database.
  * @param group, an object with the following properties: id, name, description, image, members
  */
-export async function editProfile(profile: Profile) {
+/*export async function editProfile(profile: Profile) {
   // console.log(`editStuff data: ${JSON.stringify(stuff, null, 2)}`);
   await prisma.group.update({
     where: { id: profile.id },
@@ -125,7 +125,7 @@ export async function editProfile(profile: Profile) {
       image: profile.image,
     },
   });
-}
+}*/
 
 //do a delete profile/account but later
 export async function getTrails() {
