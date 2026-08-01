@@ -13,7 +13,6 @@ interface AnnouncementListProps {
 
 const AnnouncementList: React.FC<AnnouncementListProps> = ({ events }) => {
   const { data: session, status } = useSession();
-  const currentUser = session?.user?.email || '';
   const role = session?.user?.role;
 
   if (status === 'loading') {
@@ -35,7 +34,7 @@ const AnnouncementList: React.FC<AnnouncementListProps> = ({ events }) => {
 
         {role === 'ADMIN' && (
           <Col className="text-end">
-            <Button>
+            <Button href="/announcements/add">
               Create Announcement
             </Button>
           </Col>
@@ -53,7 +52,18 @@ const AnnouncementList: React.FC<AnnouncementListProps> = ({ events }) => {
       <Row className="g-4">
         {events.map((event) => (
           <Col md={4} key={event.id}>
-            <EventCard event={event} />
+            <div>
+              <EventCard event={event} />
+
+              {role === 'ADMIN' && (
+                <Button
+                  href={`/announcements/edit/${event.id}`}
+                  className="w-100"
+                >
+                  Edit
+                </Button>
+              )}
+            </div>
           </Col>
         ))}
       </Row>

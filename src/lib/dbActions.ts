@@ -124,7 +124,7 @@ export async function addEvent(event: { title: string; description: string; date
  * Edits an existing event in the database.
  * @param event, an object with the following properties: id, title, description, date.
  */
-export async function editEvent(event: Event) {
+export async function editEvent(event: { id: string; title: string; description: string; date: Date }) {
   await prisma.event.update({
     where: { id: event.id },
     data: {
