@@ -1,49 +1,50 @@
 import { test, expect } from './auth-utils';
 
 test.slow();
-test('test access to admin page', async ({ getUserPage }) => {
-  // Call the getUserPage fixture with admin signin info to get authenticated session for admin
+
+test('test admin access to event management', async ({ getUserPage }) => {
+  // Authenticate as admin
   const adminPage = await getUserPage('admin@foo.com', 'changeme');
 
-  // Navigate to the home page and wait for post-login indicator
+  // Navigate home
   await adminPage.goto('http://localhost:3000/');
+
+  // Confirm logged in
   await expect(
     adminPage.getByRole('button', { name: 'admin@foo.com' })
   ).toBeVisible({ timeout: 10000 });
 
-  // Check for navigation elements
+  // Check navigation links
   await expect(
-    adminPage.getByRole('link', { name: 'Next.js Application Template' })
-  ).toBeVisible({ timeout: 5000 });
-  await expect(
-    adminPage.getByRole('link', { name: 'Add Stuff' })
-  ).toBeVisible({ timeout: 5000 });
-  await expect(
-    adminPage.getByRole('link', { name: 'List Stuff' })
-  ).toBeVisible({ timeout: 5000 });
-  await expect(
-    adminPage.getByRole('link', { name: 'Admin' })
+    adminPage.getByRole('link', { name: 'Announcements' })
   ).toBeVisible({ timeout: 5000 });
 
-  // Test Add Stuff adminPage
-  await adminPage.getByRole('link', { name: 'Add Stuff' }).click();
   await expect(
-    adminPage.getByRole('heading', { name: 'Add Stuff' })
+    adminPage.getByRole('link', { name: 'Hike Recommendation' })
   ).toBeVisible({ timeout: 5000 });
 
-  // Test List Stuff adminPage
-  await adminPage.getByRole('link', { name: 'List Stuff' }).click();
   await expect(
-    adminPage.getByRole('heading', { name: 'Stuff' })
+    adminPage.getByRole('link', { name: 'Groups' })
   ).toBeVisible({ timeout: 5000 });
 
-  // Test Admin adminPage
-  await adminPage.getByRole('link', { name: 'Admin' }).click();
   await expect(
-    adminPage.getByRole('heading', { name: 'List Stuff Admin' })
-  ).toBeVisible({ timeout: 5000 });
-  await expect(
-    adminPage.getByRole('heading', { name: 'List Users Admin' })
+    adminPage.getByRole('link', { name: 'Profiles' })
   ).toBeVisible({ timeout: 5000 });
 
+  // Test add event page
+  await adminPage.goto('http://localhost:3000/announcements/add');
+
+  await expect(
+    adminPage.getByRole('heading', { name: 'Create Event' })
+  ).toBeVisible({ timeout: 5000 });
+
+  // Test edit event page
+  await adminPage.goto(
+    'http://localhost:3000/announcements/edit/summer-hiking-meetup',
+    { waitUntil: 'networkidle' }
+  );
+
+  await expect(
+    adminPage.getByRole('heading', { name: 'Edit Event' })
+  ).toBeVisible({ timeout: 5000 });
 });
