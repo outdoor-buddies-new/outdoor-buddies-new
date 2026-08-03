@@ -25,7 +25,6 @@ export default defineConfig({
     seed: 'npx tsx prisma/seed.ts',
   },
   datasource: {
-    // Provide a fallback empty string so the config parser doesn't crash if un-set
     url: process.env["DATABASE_URL"] || "",
   },
 });
