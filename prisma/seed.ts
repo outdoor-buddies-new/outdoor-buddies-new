@@ -1,14 +1,18 @@
-import { Prisma, PrismaClient, Role, Difficulty } from '@prisma/client';
+/*import { Prisma, PrismaClient, Role, Difficulty } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg'; // <--- Add this import
 import pg from 'pg';                          // <--- Add this import
 import { hash } from 'bcrypt';
-import * as config from '../config/settings.development.json';
+import * as config from '../config/settings.development.json';*/
 
-// Initialize the native pg driver pool
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
-// Wrap it in the Prisma Driver Adapter
+import { Pool } from 'pg';
+import { PrismaPg } from '@prisma/adapter-pg';
+import { Prisma, PrismaClient, Role, Difficulty } from '@prisma/client';
+import { hash } from 'bcrypt';
+import * as config from '../config/settings.development.json' with { type: 'json' };
+
+const connectionString = process.env.DATABASE_URL;
+const pool = new Pool({ connectionString });
 const adapter = new PrismaPg(pool);
-// Pass the adapter into the Prisma Client constructor
 const prisma = new PrismaClient({ adapter });
 
 const defaultTrails = [
