@@ -170,6 +170,15 @@ export async function editEvent(event: { id: string; title: string; description:
   redirect('/announcements');
 }
 
+export async function deleteEvent(id: string) {
+  // console.log(`deleteEvent id: ${id}`);
+  await prisma.event.delete({
+    where: { id },
+  });
+  // After deleting, redirect to the list page
+  redirect('/announcements');
+}
+
 /**
  * Searches for trails based on a search term.
  * @param searchTerm, the term to search for.

@@ -1,31 +1,68 @@
 'use client';
 
 import { Event } from '@prisma/client';
+import { useSession } from 'next-auth/react';
 import { Card, Button } from 'react-bootstrap';
+import { Trash } from 'react-bootstrap-icons';
+import { deleteEvent } from '@/lib/dbActions';
 
 interface EventCardProps {
-  event: Event;
+	event: Event;
 }
 
-/* Renders a single row in the Event table. See list/page.tsx. */
-const EventCard = ({ event }: EventCardProps) => (
-  <Card>
-    <Card.Body>
-      <Card.Title>
-        {event.title}
-      </Card.Title>
+/* Renders a single event card. */
+const EventCard = ({ event }: EventCardProps) => {
+	const { data: session } = useSession();
+	const role = session?.user?.role;
 
-      <Card.Text>
-        {event.description}
-        <br />
-        {new Date(event.date).toLocaleDateString()}
-      </Card.Text>
+	const removeEvent = async () => {
+		await deleteEvent(event.id);
+	};
 
-      <Button>
-        View Details
-      </Button>
-    </Card.Body>
-  </Card>
-);
+	return (
+		<Card>
+			<Card.Body>
+				<Card.Title>
+					{event.title}
+				</Card.Title>
+
+        <hr />
+
+        <div>
+          <strong>Location:</strong>{' '}
+          {event.location}
+        </div>
+
+        <div>
+          <strong>Posted:</strong>{' '}
+          {new Date(event.createdAt).toLocaleDateString()}
+        </div>
+
+        <div className="mb-3">
+          <strong>Event Date:</strong>{' '}
+          {new Date(event.date).toLocaleDateString()}
+        </div>
+
+        <div className="d-flex align-items-center">
+          <Button href={`/announcements/${event.id}`}>
+            View Details
+          </Button>
+
+          {role === 'ADMIN' && (
+            <div className="d-flex gap-2 ms-auto">
+              <Button href={`/announcements/edit/${event.id}`} variant="warning">
+                Edit
+              </Button>
+
+              <Button variant="danger" onClick={removeEvent}>
+                <Trash />
+              </Button>
+            </div>
+          )}
+        </div>
+			</Card.Body>
+		</Card>
+	);
+};
 
 export default EventCard;

@@ -54,15 +54,6 @@ const AnnouncementList: React.FC<AnnouncementListProps> = ({ events }) => {
           <Col md={4} key={event.id}>
             <div>
               <EventCard event={event} />
-
-              {role === 'ADMIN' && (
-                <Button
-                  href={`/announcements/edit/${event.id}`}
-                  className="w-100"
-                >
-                  Edit
-                </Button>
-              )}
             </div>
           </Col>
         ))}
