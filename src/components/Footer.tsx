@@ -1,5 +1,5 @@
 import { Col, Container, Row, Form, Button } from 'react-bootstrap';
-import { TwitterX, Instagram, Facebook, Tiktok } from 'react-bootstrap-icons';
+import { Instagram } from 'react-bootstrap-icons';
 
 /** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
 const Footer = () => (
@@ -32,10 +32,7 @@ const Footer = () => (
             </Button>
           </div>
           <div className="d-flex gap-2 justify-content-end">
-            <TwitterX size={25} />
             <Instagram size={25} />
-            <Facebook size={25} />
-            <Tiktok size={25} />
           </div>
 
         </Col>
