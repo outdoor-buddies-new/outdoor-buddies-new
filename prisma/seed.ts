@@ -1,17 +1,34 @@
-/*import { Prisma, PrismaClient, Role, Difficulty } from '@prisma/client';
-import { PrismaPg } from '@prisma/adapter-pg'; // <--- Add this import
-import pg from 'pg';                          // <--- Add this import
-import { hash } from 'bcrypt';
-import * as config from '../config/settings.development.json';*/
-
+import 'dotenv/config';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { Prisma, PrismaClient, Role, Difficulty } from '@prisma/client';
+import { PrismaClient, Role, Difficulty } from '@prisma/client';
 import { hash } from 'bcrypt';
-import * as config from '../config/settings.development.json' with { type: 'json' };
+import * as config from '../config/settings.development.json';
 
-const connectionString = process.env.DATABASE_URL;
-const pool = new Pool({ connectionString });
+let connectionString = process.env.DATABASE_URL || '';
+
+// If connecting locally, forcefully strip any SSL mode from the URL string
+const isLocal =
+  connectionString.includes('localhost') ||
+  connectionString.includes('127.0.0.1') ||
+  !connectionString;
+
+if (isLocal) {
+  // Strip sslmode parameters if present
+  connectionString = connectionString.replace(/([?&])sslmode=[^&]*/, '');
+  // Clean up dangling query params
+  if (connectionString.endsWith('?') || connectionString.endsWith('&')) {
+    connectionString = connectionString.slice(0, -1);
+  }
+}
+
+console.log('Connecting with URL:', connectionString);
+
+const pool = new Pool({
+  connectionString,
+  ssl: isLocal ? false : { rejectUnauthorized: false },
+});
+
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
@@ -72,24 +89,38 @@ const defaultEvents = [
 async function main() {
   console.log('Seeding the database');
   const password = await hash('changeme', 10);
-  
-  config.defaultAccounts.forEach(async (account) => {
-    const role = (account.role as Role) || Role.USER;
-    console.log(`  Creating user: ${account.email} with role: ${role}`);
-    await prisma.user.upsert({
-      where: { email: account.email },
-      update: {
-        password,
-      },
-      create: {
-        email: account.email,
-        password,
-        role,
-      },
-    });
-  });
 
-  for (const data of config.defaultData) {
+  /*await Promise.all(
+    config.defaultAccounts.map(async (account) => {
+      const role = (account.role as Role) || Role.USER;
+      console.log(`  Creating user: ${account.email} with role: ${role}`);
+
+      return prisma.user.upsert({
+        where: { email: account.email },
+        update: {
+          password,
+        },
+        create: {
+          email: account.email,
+          password,
+          role,
+        },
+      });
+    })
+  );*/
+
+  for (const account of config.defaultAccounts) {
+  const role = (account.role as Role) || Role.USER;
+  console.log(`  Creating user: ${account.email} with role: ${role}`);
+  
+  await prisma.user.upsert({
+    where: { email: account.email },
+    update: { password },
+    create: { email: account.email, password, role },
+  });
+}
+
+  /*for (const data of config.defaultData) {
     const condition = (data.condition || 'good') as Prisma.StuffCreateInput['condition'];
     console.log(`  Adding stuff: ${JSON.stringify(data)}`);
     await prisma.stuff.upsert({
@@ -102,7 +133,7 @@ async function main() {
         condition,
       },
     });
-  }
+  }*/
 
   for (const trail of defaultTrails) {
     console.log(`Adding trail: ${trail.name}`);
