@@ -2,7 +2,7 @@
 
 import { Condition } from '@prisma/client';
 import { Stuff } from '@prisma/client';
-import { Group } from '@prisma/client';
+//import { Group } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
@@ -99,7 +99,7 @@ export async function changePassword(credentials: { email: string; password: str
  * Adds a new group  to the database.
  * @param group, an object with the following properties: id, name, description, image, members
  */
-export async function addGroup(group: { name: string; description: string; image: string; members: number;}) {
+/*export async function addGroup(group: { name: string; description: string; image: string; members: number;}) {
   // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
   await prisma.group.create({
     data: {
@@ -109,7 +109,7 @@ export async function addGroup(group: { name: string; description: string; image
       members: group.members,
     },
   });
-}
+}*/
 
 /**
  * Edits an existing group in the database.
