@@ -2,7 +2,7 @@ import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Profile } from '@/lib/validationSchemas';
-import ProfileCard from '@/app/profile/components/Profile';
+import ProfileCard from '@/components/Profile';
 
 const profile: Profile[] = [{
     firstName: 'Hanako', lastName: 'Yamada', address: 'Oahu', groupname: "ex1",

@@ -58,24 +58,6 @@ model Event {
   updatedAt   DateTime @updatedAt
 }
 
-model Group {
-  id          String  @id @default(cuid())
-  name        String
-  description String?
-  image       String?
-  members     Int
-}
-
-model Profile {
-  id          String  @id @default(cuid())
-  firstName   String
-  lastName    String
-  address     String
-  groupname   String
-  description String?
-  image       String?
-}
-
 enum Role {
   USER
   ADMIN
