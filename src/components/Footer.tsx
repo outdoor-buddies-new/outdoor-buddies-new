@@ -1,5 +1,4 @@
-import { Col, Container, Row, Form, Button } from 'react-bootstrap';
-import { Instagram } from 'react-bootstrap-icons';
+import { Col, Container, Row } from 'react-bootstrap';
 
 /** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
 const Footer = () => (
@@ -7,34 +6,26 @@ const Footer = () => (
     <Container>
       <Row>
         <Col className="text-center">
-          <div className="mb-2">About Us</div>
-          <div className="mb-2">Contact Us</div>
-          <a href="https://outdoor-buddies.github.io/">Group Home Page</a>
+          See the Development Process?
+          <br />
+          <br />
+            <a href="https://outdoor-buddies.github.io/">Development Page</a>
         </Col>
         <Col className="text-center">
+          Created by Students of the University of Hawaii
+          <br />
           Department of Information and Computer Sciences
           <br />
-          University of Hawaii
-          <br />
           Honolulu, HI 96822
-          <br />
         </Col >
         <Col className="text-center">
-          Sign up for our newsletter!
+          Have any Feedback for Us?
           <br />
-          <div className="mb-3 mt-3 d-flex gap-2">
-            <Form.Control
-              type="email"
-              placeholder="Enter your email"
-            />
-            <Button type="submit">
-              Subscribe
-            </Button>
+          <br />
+            <a href="https://outdoor-buddies.github.io/">Feedback Form</a>
+          <div className="d-flex gap-2 mt-3 justify-content-end">
+            <span>© 2026</span>
           </div>
-          <div className="d-flex gap-2 justify-content-end">
-            <Instagram size={25} />
-          </div>
-
         </Col>
       </Row>
     </Container>
