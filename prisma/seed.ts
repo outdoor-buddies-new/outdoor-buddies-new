@@ -11,7 +11,12 @@ import { hash } from 'bcrypt';
 import * as config from '../config/settings.development.json' with { type: 'json' };
 
 const connectionString = process.env.DATABASE_URL;
-const pool = new Pool({ connectionString });
+const pool = new Pool({ 
+  connectionString,
+  ssl: {
+    rejectUnauthorized: false, // Prevents TLS connection rejection on cloud DBs
+  },
+});
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
@@ -73,21 +78,22 @@ async function main() {
   console.log('Seeding the database');
   const password = await hash('changeme', 10);
   
-  config.defaultAccounts.forEach(async (account) => {
-    const role = (account.role as Role) || Role.USER;
-    console.log(`  Creating user: ${account.email} with role: ${role}`);
-    await prisma.user.upsert({
-      where: { email: account.email },
-      update: {
-        password,
-      },
-      create: {
-        email: account.email,
-        password,
-        role,
-      },
-    });
-  });
+  await Promise.all(
+    config.defaultAccounts.map(async (account) => {
+      const role = (account.role as Role) || Role.USER;
+      console.log(`  Creating user: ${account.email} with role: ${role}`);
+      
+      return prisma.user.upsert({
+        where: { email: account.email },
+        update: {},
+        create: {
+          email: account.email,
+          password,
+          role,
+        },
+      });
+    })
+  );
 
   for (const data of config.defaultData) {
     const condition = (data.condition || 'good') as Prisma.StuffCreateInput['condition'];

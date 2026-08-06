@@ -1,4 +1,4 @@
-import AddGroupForm from '../components/AddGroupForm';
+import AddGroupForm from '../../../components/AddGroupForm';
 
 export default function AddGroupPageRoute() {
   return (

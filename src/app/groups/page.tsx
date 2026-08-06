@@ -1,6 +1,6 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import { Groups } from '@/lib/validationSchemas';
-import GroupCard from '@/app/groups/components/Groups';
+import GroupCard from '@/components/Groups';
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
 import Link from 'next/link';
