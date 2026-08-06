@@ -58,6 +58,14 @@ model Event {
   updatedAt   DateTime @updatedAt
 }
 
+model Group {
+  id          String  @id @default(cuid())
+  name        String
+  image       String
+  description String
+  members     Int
+}
+
 enum Role {
   USER
   ADMIN

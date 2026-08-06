@@ -24,7 +24,7 @@ export interface Profile {
   description: string;
 }
 
-export interface Groups {
+export interface Group {
   id : number;
   name : string;
   image: string;
