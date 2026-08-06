@@ -1,3 +1,5 @@
+'use client';
+
 //import AddGroupForm from '../../../components/AddGroupForm';
 import { Card } from 'react-bootstrap';
 
