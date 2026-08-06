@@ -7,7 +7,7 @@ import * as config from '../config/settings.development.json';
 
 let connectionString = process.env.DATABASE_URL || '';
 
-// If connecting locally, forcefully strip any SSL mode from the URL string
+// If connecting locally, forcefully strip any SSL mode from the URL string-eez
 const isLocal =
   connectionString.includes('localhost') ||
   connectionString.includes('127.0.0.1') ||
