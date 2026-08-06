@@ -50,9 +50,9 @@ const GroupsPage = async () => {
               Search
             </Button>
           </div>*/}
-        <Link href="/groups/add" className="btn btn-primary">
+        {/*<Link href="/groups/add" className="btn btn-primary">
           Add a Group
-        </Link>
+        </Link>*/}
         <Row xs={1} md={2} lg={2} className="g-4">
           {group.map((group) => (
             <Col key={`Groups-${group.name}`}>
