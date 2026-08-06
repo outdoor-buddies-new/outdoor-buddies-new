@@ -22,21 +22,21 @@ const Home = async () => {
             <Row className="mt-5 gap-1 text-center">
               <Col className="text-center">
                 <PeopleFill size={100} />
-                <h3>Connect</h3>
+                <h3 className="mb-3">Connect</h3>
                 <h4>With others and make new friends!</h4>
               </Col>
               <Col className="text-center">
                 <PersonWalking size={100}/>
-                <h3>Explore</h3>
+                <h3 className="mb-3">Explore</h3>
                 <h4>New places alone or with others!</h4>
               </Col>
               <Col className="text-center">
                 <SendFill size={100}/>
-                <h3>Share</h3>
+                <h3 className="mb-3">Share</h3>
                 <h4>Your experience with others!</h4>
               </Col>
             </Row>
-            <h5 className="mt-4">Connect with others for hiking, running, and walking groups!</h5>
+            <h5 className="mt-4 mb-4">Connect with others for hiking, running, and walking groups!</h5>
             {!session && (
               <div className="d-flex gap-2 justify-content-center mt-4 mb-4">
                 <Button href="auth/signin" className="landing-button px-4 py-2">Sign In</Button>
