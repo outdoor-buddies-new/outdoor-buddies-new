@@ -1,32 +1,10 @@
 import { Container, Row, Col } from 'react-bootstrap';
-import { Group } from '@/lib/validationSchemas';
-import GroupCard from '@/components/Groups';
+import { Group } from '@prisma/client';
+import GroupCard from '@/components/GroupCard';
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
 import Link from 'next/link';
-
-const group: Group [] = [{
-    id: 1,
-    name: 'Ducks',
-    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Hikers_%288700160875%29.jpg/960px-Hikers_%288700160875%29.jpg',
-    members: 3,
-    description: 'Looking to add 2 more members to our small group. We tend to go on more difficult hikes, so people with experience please.',
-    },
-    {
-      id: 2,
-      name: 'Math Hikes',
-      image: '/images/mathclub.jpeg',
-      members: 10,
-      description: 'We go on hikes and talk about math. Please join if interested, we always welcome new members.',
-    },
-    {
-      id: 3,
-      name: 'HNL Hiking',
-      image: '/images/hnlhike.jpeg',
-      members: 55,
-      description: 'We heard about this website and wanted to branch out. Our group number is bigger than what is listed but we have only included members that have profiles here. Always welcome more and every hike is a big crowd.',
-    },
-  ];
+import { prisma } from '@/lib/prisma';
 
 const GroupsPage = async () => {
   const session = await auth();
@@ -36,6 +14,13 @@ const GroupsPage = async () => {
       user: { email: string; id: string; name: string };
     } | null,
   );
+
+  const owner = session?.user!.email ? session.user.email : '';
+  const group: Group[] = await prisma.group.findMany({
+    where: {
+      owner
+    },
+  });
 
   return (
     <main>
@@ -53,9 +38,12 @@ const GroupsPage = async () => {
         <Link href="/groups/add" className="btn btn-primary">
           Add a Group
         </Link>
-        <Row xs={1} md={2} lg={2} className="g-4">
+        <Container className="mb-3">
+          m
+        </Container>
+        <Row xs={1} md={1} lg={1} className="g-4 justify-content-center">
           {group.map((group) => (
-            <Col key={`Groups-${group.name}`}>
+            <Col key={`Groups-${group.name}`} className="d-flex justify-content-center">
               <GroupCard group = {group} />
             </Col>
           ))}

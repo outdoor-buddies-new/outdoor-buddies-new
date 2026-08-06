@@ -88,6 +88,15 @@ body .navbar {
   color: var(--footer-text-color);
 }
 
+.group-card {
+  width:80%;
+}
+
+.group-img {
+  max-width:100px;
+  max-height:100px;
+}
+
 .hero-button {
   background-color: var(--button-primary);
   border-color: var(--button-primary);

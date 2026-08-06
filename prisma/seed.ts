@@ -86,6 +86,45 @@ const defaultEvents = [
   },
 ];
 
+const defaultGroups = [
+  {
+    id: 'ducks-default',
+    name: 'Ducks',
+    image: '/images/ducks.jpg',
+    members: 3,
+    maxmembers: 5,
+    intensity: 'high',
+    description: 'Looking to add a couple more members to our small group. We tend to go on more difficult hikes, so please only consider if you have more experience.',
+    owner: 'john@foo.com',
+    lastdate: new Date('2026-07-24T09:00:00'),
+    lastlocation: 'Koko Head',
+  },
+  {
+    id: 'math-hikes-default',
+    name: 'Mathemagical Hikes',
+    image: '/images/mathclub.jpeg',
+    members: 10,
+    maxmembers: null,
+    intensity: 'easy',
+    description: 'We go on hikes and talk about math. Please join if interested, we always welcome new members. Hikes typically range from relatively easy to moderate.',
+    owner: 'john@foo.com',
+    lastdate: new Date('2026-07-24T09:00:00'),
+    lastlocation: 'Manoa Falls',
+  },
+  {
+    id: 'hnl-hiking-default=',
+    name: 'HNL Hiking Club',
+    image: '/images/hnlhike.jpeg',
+    members: 55,
+    maxmembers: null,
+    intensity: 'moderate',
+    description: 'We heard about this website and wanted to branch out. Our group number is bigger than what is listed but we have only included members that have profiles here. Always welcome more and every hike is a big crowd.',
+    owner: 'john@foo.com',
+    lastdate: new Date('2026-07-24T09:00:00'),
+    lastlocation: 'Diamond Head',
+  },
+];
+
 async function main() {
   console.log('Seeding the database');
   const password = await hash('changeme', 10);
@@ -156,6 +195,33 @@ async function main() {
       },
       update: {},
       create: event,
+    });
+  }
+
+  for (const group of defaultGroups) {
+    console.log(`Adding group: ${group.name}`);
+
+    const groupData = {
+      name: group.name,
+      image: group.image ?? '/image/default-image-user.jpg',
+      members: group.members ?? 1,
+      maxmembers: group.maxmembers ?? null, // Explicitly set null if undefined
+      intensity: group.intensity,
+      description: group.description ?? 'hello',
+      owner: group.owner ?? 'admin@foo.com',
+      lastdate: group.lastdate,
+      lastlocation: group.lastlocation,
+    };
+
+    await prisma.group.upsert({
+      where: {
+        id: group.id,
+      },
+      update: groupData,
+      create: {
+        id: group.id,
+        ...groupData,
+      },
     });
   }
 }
