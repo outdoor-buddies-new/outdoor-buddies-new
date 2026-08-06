@@ -1,11 +1,11 @@
 import { Container, Row, Col } from 'react-bootstrap';
-// import { Groups } from '@/lib/validationSchemas';
-// import GroupCard from '@/components/Groups';
+import { Group } from '@/lib/validationSchemas';
+import GroupCard from '@/components/Groups';
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
-//import Link from 'next/link';
+import Link from 'next/link';
 
-/*const group: Groups [] = [{
+const group: Group [] = [{
     id: 1,
     name: 'Ducks',
     image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Hikers_%288700160875%29.jpg/960px-Hikers_%288700160875%29.jpg',
@@ -27,7 +27,6 @@ import { auth } from '@/lib/auth';
       description: 'We heard about this website and wanted to branch out. Our group number is bigger than what is listed but we have only included members that have profiles here. Always welcome more and every hike is a big crowd.',
     },
   ];
-*/
 
 const GroupsPage = async () => {
   const session = await auth();
@@ -51,16 +50,15 @@ const GroupsPage = async () => {
               Search
             </Button>
           </div>*/}
-        {/*<Link href="/groups/add" className="btn btn-primary">
+        <Link href="/groups/add" className="btn btn-primary">
           Add a Group
-        </Link>*/}
+        </Link>
         <Row xs={1} md={2} lg={2} className="g-4">
-          {/*{group.map((group) => (
+          {group.map((group) => (
             <Col key={`Groups-${group.name}`}>
               <GroupCard group = {group} />
             </Col>
-          ))}*/}
-          in progress re
+          ))}
         </Row>
       </Container>
     </main>
