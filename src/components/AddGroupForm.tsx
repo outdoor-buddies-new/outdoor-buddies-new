@@ -1,4 +1,4 @@
-'use client';
+/*'use client';
 
 import { useSession } from 'next-auth/react';
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
@@ -129,3 +129,4 @@ const AddGroupForm: React.FC = () => {
 };
 
 export default AddGroupForm;
+*/
