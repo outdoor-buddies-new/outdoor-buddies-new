@@ -1,11 +1,11 @@
 import { Container, Row, Col } from 'react-bootstrap';
-import { Groups } from '@/lib/validationSchemas';
+import { Group } from '@/lib/validationSchemas';
 import GroupCard from '@/components/Groups';
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
 import Link from 'next/link';
 
-const group: Groups [] = [{
+const group: Group [] = [{
     id: 1,
     name: 'Ducks',
     image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/Hikers_%288700160875%29.jpg/960px-Hikers_%288700160875%29.jpg',
@@ -66,4 +66,3 @@ const GroupsPage = async () => {
 };
 
 export default GroupsPage;
-
