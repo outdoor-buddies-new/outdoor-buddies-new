@@ -64,7 +64,7 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ profileData }) => {
   }
 
   /*if (role !== 'ADMIN') {
-    redirect('/announcements');
+    redirect('/announcements'); fix later maybe
   }*/
 
   return (
