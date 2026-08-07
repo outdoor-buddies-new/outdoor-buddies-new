@@ -114,7 +114,24 @@ export async function addGroup(group: {
       members: group.members,
       maxmembers: group.maxmembers ?? null,
       intensity: group.intensity,
-      description: group.description,
+      description: group.description ?? null,
+      owner: group.owner,
+    },
+  });
+  redirect('/groups');
+}
+
+export async function editGroup(group: {id: string; name: string; image: string; members: number; maxmembers?: number | null; intensity: string; description: string; owner: string; }) {
+  // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
+  await prisma.group.update({
+    where: { id: group.id },
+    data: {
+      name: group.name,
+      image: group.image,
+      members: group.members,
+      maxmembers: group.maxmembers ?? null,
+      intensity: group.intensity,
+      description: group.description ?? null,
       owner: group.owner,
     },
   });
