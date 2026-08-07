@@ -14,7 +14,7 @@ trails: Trail[];
 }
 
 const HikeList: React.FC<HikeListProps> = ({ trails }) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 	const role = session?.user?.role;
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState(trails);
