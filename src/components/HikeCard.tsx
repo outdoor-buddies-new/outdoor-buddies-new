@@ -29,7 +29,7 @@ const HikeCard = ({ trail }: HikeCardProps) => {
 						</Card.Title>
 					</Col>
 					<Col className="text-end">
-						<Button variant="outline-primary" href={`/hikes/${trail.id}`}>
+						<Button variant="outline-primary" href={`/hikes/${trail.id}`} className="page-button">
 							View Details
 						</Button>
 					</Col>

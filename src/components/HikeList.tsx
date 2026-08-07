@@ -38,9 +38,9 @@ const HikeList: React.FC<HikeListProps> = ({ trails }) => {
 
   return (
     <Container className="py-3 justify-content-center">
-      <Row className="align-items-center mb-4">
+      <Row className="align-items-center mb-3">
         <Col>
-          <h1 className="mb-0">
+          <h1 className="mb-0 title-font">
             List Hikes
           </h1>
         </Col>
