@@ -99,6 +99,39 @@ const defaultGroups = [
   },
 ];
 
+const defaultProfiles = [
+  {
+    id: 'hy-1',
+    name: 'Hanako Yamada',
+    image: '/images/hy1.jpg',
+    summary: 'casual hiker looking for friends',
+    description: 'I am excited to go on hikes with all types of people. I just moved here recently, so I am looking to make friends and do less intensive hikes.',
+    owner: 'john@foo.com',
+    groupname: 'N/A',
+    descimage: null,
+  },
+  {
+    id: 'jd-1',
+    name: 'John Doe',
+    image: '/images/jd1.jpg',
+    summary: 'looking to add to our group Ducks',
+    description: 'I have been hiking for a while on quite intensive hikes. I prefer going with a smaller group, however we are still available to accept a couple more members. Please only consider if you have a decent amount of experience. We go on some pretty intensive hikes.',
+    owner: 'john@foo.com',
+    groupname: 'Ducks',
+    descimage: null,
+  },
+  {
+    id: 'kb-1',
+    name: 'Kim Berley',
+    image: '/images/kb1.jpg',
+    summary: 'more computer science or math nerds welcome',
+    description: 'I just like talking about math with people.',
+    owner: 'john@foo.com',
+    groupname: 'Mathemagical Hikes',
+    descimage: null,
+  }
+];
+
 async function main() {
   console.log('Seeding the database');
   const password = await hash('changeme', 10);
@@ -201,6 +234,31 @@ async function main() {
       create: {
         id: group.id,
         ...groupData,
+      },
+    });
+  }
+
+  for (const profile of defaultProfiles) {
+    console.log(`Adding profile: ${profile.name}`);
+
+    const profileData = {
+      name: profile.name,
+      image: profile.image ?? '/image/default-image-user.jpg',
+      summary: profile.summary,
+      description: profile.description ?? 'hello',
+      owner: profile.owner ?? 'admin@foo.com',
+      groupname: profile.groupname ?? null,
+      descimage: profile.descimage ?? null,
+    };
+
+    await prisma.profile.upsert({
+      where: {
+        id: profile.id,
+      },
+      update: profileData,
+      create: {
+        id: profile.id,
+        ...profileData,
       },
     });
   }

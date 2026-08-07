@@ -2,9 +2,9 @@ import { notFound } from 'next/navigation';
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { prisma } from '@/lib/prisma';
 import { auth } from '@/lib/auth';
-import EditGroupForm from '../../../../components/EditGroupForm';
+import EditProfileForm from '@/components/EditProfileForm';
 
-const editGroup = async ({ params,}: { params: Promise<{ id: string }>; }) => {
+const editProfile = async ({ params,}: { params: Promise<{ id: string }>; }) => {
   const session = await auth();
 
   loggedInProtectedPage(
@@ -15,21 +15,21 @@ const editGroup = async ({ params,}: { params: Promise<{ id: string }>; }) => {
 
   const { id } = await params;
 
-  const group = await prisma.group.findUnique({
+  const profile = await prisma.profile.findUnique({
     where: {
-      id: id,
+      id,
     },
   });
 
-  if (!group) {
+  if (!profile) {
     notFound();
   }
 
   return (
     <main>
-      <EditGroupForm groupData={group} />
+      <EditProfileForm profileData={profile} />
     </main>
   );
 };
 
-export default editGroup;
+export default editProfile;

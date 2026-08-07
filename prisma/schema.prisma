@@ -74,7 +74,7 @@ model Group {
 }
 
 model Profile {
-  id          String  @id
+  id          String  @id @default(cuid())
   name        String
   image       String
   description String

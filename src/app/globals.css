@@ -120,6 +120,14 @@ body .navbar {
   border-color: var(--button-secondary);
 }
 
+.profile-card {
+  width:100%;
+}
+
+.title-font {
+  font-family: "Skranji", sans-serif;
+}
+
 /*
 .hero-button {
   background-color: var(--button-primary);
