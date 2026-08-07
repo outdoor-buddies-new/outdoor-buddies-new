@@ -46,7 +46,7 @@ const AddGroupForm: React.FC = () => {
     redirect('/auth/signin');
   }
 
-  // Moved inside the component to use router transitions
+  // Moved inside the component to use router transitions ...?
   /*const onSubmit = async (data: GroupFormData) => {
     try {
       await addGroup(data);
