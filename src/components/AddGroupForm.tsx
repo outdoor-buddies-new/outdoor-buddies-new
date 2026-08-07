@@ -50,11 +50,9 @@ const AddGroupForm: React.FC = () => {
   /*const onSubmit = async (data: GroupFormData) => {
     try {
       await addGroup(data);
-      
       await swal('Success', 'Your group has been added', 'success', {
         timer: 2000,
       });
-
       reset();
       router.push('/groups'); // Redirects to the main list
       router.refresh();       // Refreshes server data on the list page
