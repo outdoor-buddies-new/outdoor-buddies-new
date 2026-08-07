@@ -29,10 +29,10 @@ const HikeList: React.FC<HikeListProps> = ({ trails }) => {
     setResults(searchedTrails);
   };
 
-  if (status === 'loading') {
+  if (session === undefined) {
     return <LoadingSpinner />;
   }
-  if (status === 'unauthenticated') {
+  if (session === null) {
     redirect('/auth/signin');
   }
 
