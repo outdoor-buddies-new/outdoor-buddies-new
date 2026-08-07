@@ -1,7 +1,6 @@
 'use client';
 
 import { Trail } from '@prisma/client';
-import { useSession } from 'next-auth/react'; // v5 compatible
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { redirect } from 'next/navigation';
 import LoadingSpinner from '@/components/LoadingSpinner';
@@ -9,12 +8,11 @@ import HikeCard from '@/components/HikeCard';
 import { useState } from 'react';
 import { searchTrails } from '@/lib/dbActions';
 
-interface HikingRecommendationsProps {
+interface HikeListProps {
 trails: Trail[];
 }
 
-const HikingRecommendations: React.FC<HikingRecommendationsProps> = ({ trails }) => {
-  const { data: session, status } = useSession();
+const HikeList: React.FC<HikeListProps> = ({ trails }) => {
 
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState(trails);
@@ -38,7 +36,10 @@ const HikingRecommendations: React.FC<HikingRecommendationsProps> = ({ trails })
 
   return (
     <Container className="py-3 justify-content-center">
-      <h1 className="mb-4">Hiking Recommendations</h1>
+      <h1 className="mb-4">Listed Hikes</h1>
+      <p className="mb-4">
+        Check out the list of hikes below. You can search for hikes by name or location using the search bar!
+      </p>
         <div className="my-3 d-flex gap-3">
           <Form.Control
             type="search"
@@ -53,10 +54,6 @@ const HikingRecommendations: React.FC<HikingRecommendationsProps> = ({ trails })
           </Button>
         </div>
       <Row>
-      <h2>All Hikes</h2>
-      </Row>
-
-      <Row>
         {results.map((trail) => (
           <Col md={4} key={trail.id}>
             <HikeCard trail={trail} />
@@ -68,4 +65,4 @@ const HikingRecommendations: React.FC<HikingRecommendationsProps> = ({ trails })
   );
 };
 
-export default HikingRecommendations;
+export default HikeList;

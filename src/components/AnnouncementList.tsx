@@ -41,7 +41,7 @@ const AnnouncementList: React.FC<AnnouncementListProps> = ({ events }) => {
         )}
       </Row>
 
-      <p className="mb-5">
+      <p className="mb-4">
         Stay updated with upcoming hikes, community events, and Outdoor Buddies news.
       </p>
 
