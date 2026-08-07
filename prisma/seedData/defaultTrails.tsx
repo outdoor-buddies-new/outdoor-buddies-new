@@ -31,7 +31,7 @@ export const defaultTrails = [
     difficulty: Difficulty.MODERATE,
     distance: 0.5,
     description: 'A popular sunrise hike on the east side of Oahu offering stunning views of Lanikai Beach, the Mokulua Islands, and the surrounding coastline. The trail is short but includes steep dirt sections and uneven terrain, especially near the beginning of the climb. The historic pillboxes at the top provide excellent viewpoints and photo opportunities. Bring water, sunscreen, and proper footwear as the trail has little shade and can become slippery after rain.',
-    image: '/trails/lanikai-pillbox.jpg',
+    image: '/trails/lanikai-pillbox.png',
   },
   {
     name: 'Makapuʻu Lighthouse Trail',
@@ -47,7 +47,7 @@ export const defaultTrails = [
     difficulty: Difficulty.HARD,
     distance: 2.5,
     description: 'A challenging ridge hike through a variety of Oahu landscapes, including forested areas, exposed ridgelines, and panoramic views of the eastern coastline. The trail includes a long uphill climb with steep sections and uneven terrain, rewarding hikers with views stretching from Koko Head to Waimanalo. Because of the elevation gain and length, hikers should bring plenty of water and allow several hours to complete the trail. Proper hiking shoes are recommended, especially after wet weather.',
-    image: '/trails/kuliouou-ridge.jpg',
+    image: '/trails/kuliouou-ridge.png',
   },
   {
     name: 'Aiea Loop Trail',
