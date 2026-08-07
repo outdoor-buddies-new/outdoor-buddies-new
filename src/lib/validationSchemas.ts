@@ -38,7 +38,7 @@ export const AddProfileSchema = Yup.object({
 });
 
 export const EditProfileSchema = Yup.object({
-  id: Yup.string().required()
+  id: Yup.string().required(),
   name: Yup.string().required(),
   image: Yup.string().required(),
   summary: Yup.string().required(),
