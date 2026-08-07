@@ -50,10 +50,10 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ profileData }) => {
       name: profileData.name,
       image: profileData.image,
       description: profileData.description,
-      groupname: profileData.groupname ?? '',
+      groupname: profileData.groupname ?? null,
       owner: profileData.owner,
       summary: profileData.summary,
-      descimage: profileData.descimage ?? '',
+      descimage: profileData.descimage ?? null,
     },
   });
   if (status === 'loading') {
