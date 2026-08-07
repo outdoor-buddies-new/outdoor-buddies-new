@@ -1,7 +1,6 @@
 'use server';
 
-import { Condition } from '@prisma/client';
-import { Stuff } from '@prisma/client';
+import { Condition, Stuff, Difficulty } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
@@ -186,6 +185,52 @@ export async function deleteEvent(id: string) {
   });
   // After deleting, redirect to the list page
   redirect('/announcements');
+}
+
+/**
+ * Adds a new event to the database.
+ * @param event, an object with the following properties: title, description, date.
+ */
+export async function addHike(trail: { name: string; location: string; description: string; difficulty: Difficulty; distance: number; image: string }) {
+  await prisma.trail.create({
+    data: {
+      name: trail.name,
+      location: trail.location,
+      description: trail.description,
+      difficulty: trail.difficulty,
+      distance: trail.distance,
+      image: trail.image,
+    },
+  });
+  redirect('/hikes');
+}
+
+/**
+ * Edits an existing event in the database.
+ * @param event, an object with the following properties: id, title, description, date.
+ */
+export async function editHike(trail: { id: string; name: string; location: string; description: string; difficulty: Difficulty; distance: number; image: string }) {
+  await prisma.trail.update({
+    where: { id: trail.id },
+    data: {
+      name: trail.name,
+      location: trail.location,
+      description: trail.description,
+      difficulty: trail.difficulty,
+      distance: trail.distance,
+      image: trail.image,
+    },
+  });
+  redirect('/hikes');
+}
+
+export async function deleteHike(id: string) {
+  // console.log(`deleteHike id: ${id}`);
+  await prisma.trail.delete({
+    where: { id },
+  });
+  // After deleting, redirect to the list page
+  redirect('/hikes');
 }
 
 /**
