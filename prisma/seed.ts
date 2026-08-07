@@ -1,9 +1,10 @@
 import 'dotenv/config';
 import { Pool } from 'pg';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { PrismaClient, Role, Difficulty } from '@prisma/client';
+import { PrismaClient, Role } from '@prisma/client';
 import { hash } from 'bcrypt';
 import * as config from '../config/settings.development.json';
+import { defaultTrails } from './seedData/defaultTrails';
 
 let connectionString = process.env.DATABASE_URL || '';
 
@@ -31,33 +32,6 @@ const pool = new Pool({
 
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
-
-const defaultTrails = [
-  {
-    name: 'Diamond Head',
-    location: '4204 Diamond Head Road',
-    difficulty: Difficulty.MODERATE,
-    distance: 0.8,
-    description: 'A popular hiking trail with scenic views of Waikiki.',
-    image: '/diamond.head.jpg',
-  },
-  {
-    name: 'Koko Head',
-    location: '423 Kaumakani Street',
-    difficulty: Difficulty.HARD,
-    distance: 0.75,
-    description: 'A steep climb with rewarding views at the top.',
-    image: '/koko-head.jpg',
-  },
-  {
-    name: 'Manoa Falls',
-    location: '3860 Manoa Road',
-    difficulty: Difficulty.EASY,
-    distance: 0.8,
-    description: 'A rainforest trail leading to a waterfall.',
-    image: '/manoa-falls.jpg',
-  },
-];
 
 const defaultEvents = [
   {
@@ -181,7 +155,13 @@ async function main() {
       where: {
         name: trail.name,
       },
-      update: {},
+      update: {
+        location: trail.location,
+        difficulty: trail.difficulty,
+        distance: trail.distance,
+        description: trail.description,
+        image: trail.image,
+      },
       create: trail,
     });
   }
