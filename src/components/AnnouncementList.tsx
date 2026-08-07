@@ -25,9 +25,9 @@ const AnnouncementList: React.FC<AnnouncementListProps> = ({ events }) => {
 
   return (
     <Container className="py-4">
-      <Row className="align-items-center mb-4">
+      <Row className="align-items-center mb-3">
         <Col>
-          <h1 className="mb-0">
+          <h1 className="mb-0 title-font">
             Announcements & Events
           </h1>
         </Col>
@@ -41,11 +41,11 @@ const AnnouncementList: React.FC<AnnouncementListProps> = ({ events }) => {
         )}
       </Row>
 
-      <p className="mb-5">
+      <p className="mb-4">
         Stay updated with upcoming hikes, community events, and Outdoor Buddies news.
       </p>
 
-      <h2 className="mb-3">
+      <h2 className="mb-3 title-font">
         Upcoming Events
       </h2>
 

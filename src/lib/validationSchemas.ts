@@ -27,13 +27,15 @@ export const AddGroupSchema = Yup.object({
   owner: Yup.string().required(),
 });
 
-/*temp
-export const EditProfileSchema = Yup.object({
+export const AddProfileSchema = Yup.object({
   name: Yup.string().required(),
   image: Yup.string().required(),
+  summary: Yup.string().required(),
   description: Yup.string().required(),
-  members: Yup.number().positive().required(),
-});*/
+  owner: Yup.string().required(),
+  groupname: Yup.string().nullable(),
+  descimage: Yup.string().nullable(),
+})
 
 export const AddEventSchema = Yup.object({
   title: Yup.string().required('Title is required'),

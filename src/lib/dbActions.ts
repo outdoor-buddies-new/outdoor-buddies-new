@@ -98,7 +98,15 @@ export async function changePassword(credentials: { email: string; password: str
  * Adds a new group  to the database.
  * @param group, an object with the following properties: id, name, description, image, members
  */
-export async function addGroup(group: { name: string; image: string; members: number; maxmembers?: number | null; intensity: string; description: string; owner: string; }) {
+export async function addGroup(group: {
+    name: string;
+    image: string;
+    members: number;
+    maxmembers?: number | null;
+    intensity: string;
+    description: string;
+    owner: string;
+  }) {
   // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
   await prisma.group.create({
     data: {
@@ -114,20 +122,43 @@ export async function addGroup(group: { name: string; image: string; members: nu
 }
 
 /**
- * Edits an existing group in the database.
- * @param group, an object with the following properties: id, name, description, image, members
+ * Adds a new group  to the database.
+ * @param profile, an object with the following properties: id, name, description, image, members
  */
-/*export async function editProfile(profile: Profile) {
-  // console.log(`editStuff data: ${JSON.stringify(stuff, null, 2)}`);
-  await prisma.group.update({
-    where: { id: profile.id },
+/*
+model Profile {
+  id          String  @id @default(cuid())
+  name        String
+  image       String
+  description String
+  groupname   String?
+  owner       String
+  summary     String
+  descimage   String?
+}
+*/
+export async function addProfile(profile: {
+    name: string;
+    image: string;
+    description: string;
+    groupname?: string | null;
+    owner: string;
+    summary: string;
+    descimage?: string | null;
+  }) {
+  // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
+  await prisma.profile.create({
     data: {
       name: profile.name,
-      description: profile.description,
       image: profile.image,
+      description: profile.description,
+      groupname: profile.groupname ?? null,
+      owner: profile.owner,
+      summary: profile.summary,
+      descimage: profile.descimage ?? null,
     },
   });
-}*/
+}
 
 //do a delete profile/account but later
 export async function getTrails() {
@@ -146,6 +177,13 @@ export async function getEvents() {
  */
 export async function getGroups() {
   return prisma.group.findMany();
+}
+
+/**
+ * Gets all profiles from the database.
+ */
+export async function getProfiles() {
+  return prisma.profile.findMany();
 }
 
 /**
@@ -237,6 +275,44 @@ export async function searchGroups(searchTerm: string) {
         },
         {
           description: {
+            contains: searchTerm,
+            mode: 'insensitive',
+          },
+        },
+      ],
+    },
+  });
+}
+
+/**
+ * Searches for groups based on a search term.
+ * @param searchTerm, the term to search for.
+ * @returns a list of groups matching the search term in name.
+ */
+export async function searchProfiles(searchTerm: string) {
+  return prisma.profile.findMany({
+    where: {
+      OR: [
+        {
+          name: {
+            contains: searchTerm,
+            mode: 'insensitive',
+          },
+        },
+        {
+          summary: {
+            contains: searchTerm,
+            mode: 'insensitive',
+          },
+        },
+        {
+          description: {
+            contains: searchTerm,
+            mode: 'insensitive',
+          },
+        },
+        {
+          groupname: {
             contains: searchTerm,
             mode: 'insensitive',
           },

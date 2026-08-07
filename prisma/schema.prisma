@@ -59,18 +59,29 @@ model Event {
 }
 
 model Group {
-  id            String  @id @default(cuid())
-  name          String
-  image         String
-  members       Int
-  maxmembers    Int?
-  intensity     String
-  description   String?
-  owner         String
-  lastdate      DateTime?
-  lastlocation  String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id           String    @id @default(cuid())
+  name         String
+  image        String
+  members      Int
+  maxmembers   Int?
+  intensity    String
+  description  String?
+  owner        String
+  lastdate     DateTime?
+  lastlocation String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Profile {
+  id          String  @id @default(cuid())
+  name        String
+  image       String
+  description String
+  groupname   String?
+  owner       String
+  summary     String
+  descimage   String?
 }
 
 enum Role {

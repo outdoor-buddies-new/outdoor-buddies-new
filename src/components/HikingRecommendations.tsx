@@ -38,7 +38,7 @@ const HikingRecommendations: React.FC<HikingRecommendationsProps> = ({ trails })
 
   return (
     <Container className="py-3 justify-content-center">
-      <h1 className="mb-4">Hiking Recommendations</h1>
+      <h1 className="mb-4 title-font">Hiking Recommendations</h1>
         <div className="my-3 d-flex gap-3">
           <Form.Control
             type="search"
@@ -53,7 +53,7 @@ const HikingRecommendations: React.FC<HikingRecommendationsProps> = ({ trails })
           </Button>
         </div>
       <Row>
-      <h2>All Hikes</h2>
+      <h2 className="title-font">All Hikes</h2>
       </Row>
 
       <Row>

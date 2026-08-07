@@ -1,33 +1,33 @@
 'use client';
 
-import { Group } from '@prisma/client';
+import { Profile } from '@prisma/client';
 import { useSession } from 'next-auth/react'; // v5 compatible
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { redirect } from 'next/navigation';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import GroupCard from '@/components/GroupCard';
+import ProfileCard from '@/components/ProfileCard';
 import { useState } from 'react';
-import { searchGroups } from '@/lib/dbActions';
+import { searchProfiles } from '@/lib/dbActions';
 import Link from 'next/link';
 
-interface GroupSearchProps {
-    groups: Group[];
+interface ProfileSearchProps {
+    profiles: Profile[];
 }
 
-const GroupSearch: React.FC<GroupSearchProps> = ({ groups }) => {
+const ProfileSearch: React.FC<ProfileSearchProps> = ({ profiles }) => {
   const { data: session, status } = useSession();
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [results, setResults] = useState(groups);
+  const [results, setResults] = useState(profiles);
 
   const handleSearch = async () => {
     if (searchTerm.trim() === '') {
-      setResults(groups);
+      setResults(profiles);
       return;
     }
 
-    const searchedGroups = await searchGroups(searchTerm);
-      setResults(searchedGroups);
+    const searchedProfiles = await searchProfiles(searchTerm);
+      setResults(searchedProfiles);
     };
 
     if (status === 'loading') {
@@ -39,12 +39,12 @@ const GroupSearch: React.FC<GroupSearchProps> = ({ groups }) => {
 
     return (
       <Container className="py-3">
-        <h1 className="mb-4 title-font">Groups</h1>
+        <h1 className="title-font mb-4">Profiles</h1>
         <div className="my-3 d-flex gap-3">
           <Form.Control
             type="search"
-            placeholder="Find your people"
-						className="search-bg"
+            placeholder="Get to know others"
+			className="search-bg"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
@@ -52,17 +52,17 @@ const GroupSearch: React.FC<GroupSearchProps> = ({ groups }) => {
           	Search
         	</Button>
         </div>
-        <Link href="/groups/add" className="btn btn-primary page-button">
-          Add a Group
+        <Link href="/profile/add" className="btn btn-primary page-button">
+          Add a Profile
         </Link>
         <Container className="invisible mt-3 mb-3">
           invis
         </Container>
-				<Container>
-          <Row xs={1} md={1} lg={1} className="g-4 justify-content-center">
-            {results.map((group) => (
-              <Col key={`Groups-${group.name}`} className="d-flex justify-content-center">
-                <GroupCard group={group} />
+		<Container>
+          <Row xs={1} md={2} lg={3} className="g-4">
+            {results.map((profile) => (
+              <Col key={`Profile-${profile.name}`}>
+                <ProfileCard profile={profile} />
               </Col>
             ))}
           </Row>
@@ -71,4 +71,4 @@ const GroupSearch: React.FC<GroupSearchProps> = ({ groups }) => {
     );
 };
 
-export default GroupSearch;
+export default ProfileSearch;
