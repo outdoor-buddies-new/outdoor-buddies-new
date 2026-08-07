@@ -15,7 +15,7 @@ const NavBar: React.FC = () => {
     <Navbar bg="light" expand="lg">
       <Container>
         <Navbar.Brand as={Link} href="/">
-          <Image src="/oblogo-better.png" alt="Outdoor Buddies Logo" width={150}/>
+          <Image src="/images/oblogo-final.png" alt="Outdoor Buddies Logo" width={150}/>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
