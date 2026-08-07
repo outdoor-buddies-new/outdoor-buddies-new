@@ -152,7 +152,7 @@ export async function addProfile(profile: {
 
 /**
  * Edits an existing profile in the database.
- * @param profile, an object with the following properties: id, title, description, date.
+ * @param profile, an object with the following properties: id, title, description, date
  */
 export async function editProfile(profile: {
     id: string;

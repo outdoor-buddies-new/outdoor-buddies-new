@@ -38,14 +38,14 @@ export const AddProfileSchema = Yup.object({
 });
 
 export const EditProfileSchema = Yup.object({
-  id: Yup.string().required(),
+  id: Yup.string().required()
   name: Yup.string().required(),
   image: Yup.string().required(),
   summary: Yup.string().required(),
   description: Yup.string().required(),
   owner: Yup.string().required(),
-  groupname: Yup.string().nullable(),
-  descimage: Yup.string().nullable(),
+  groupname: Yup.string().nullable().optional(),
+  descimage: Yup.string().nullable().optional(),
 });
 
 export const AddEventSchema = Yup.object({
