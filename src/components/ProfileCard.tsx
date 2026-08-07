@@ -17,16 +17,11 @@ export default function ProfileCard({ profile }: { profile:Profile }) {
         <Card.Title className="fw-bold mb-1 mt-3 fs-2">
           {profile.name}
         </Card.Title>
-        <Card.Subtitle className="mb-3 mt-2 text-muted small">
+        <Card.Subtitle className="mb-3 mt-2 text-muted small text-truncate">
           {profile.summary}
         </Card.Subtitle>
       </Card.Header>
       <Card.Body className= "text-center pt-0">
-        
-        <Card.Text className="text-secondary small flex-grow-1 mb-2">
-          {profile.description}
-        </Card.Text>
-      
         <div className="mb-4">
           <Card.Text>
             Group: {profile.groupname}
