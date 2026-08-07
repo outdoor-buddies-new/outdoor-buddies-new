@@ -10,12 +10,15 @@
   --footer-bg: #006434;
   --footer-text-color: var(--nat-navbar-text-color);
 
-  --button-primary: #0A4D22;
-  --button-secondary: #003314;
+  --button-primary: #0cc0df;
+  --button-secondary: #0c96ae;
+
+  --bg-custom-color: #c5daf5;
+  --bs-body-bg: var(--bg-custom-color);
 }
 
 html, body {
-  background-color:#c5daf5;
+  background-color: var(--bg-custom-color);
   --bs-light: var(--nat-navbar-bg);
   --bs-light-rgb: var(--nat-navbar-bg-rgb);
   box-sizing: border-box;
@@ -72,7 +75,8 @@ body .navbar {
   font-family: "Skranji", sans-serif;
 }
 
-.landing-button {
+.landing-button,
+.admin-button {
   background-color:#006434;
   border-color: #006434;
 }
@@ -88,6 +92,35 @@ body .navbar {
   color: var(--footer-text-color);
 }
 
+.group-card {
+  width:80%;
+}
+
+.group-img {
+  max-width:100px;
+  max-height:100px;
+}
+
+.invisible {
+  color: var(--bg-custom-color);
+}
+
+.search-bg {
+  background-color:white !important;
+}
+
+.page-button {
+  background-color: var(--button-primary);
+  border-color: var(--button-primary);
+  color: white;
+}
+
+.page-button:hover {
+  background-color: var(--button-secondary);
+  border-color: var(--button-secondary);
+}
+
+/*
 .hero-button {
   background-color: var(--button-primary);
   border-color: var(--button-primary);
@@ -99,3 +132,4 @@ body .navbar {
   border-color: var(--button-secondary);
   color: var(--nat-navbar-highlight-text);
 }
+*/

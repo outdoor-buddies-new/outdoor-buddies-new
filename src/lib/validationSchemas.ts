@@ -15,36 +15,25 @@ export const EditStuffSchema = Yup.object({
   owner: Yup.string().required(),
 });
 
-export interface Profile {
-  firstName: string;
-  lastName: string;
-  address: string;
-  groupname : string;
-  image: string;
-  description: string;
-}
-
-export interface Group {
-  id : number;
-  name : string;
-  image: string;
-  description: string;
-  members: number;
-}
-
 export const AddGroupSchema = Yup.object({
   name: Yup.string().required(),
   image: Yup.string().required(),
-  description: Yup.string().required(),
   members: Yup.number().positive().required(),
+  maxmembers: Yup.number()
+  .transform((value, originalValue) => (originalValue === '' ? null : value))
+  .nullable().optional(),
+  intensity: Yup.string().required(),
+  description: Yup.string().required(),
+  owner: Yup.string().required(),
 });
 
+/*temp
 export const EditProfileSchema = Yup.object({
   name: Yup.string().required(),
   image: Yup.string().required(),
   description: Yup.string().required(),
   members: Yup.number().positive().required(),
-});
+});*/
 
 export const AddEventSchema = Yup.object({
   title: Yup.string().required('Title is required'),

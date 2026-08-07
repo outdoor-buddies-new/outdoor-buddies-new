@@ -20,7 +20,7 @@ const EventCard = ({ event }: EventCardProps) => {
 	};
 
 	return (
-		<Card>
+		<Card className="bg-white">
 			<Card.Body>
 				<Card.Title>
 					{event.title}
@@ -44,7 +44,7 @@ const EventCard = ({ event }: EventCardProps) => {
         </div>
 
         <div className="d-flex align-items-center">
-          <Button href={`/announcements/${event.id}`}>
+          <Button href={`/announcements/${event.id}`} className="page-button">
             View Details
           </Button>
 

@@ -48,11 +48,11 @@ const AddEventForm: React.FC = () => {
     <Container className="py-3">
       <Row className="justify-content-center">
         <Col xs={10}>
-          <h2 className="text-center">
+          <h2 className="text-center mb-4">
             Create Event
           </h2>
 
-          <Card>
+          <Card className="bg-white">
             <Card.Body>
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group>
@@ -63,7 +63,7 @@ const AddEventForm: React.FC = () => {
                     id="title"
                     type="text"
                     {...register('title')}
-                    className={`form-control ${errors.title ? 'is-invalid' : ''}`}
+                    className={`form-control bg-white ${errors.title ? 'is-invalid' : ''}`}
                   />
                   <div className="invalid-feedback">
                     {errors.title?.message}
@@ -77,7 +77,7 @@ const AddEventForm: React.FC = () => {
                   <textarea
                     id="description"
                     {...register('description')}
-                    className={`form-control ${errors.description ? 'is-invalid' : ''}`}
+                    className={`form-control bg-white ${errors.description ? 'is-invalid' : ''}`}
                   />
                   <div className="invalid-feedback">
                     {errors.description?.message}
@@ -92,7 +92,7 @@ const AddEventForm: React.FC = () => {
                     id="date"
                     type="date"
                     {...register('date')}
-                    className={`form-control ${errors.date ? 'is-invalid' : ''}`}
+                    className={`form-control bg-white ${errors.date ? 'is-invalid' : ''}`}
                   />
                   <div className="invalid-feedback">
                     {errors.date?.message}
@@ -101,7 +101,7 @@ const AddEventForm: React.FC = () => {
 
                 <Row className="pt-3">
                   <Col>
-                    <Button type="submit">
+                    <Button type="submit" className="admin-button">
                       Submit
                     </Button>
                   </Col>

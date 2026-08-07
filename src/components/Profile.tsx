@@ -15,7 +15,7 @@ interface ProfileProps {
 
 export default function ProfileCard({ profile }: ProfileProps) {
   return (
-    <Card className="h-100 shadow-sm">
+    <Card className="h-100 shadow-sm bg-white">
       <Card.Header className="bg-transparent border-0 pt-3 text-center">
         <Image 
           src={profile.image} 
