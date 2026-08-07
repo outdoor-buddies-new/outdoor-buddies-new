@@ -1,9 +1,9 @@
 import { loggedInProtectedPage } from '@/lib/page-protection';
-import HikeRecommendations from '@/components/HikingRecommendations';
+import HikeList from '@/components/HikeList';
 import { auth } from '@/lib/auth';
 import { getTrails } from '@/lib/dbActions';
 
-const HikeRecommendation = async () => {
+const HikeListings = async () => {
   // Protect the page, only logged in users can access it.
   const session = await auth();
   loggedInProtectedPage(
@@ -16,9 +16,9 @@ const HikeRecommendation = async () => {
 
   return (
     <main>
-      <HikeRecommendations trails={trails}/>
+      <HikeList trails={trails}/>
     </main>
   );
 };
 
-export default HikeRecommendation;
+export default HikeListings;

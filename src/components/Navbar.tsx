@@ -27,7 +27,7 @@ const NavBar: React.FC = () => {
                   Announcements
                 </Nav.Link>
                 <Nav.Link id="hike-rec-nav" href="/hikes" active={pathName === '/hikes'}>
-                  Hike Recommendation
+                  Hikes
                 </Nav.Link>
                 <Nav.Link id="groups-nav" href="/groups" active={pathName === '/groups'}>
                   Groups
