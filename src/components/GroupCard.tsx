@@ -2,6 +2,7 @@
 
 import { Card, Image, Row, Col, Button, Container } from 'react-bootstrap';
 import { Group } from '@prisma/client';
+import Link from 'next/link';
 
 export default function GroupCard({ group }: { group:Group }) {
   return (
@@ -49,7 +50,8 @@ export default function GroupCard({ group }: { group:Group }) {
             </div>
             <div>
             <Card.Text>
-              Date: {group.lastdate ? new Date(group.lastdate).toLocaleDateString() : 'N/A'}
+              No
+              {/*Date: {group.lastdate ? new Date(group.lastdate).toLocaleDateString() : 'N/A'}*/}
             </Card.Text>
             </div>
           </Col>
@@ -65,6 +67,11 @@ export default function GroupCard({ group }: { group:Group }) {
           </Button>
         </Row>
       </Card.Body>
+      <Card.Footer>
+        <Link href={`/groups/edit/${group.id}`} className="btn btn-primary page-button">
+          Edit
+        </Link>
+      </Card.Footer>
     </Card>
     </Container>
   );
