@@ -34,7 +34,7 @@ const AnnouncementList: React.FC<AnnouncementListProps> = ({ events }) => {
 
         {role === 'ADMIN' && (
           <Col className="text-end">
-            <Button href="/announcements/add">
+            <Button href="/announcements/add" className="admin-button">
               Create Announcement
             </Button>
           </Col>

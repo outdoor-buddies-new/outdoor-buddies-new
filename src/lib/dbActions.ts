@@ -2,7 +2,6 @@
 
 import { Condition } from '@prisma/client';
 import { Stuff } from '@prisma/client';
-//import { Group } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
@@ -99,14 +98,17 @@ export async function changePassword(credentials: { email: string; password: str
  * Adds a new group  to the database.
  * @param group, an object with the following properties: id, name, description, image, members
  */
-export async function addGroup(group: { name: string; description: string; image: string; members: number;}) {
+export async function addGroup(group: { name: string; image: string; members: number; maxmembers?: number | null; intensity: string; description: string; owner: string; }) {
   // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
   await prisma.group.create({
     data: {
       name: group.name,
-      description: group.description,
       image: group.image,
       members: group.members,
+      maxmembers: group.maxmembers ?? null,
+      intensity: group.intensity,
+      description: group.description,
+      owner: group.owner,
     },
   });
 }
@@ -137,6 +139,13 @@ export async function getTrails() {
  */
 export async function getEvents() {
   return prisma.event.findMany();
+}
+
+/**
+ * Gets all groups from the database.
+ */
+export async function getGroups() {
+  return prisma.group.findMany();
 }
 
 /**
@@ -196,6 +205,32 @@ export async function searchTrails(searchTerm: string) {
         },
         {
           location: {
+            contains: searchTerm,
+            mode: 'insensitive',
+          },
+        },
+        {
+          description: {
+            contains: searchTerm,
+            mode: 'insensitive',
+          },
+        },
+      ],
+    },
+  });
+}
+
+/**
+ * Searches for groups based on a search term.
+ * @param searchTerm, the term to search for.
+ * @returns a list of groups matching the search term in name.
+ */
+export async function searchGroups(searchTerm: string) {
+  return prisma.group.findMany({
+    where: {
+      OR: [
+        {
+          name: {
             contains: searchTerm,
             mode: 'insensitive',
           },

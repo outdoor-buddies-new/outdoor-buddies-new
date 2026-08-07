@@ -1,16 +1,13 @@
 'use client';
 
-//import AddGroupForm from '../../../components/AddGroupForm';
-import { Card } from 'react-bootstrap';
+import AddGroupForm from '../../../components/AddGroupForm';
 
 export default function AddGroupPageRoute() {
   return (
     <main>
-      <Card>
-        <Card.Text>work in progress</Card.Text>
-      </Card>
+        <AddGroupForm />
     </main>
   );
 }
 
-//<AddGroupForm />
+//

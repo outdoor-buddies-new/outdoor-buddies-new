@@ -19,6 +19,9 @@ export const AddGroupSchema = Yup.object({
   name: Yup.string().required(),
   image: Yup.string().required(),
   members: Yup.number().positive().required(),
+  maxmembers: Yup.number()
+  .transform((value, originalValue) => (originalValue === '' ? null : value))
+  .nullable().optional(),
   intensity: Yup.string().required(),
   description: Yup.string().required(),
   owner: Yup.string().required(),

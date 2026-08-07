@@ -23,19 +23,19 @@ const SignIn = () => {
   return (
     <main>
       <Container>
-        <Row className="justify-content-center">
+        <Row className="justify-content-center mt-3">
           <Col xs={5}>
             <h1 className="text-center">Sign In</h1>
-            <Card>
+            <Card className="bg-white mt-4">
               <Card.Body>
                 <Form method="post" onSubmit={handleSubmit}>
                   <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email</Form.Label>
-                    <input name="email" type="text" className="form-control" />
+                    <input name="email" type="text" className="form-control bg-white" />
                   </Form.Group>
                   <Form.Group>
                     <Form.Label>Password</Form.Label>
-                    <input name="password" type="password" className="form-control" />
+                    <input name="password" type="password" className="form-control bg-white" />
                   </Form.Group>
                   <Button type="submit" className="mt-3">
                     Signin

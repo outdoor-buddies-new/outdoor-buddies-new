@@ -43,11 +43,12 @@ const HikingRecommendations: React.FC<HikingRecommendationsProps> = ({ trails })
           <Form.Control
             type="search"
             placeholder="Find your place"
+            className="search-bg"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
 
-          <Button onClick={handleSearch}>
+          <Button onClick={handleSearch} className="page-button">
             Search
           </Button>
         </div>
