@@ -39,23 +39,23 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ profileData }) => {
   const { data: session, status } = useSession();
   const role = session?.user?.role;
   const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<EditProfileFormData>({
-    resolver: yupResolver(EditProfileSchema),
-    defaultValues: {
-      id: profileData.id,
-      name: profileData.name,
-      image: profileData.image,
-      description: profileData.description,
-      groupname: profileData.groupname ?? null,
-      owner: profileData.owner,
-      summary: profileData.summary,
-      descimage: profileData.descimage ?? null,
-    },
-  });
+  register,
+  handleSubmit,
+  reset,
+  formState: { errors },
+} = useForm({
+  resolver: yupResolver(EditProfileSchema),
+  defaultValues: {
+    id: profileData.id,
+    name: profileData.name,
+    image: profileData.image,
+    description: profileData.description,
+    groupname: profileData.groupname ?? '',
+    owner: profileData.owner,
+    summary: profileData.summary,
+    descimage: profileData.descimage ?? '',
+  },
+});
   if (status === 'loading') {
     return <LoadingSpinner />;
   }
