@@ -35,7 +35,18 @@ export const AddProfileSchema = Yup.object({
   owner: Yup.string().required(),
   groupname: Yup.string().nullable(),
   descimage: Yup.string().nullable(),
-})
+});
+
+export const EditProfileSchema = Yup.object({
+  id: Yup.string().required(),
+  name: Yup.string().required(),
+  image: Yup.string().required(),
+  summary: Yup.string().required(),
+  description: Yup.string().required(),
+  owner: Yup.string().required(),
+  groupname: Yup.string().nullable(),
+  descimage: Yup.string().nullable(),
+});
 
 export const AddEventSchema = Yup.object({
   title: Yup.string().required('Title is required'),

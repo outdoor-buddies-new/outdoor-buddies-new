@@ -119,24 +119,13 @@ export async function addGroup(group: {
       owner: group.owner,
     },
   });
+  redirect('/groups');
 }
 
 /**
  * Adds a new group  to the database.
  * @param profile, an object with the following properties: id, name, description, image, members
  */
-/*
-model Profile {
-  id          String  @id @default(cuid())
-  name        String
-  image       String
-  description String
-  groupname   String?
-  owner       String
-  summary     String
-  descimage   String?
-}
-*/
 export async function addProfile(profile: {
     name: string;
     image: string;
@@ -158,6 +147,35 @@ export async function addProfile(profile: {
       descimage: profile.descimage ?? null,
     },
   });
+  redirect('/profile');
+}
+
+/**
+ * Edits an existing profile in the database.
+ * @param profile, an object with the following properties: id, title, description, date.
+ */
+export async function editProfile(profile: {
+    id: string;
+    name: string;
+    image: string;
+    description: string;
+    groupname?: string | null;
+    owner: string;
+    summary: string;
+    descimage?: string | null; }) {
+  await prisma.profile.update({
+    where: { id: profile.id },
+    data: {
+      name: profile.name,
+      image: profile.image,
+      description: profile.description,
+      groupname: profile.groupname ?? null,
+      owner: profile.owner,
+      summary: profile.summary,
+      descimage: profile.descimage ?? null,
+    },
+  });
+  redirect('/profile');
 }
 
 //do a delete profile/account but later

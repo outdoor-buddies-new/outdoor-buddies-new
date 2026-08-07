@@ -2,6 +2,7 @@
 
 import { Card, Image, Button, Container } from 'react-bootstrap';
 import { Profile } from '@prisma/client';
+import Link from 'next/link';
 
 export default function ProfileCard({ profile }: { profile:Profile }) {
   return (
@@ -31,6 +32,11 @@ export default function ProfileCard({ profile }: { profile:Profile }) {
             View Details
           </Button>
       </Card.Body>
+      <Card.Footer>
+        <Link href={`/profile/edit/${profile.id}`} className="btn btn-primary page-button">
+          Edit
+        </Link>
+      </Card.Footer>
     </Card>
     </Container>
   );
