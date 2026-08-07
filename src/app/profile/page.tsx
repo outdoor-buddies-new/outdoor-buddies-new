@@ -1,10 +1,10 @@
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Profile } from '@/lib/validationSchemas';
+//import { Profile } from '@prisma/client';
 import ProfileCard from '@/components/Profile';
 
-const profile: Profile[] = [{
+/*const profile: Profile[] = [{
     firstName: 'Hanako', lastName: 'Yamada', address: 'Oahu', groupname: "ex1",
     image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Woman-wearing-red-scoop-neck-top-and-black-short-shorts-sitting-on-brown-wooden-bench.jpg/960px-Woman-wearing-red-scoop-neck-top-and-black-short-shorts-sitting-on-brown-wooden-bench.jpg',
     description: 'Excited to go on hikes with various people',
@@ -20,7 +20,7 @@ const profile: Profile[] = [{
       description: 'I would like to find a new hiking partner',
     },
   ];
-
+*/
 const ProfilesPage = async () => {
   // Protect the page, only logged in users can access it.
   const session = await auth();
@@ -44,11 +44,12 @@ const ProfilesPage = async () => {
           </div>*/}
         <h2 className="text-center py-3 text-white">Profiles</h2>
         <Row xs={1} md={2} lg={3} className="g-4">
-          {profile.map((profile) => (
+          {/*{profile.map((profile) => (
             <Col key={`Contact-${profile.firstName}`}>
               <ProfileCard profile ={profile} />
             </Col>
-          ))}
+          ))}*/}
+          help hehe
         </Row>
       </Container>
     </main>
