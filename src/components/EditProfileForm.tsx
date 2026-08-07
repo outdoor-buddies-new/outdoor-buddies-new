@@ -5,26 +5,20 @@ import { useSession } from 'next-auth/react'; // v5 compatible
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import type { InferType } from 'yup';
 import swal from 'sweetalert';
 import { redirect } from 'next/navigation';
 import { editProfile } from '@/lib/dbActions';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { EditProfileSchema } from '@/lib/validationSchemas';
 
+type EditProfileFormData = InferType<typeof EditProfileSchema>;
+
 interface EditProfileFormProps {
   profileData: Profile;
 }
 
-const onSubmit = async (data: {
-    id: string;
-    name: string;
-    image: string;
-    description: string;
-    groupname?: string | null;
-    owner: string;
-    summary: string;
-    descimage?: string | null;
-}, profileData: Profile) => {
+const onSubmit = async (data: EditProfileFormData, profileData: Profile) => {
   await editProfile({
     id: profileData.id,
     name: data.name,
@@ -49,25 +43,17 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ profileData }) => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<{
-    id: string;
-    name: string;
-    image: string;
-    description: string;
-    groupname?: string | null;
-    owner: string;
-    summary: string;
-    descimage?: string | null;
-  }>({
+  } = useForm<EditProfileFormData>({
     resolver: yupResolver(EditProfileSchema),
     defaultValues: {
+      id: profileData.id,
       name: profileData.name,
       image: profileData.image,
       description: profileData.description,
-      groupname: profileData.groupname,
+      groupname: profileData.groupname ?? '',
       owner: profileData.owner,
       summary: profileData.summary,
-      descimage: profileData.descimage,
+      descimage: profileData.descimage ?? '',
     },
   });
   if (status === 'loading') {
