@@ -16,20 +16,20 @@ const AddGroupForm: React.FC = () => {
   const router = useRouter();
 
   const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<AddGroupFormData>({
-    resolver: yupResolver(AddGroupSchema),
-    defaultValues: {
-      name: '',
-      image: '',
-      members: 0,
-      maxmembers: null,
-      intensity: '' as Commitment,
-      description: '',
-    },
+  register,
+  handleSubmit,
+  reset,
+  formState: { errors },
+} = useForm({
+  resolver: yupResolver(AddGroupSchema),
+  defaultValues: {
+    name: '',
+    image: '',
+    members: 0,
+    maxmembers: null,
+    intensity: '' as Commitment,
+    description: '',
+  },
   });
 
   if (status === 'loading') {
