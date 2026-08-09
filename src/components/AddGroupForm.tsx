@@ -9,6 +9,7 @@ import { redirect, useRouter } from 'next/navigation';
 import { addGroup } from '@/lib/dbActions';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { AddGroupSchema, AddGroupFormData } from '@/lib/validationSchemas';
+import { Commitment } from '@prisma/client';
 
 const AddGroupForm: React.FC = () => {
   const { data: session, status } = useSession();
@@ -20,16 +21,16 @@ const AddGroupForm: React.FC = () => {
     reset,
     formState: { errors },
   } = useForm<AddGroupFormData>({
-  resolver: yupResolver(AddGroupSchema),
-  defaultValues: {
-    name: '',
-    image: '',
-    members: 0,
-    maxmembers: null,
-    intensity: undefined,
-    description: '',
-  },
-});
+    resolver: yupResolver(AddGroupSchema),
+    defaultValues: {
+      name: '',
+      image: '',
+      members: 0,
+      maxmembers: null,
+      intensity: '' as Commitment,
+      description: '',
+    },
+  });
 
   if (status === 'loading') {
     return <LoadingSpinner />;
