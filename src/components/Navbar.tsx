@@ -14,35 +14,40 @@ const NavBar: React.FC = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand as={Link} href="/">
+        <Navbar.Brand as={Link} href="/" className="navbar-side">
           <Image src="/images/oblogo-final.png" alt="Outdoor Buddies Logo" width={150}/>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mx-auto justify-content-center align-items-center text-white">
+            <Nav.Link id="events-nav" href="/announcements" active={pathName === '/announcements'} className="px-4 navbar-main-link">
+              Announcements
+            </Nav.Link>
 
-          <Nav className="me-auto justify-content-start gap-3 text-white">
-          
-              <>
-                <Nav.Link id="events-nav" href="/announcements" active={pathName === '/announcements'}>
-                  Announcements
-                </Nav.Link>
-                <Nav.Link id="hike-rec-nav" href="/hikes" active={pathName === '/hikes'}>
-                  Hikes
-                </Nav.Link>
-                <Nav.Link id="groups-nav" href="/groups" active={pathName === '/groups'}>
-                  Groups
-                </Nav.Link>
-                <Nav.Link id="profiles-nav" href="/profile" active={pathName === '/profile'}>
-                  Profiles
-                </Nav.Link>
-              </>
+            <span className="navbar-divider">|</span>
+
+            <Nav.Link id="hike-rec-nav" href="/hikes" active={pathName === '/hikes'} className="px-4 navbar-main-link">
+              Hikes
+            </Nav.Link>
+
+            <span className="navbar-divider">|</span>
+
+            <Nav.Link id="groups-nav" href="/groups" active={pathName === '/groups'} className="px-4 navbar-main-link">
+              Groups
+            </Nav.Link>
+
+            <span className="navbar-divider">|</span>
+
+            <Nav.Link id="profiles-nav" href="/profile" active={pathName === '/profile'} className="px-4 navbar-main-link">
+              Profiles
+            </Nav.Link>
           </Nav>
-          <Nav>
+          <Nav className="navbar-side justify-content-end">
             {session ? (
               <NavDropdown id="login-dropdown" title={currentUser}>
-                <NavDropdown.Item id="profile-nav" href="/profile">
+                <NavDropdown.Item id="login-dropdown-change-password" href="/auth/change-password">
                   <PersonFill />
-                  View Profile
+                  Change Password
                 </NavDropdown.Item>
                 <NavDropdown.Item id="login-dropdown-sign-out" href="/api/auth/signout">
                   <BoxArrowRight />

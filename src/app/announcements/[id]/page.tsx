@@ -28,26 +28,28 @@ const EventDetailsPage = async ({
       <Container>
         <h1 className="mt-5">{event.title}</h1>
 
-        <div className="d-flex gap-4 ms-auto">
-        <p>
-          <strong>Location:</strong>{' '}
-          {event.location}
-        </p>
+        <div className="d-flex gap-4 ms-auto fs-5">
+					<p>
+						<strong>Location:</strong>{' '}
+						{event.location}
+					</p>
 
-        <p>
-          <strong>Posted:</strong>{' '}
-          {new Date(event.createdAt).toLocaleDateString()}
-        </p>
+					<p>
+						<strong>Posted:</strong>{' '}
+						{new Date(event.createdAt).toLocaleDateString()}
+					</p>
 
-        <p>
-          <strong>Event Date:</strong>{' '}
-          {new Date(event.date).toLocaleDateString()}
-        </p>
+					<p>
+						<strong>Event Date:</strong>{' '}
+						{new Date(event.date).toLocaleDateString()}
+					</p>
         </div>
 
         <hr />
 
-        <p>{event.description}</p>
+        <p className="fs-5 lh-lg">
+					{event.description}
+				</p>
         
       </Container>
 		</main>
