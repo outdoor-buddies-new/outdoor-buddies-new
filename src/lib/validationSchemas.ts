@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { Difficulty } from '@prisma/client';
+import { Commitment, Difficulty } from '@prisma/client';
 
 export const AddStuffSchema = Yup.object({
   name: Yup.string().required(),
@@ -20,25 +20,34 @@ export const AddGroupSchema = Yup.object({
   name: Yup.string().required(),
   image: Yup.string().required(),
   members: Yup.number().positive().required(),
-  maxmembers: Yup.number()
-  .transform((value, originalValue) => (originalValue === '' ? null : value))
-  .nullable().optional(),
-  intensity: Yup.string().required(),
+  maxmembers: Yup.number().nullable().notRequired(),
+  intensity: Yup.mixed<Commitment>()
+    .oneOf(['Casual', 'Sometimes_Casual', 'Moderate', 'Sometimes_Moderate', 'Serious'])
+    .required('Commitment is required'),
   description: Yup.string().required(),
-  owner: Yup.string().required(),
 });
+
+export type AddGroupFormData = Yup.InferType<typeof AddGroupSchema>;
+
+/*export interface AddGroupFormData {
+  name: string;
+  image: string;
+  members: number;
+  maxmembers: number | null | undefined;
+  intensity: Commitment;
+  description: string;
+}*/
 
 export const EditGroupSchema = Yup.object({
   id: Yup.string().required(),
   name: Yup.string().required(),
   image: Yup.string().required(),
   members: Yup.number().positive().required(),
-  maxmembers: Yup.number()
-  .transform((value, originalValue) => (originalValue === '' ? null : value))
-  .nullable().optional(),
-  intensity: Yup.string().required(),
+  maxmembers: Yup.number().nullable().notRequired(),
+  intensity: Yup.mixed<Commitment>()
+    .oneOf(['Casual', 'Sometimes_Casual', 'Moderate', 'Sometimes_Moderate', 'Serious'])
+    .required('Commitment is required'),
   description: Yup.string().nullable().optional(),
-  owner: Yup.string().required(),
 });
 
 export const AddProfileSchema = Yup.object({
@@ -46,10 +55,11 @@ export const AddProfileSchema = Yup.object({
   image: Yup.string().required(),
   summary: Yup.string().required(),
   description: Yup.string().required(),
-  owner: Yup.string().required(),
-  groupname: Yup.string().nullable(),
-  descimage: Yup.string().nullable(),
+  groupname: Yup.string().nullable().defined(),
+  descimage: Yup.string().nullable().defined(),
 });
+
+export type AddProfileFormData = Yup.InferType<typeof AddProfileSchema>;
 
 export const EditProfileSchema = Yup.object({
   id: Yup.string().required(),
@@ -57,10 +67,18 @@ export const EditProfileSchema = Yup.object({
   image: Yup.string().required(),
   summary: Yup.string().required(),
   description: Yup.string().required(),
-  owner: Yup.string().required(),
   groupname: Yup.string().nullable().optional(),
   descimage: Yup.string().nullable().optional(),
 });
+
+export const AddNoteSchema = Yup.object({
+  title: Yup.string().required(),
+  description: Yup.string().required(),
+  groupId: Yup.string().required(),
+});
+
+export type AddPostFormData = Yup.InferType<typeof AddNoteSchema>;
+
 
 export const AddEventSchema = Yup.object({
   title: Yup.string().required('Title is required'),

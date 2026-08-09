@@ -2,19 +2,21 @@
 
 import { Card, Image, Button, Container } from 'react-bootstrap';
 import { Profile } from '@prisma/client';
-import Link from 'next/link';
+import SafeImage from '@/components/SafeImage';
 
 export default function ProfileCard({ profile }: { profile:Profile }) {
+
   return (
     <Container className="justify-content-center align-items-center">
     <Card className="profile-card shadow-sm bg-white h-100 w-100">
       <Card.Header className="bg-transparent text-center border-0 pt-3 ">
-        <Image 
-          src={profile.image} 
-          alt={profile.name} 
-          className="group-img justify-content-center" 
-          roundedCircle 
-        />
+        <SafeImage 
+          src={profile.image && profile.image.startsWith('/') ? profile.image : ''}
+                  fallbackSrc="/images/default-image-user.jpg"
+                  alt={`${profile.name}`} 
+                  className="d-block mx-auto mb-4 profile-group-card-picture"
+                  roundedCircle
+                />
         <Card.Title className="fw-bold mb-1 mt-3 fs-2">
           {profile.name}
         </Card.Title>
@@ -32,11 +34,6 @@ export default function ProfileCard({ profile }: { profile:Profile }) {
             View Details
           </Button>
       </Card.Body>
-      <Card.Footer>
-        <Link href={`/profile/edit/${profile.id}`} className="btn btn-primary page-button">
-          Edit
-        </Link>
-      </Card.Footer>
     </Card>
     </Container>
   );

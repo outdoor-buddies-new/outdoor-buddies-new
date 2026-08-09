@@ -8,43 +8,28 @@ import swal from 'sweetalert';
 import { redirect, useRouter } from 'next/navigation';
 import { addProfile } from '@/lib/dbActions';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { AddProfileSchema } from '@/lib/validationSchemas';
-
-const onSubmit = async (profile: { name: string;
-    image: string;
-    description: string;
-    groupname?: string | null;
-    owner: string;
-    summary: string;
-    descimage?: string | null;
-  }) => {
-  // console.log(`onSubmit data: ${JSON.stringify(data, null, 2)}`);
-  await addProfile({
-      name: profile.name,
-      image: profile.image,
-      description: profile.description,
-      groupname: profile.groupname ?? null,
-      owner: profile.owner,
-      summary: profile.summary,
-      descimage: profile.descimage ?? null,
-  });
-  swal('Success', 'Your profile has been added', 'success', {
-    timer: 2000,
-  });
-};
+import { AddProfileSchema, AddProfileFormData } from '@/lib/validationSchemas';
 
 const AddProfileForm: React.FC = () => {
   const { data: session, status } = useSession();
-  const role = session?.user?.role;
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(AddProfileSchema),
-  });
+  } = useForm<AddProfileFormData>({
+  resolver: yupResolver(AddProfileSchema),
+  defaultValues: {
+    name: '',
+    image: '',
+    summary: '',
+    description: '',
+    groupname: null,
+    descimage: null,
+  },
+});
 
   if (status === 'loading') {
     return <LoadingSpinner />;
@@ -53,20 +38,51 @@ const AddProfileForm: React.FC = () => {
     redirect('/auth/signin');
   }
 
-  // Moved inside the component to use router transitions ...?
-  /*const onSubmit = async (data: GroupFormData) => {
+  const onSubmit = async (data: AddProfileFormData) => {
+    // Make sure we have the user's ID from the active NextAuth session
+    const userId = session?.user?.id ? Number(session.user.id) : undefined;
+
+    if (!userId) {
+      swal('Error', 'Unable to identify current user. Please sign in again.', 'error');
+      return;
+    }
+
     try {
-      await addGroup(data);
-      await swal('Success', 'Your group has been added', 'success', {
+      const newProfile = await addProfile({
+        name: data.name,
+        image: data.image,
+        description: data.description,
+        groupname: data.groupname ?? null,
+        summary: data.summary,
+        descimage: data.descimage ?? null,
+        userId: userId, // Linked to the authenticated user!
+      });
+
+      await swal('Success', 'Your profile has been created', 'success', {
         timer: 2000,
       });
+
       reset();
-      router.push('/groups'); // Redirects to the main list
-      router.refresh();       // Refreshes server data on the list page
+      router.push(`/profile/${newProfile.id}`);
+      router.refresh();
     } catch (error) {
-      console.error('Failed to save group:', error);
+      console.error('Failed to create profile:', error);
+      
+      if (error instanceof Error) {
+        if (error.message === 'PROFILE_EXISTS') {
+          swal(
+            'Profile Already Exists',
+            'You already have a profile linked to this account.',
+            'warning'
+          );
+        } else {
+          swal('Error', error.message, 'error');
+        }
+      } else {
+        swal('Error', 'An unexpected error occurred.', 'error');
+      }
     }
-  };*/
+  };
 
   return (
     <Container className="py-3">
@@ -90,7 +106,7 @@ const AddProfileForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Image URL</Form.Label>
+                  <Form.Label>Image URL (please use a square image)</Form.Label>
                   <input
                     type="text"
                     {...register('image')}
@@ -101,11 +117,11 @@ const AddProfileForm: React.FC = () => {
 
                 <Form.Group className="mb-3">
                   <Form.Label>Summary</Form.Label>
-                    <input
-                      type="text"
-                      {...register('summary')}
-                      className={`form-control bg-white ${errors.summary ? 'is-invalid' : ''}`}
-                    />
+                  <input
+                    type="text"
+                    {...register('summary')}
+                    className={`form-control bg-white ${errors.summary ? 'is-invalid' : ''}`}
+                  />
                   <div className="invalid-feedback">{errors.summary?.message}</div>
                 </Form.Group>
 
@@ -117,6 +133,16 @@ const AddProfileForm: React.FC = () => {
                     rows={3}
                   />
                   <div className="invalid-feedback">{errors.description?.message}</div>
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Description Image URL</Form.Label>
+                  <input
+                    type="text"
+                    {...register('descimage')}
+                    className={`form-control bg-white ${errors.descimage ? 'is-invalid' : ''}`}
+                  />
+                  <div className="invalid-feedback">{errors.descimage?.message}</div>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
@@ -135,7 +161,6 @@ const AddProfileForm: React.FC = () => {
                       Submit
                     </Button>
                   </Col>
-
                   <Col>
                     <Button
                       type="button"
