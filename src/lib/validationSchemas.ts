@@ -44,8 +44,8 @@ export const AddProfileSchema = Yup.object({
   image: Yup.string().required(),
   summary: Yup.string().required(),
   description: Yup.string().required(),
-  groupname: Yup.string().nullable().optional(),
-  descimage: Yup.string().nullable().optional(),
+  groupname: Yup.string().nullable().defined(),
+  descimage: Yup.string().nullable().defined(),
 });
 
 export type AddProfileFormData = Yup.InferType<typeof AddProfileSchema>;

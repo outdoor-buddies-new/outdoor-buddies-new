@@ -21,8 +21,16 @@ const AddProfileForm: React.FC = () => {
     reset,
     formState: { errors },
   } = useForm<AddProfileFormData>({
-    resolver: yupResolver(AddProfileSchema),
-  });
+  resolver: yupResolver(AddProfileSchema),
+  defaultValues: {
+    name: '',
+    image: '',
+    summary: '',
+    description: '',
+    groupname: null,
+    descimage: null,
+  },
+});
 
   if (status === 'loading') {
     return <LoadingSpinner />;
