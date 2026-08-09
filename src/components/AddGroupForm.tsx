@@ -62,7 +62,7 @@ const AddGroupForm: React.FC = () => {
   };*/
 
   return (
-    <Container className="py-3">
+    /*<Container className="py-3">
       <Row className="justify-content-center">
         <Col xs={6}>
           <div className="text-center mb-4">
@@ -135,6 +135,9 @@ const AddGroupForm: React.FC = () => {
           </Card>
         </Col>
       </Row>
+    </Container>*/
+    <Container>
+      sesd
     </Container>
   );
 };
