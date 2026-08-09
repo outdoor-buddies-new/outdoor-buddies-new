@@ -15,12 +15,12 @@ const editGroup = async ({ params,}: { params: Promise<{ id: string }>; }) => {
 
   const { id } = await params;
 
-  const owner = session?.user!.email ? session.user.email : '';
+  //const owner = session?.user!.email ? session.user.email : '';
   
 
   const group = await prisma.group.findUnique({
     where: {
-     owner
+     id
     },
   });
   if (!group) {
