@@ -25,7 +25,6 @@ const onSubmit = async (data: EditProfileFormData, profileData: Profile) => {
     image: data.image,
     description: data.description,
     groupname: data.groupname,
-    owner: data.owner,
     summary: data.summary,
     descimage: data.descimage,
   });
@@ -37,7 +36,6 @@ const onSubmit = async (data: EditProfileFormData, profileData: Profile) => {
 
 const EditProfileForm: React.FC<EditProfileFormProps> = ({ profileData }) => {
   const { data: session, status } = useSession();
-  const role = session?.user?.role;
   const {
   register,
   handleSubmit,
@@ -48,10 +46,9 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ profileData }) => {
   defaultValues: {
     id: profileData.id,
     name: profileData.name,
-    image: profileData.image,
+    image: profileData.image ?? '/images/default-image-user.jpg',
     description: profileData.description,
     groupname: profileData.groupname ?? '',
-    owner: profileData.owner,
     summary: profileData.summary,
     descimage: profileData.descimage ?? '',
   },
@@ -77,7 +74,11 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ profileData }) => {
 
           <Card className="bg-white">
             <Card.Body>
-              <Form onSubmit={handleSubmit((data) => onSubmit(data, profileData))}>
+              <Form onSubmit={handleSubmit(
+                (data) => onSubmit(data, profileData),
+                (errors) => console.log('Validation Errors:', errors)
+                )}
+              >
                 <Form.Group className="mb-3">
                   <Form.Label>Name</Form.Label>
                   <input

@@ -4,6 +4,7 @@ import { Condition, Stuff, Difficulty } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
+import { revalidatePath } from 'next/cache';
 
 /**
  * Adds a new stuff to the database.
@@ -116,6 +117,9 @@ export async function addGroup(group: {
       intensity: group.intensity,
       description: group.description ?? null,
       owner: group.owner,
+      user: {
+        connect: { id: profile }, // or email: profile.owner
+      },
     },
   });
   redirect('/groups');
@@ -132,7 +136,6 @@ export async function editGroup(group: {id: string; name: string; image: string;
       maxmembers: group.maxmembers ?? null,
       intensity: group.intensity,
       description: group.description ?? null,
-      owner: group.owner,
     },
   });
   redirect('/groups');
@@ -147,23 +150,30 @@ export async function addProfile(profile: {
     image: string;
     description: string;
     groupname?: string | null;
-    owner: string;
     summary: string;
     descimage?: string | null;
+    userId: number;
   }) {
   // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
-  await prisma.profile.create({
+  const existingProfile = await prisma.profile.findFirst({
+    where: { userId: profile.userId },
+  });
+
+  if (existingProfile) {
+    throw new Error('PROFILE_EXISTS');
+  }
+  const newProfile = await prisma.profile.create({
     data: {
       name: profile.name,
       image: profile.image,
       description: profile.description,
       groupname: profile.groupname ?? null,
-      owner: profile.owner,
       summary: profile.summary,
       descimage: profile.descimage ?? null,
+      userId: profile.userId,
     },
   });
-  redirect('/profile');
+  return newProfile;
 }
 
 /**
@@ -176,7 +186,6 @@ export async function editProfile(profile: {
     image: string;
     description: string;
     groupname?: string | null;
-    owner: string;
     summary: string;
     descimage?: string | null; }) {
   await prisma.profile.update({
@@ -186,15 +195,23 @@ export async function editProfile(profile: {
       image: profile.image,
       description: profile.description,
       groupname: profile.groupname ?? null,
-      owner: profile.owner,
       summary: profile.summary,
       descimage: profile.descimage ?? null,
     },
   });
+  redirect(`/profile/${profile.id}`);
+}
+
+export async function deleteProfile(id: string) {
+  // console.log(`deleteProfile id: ${id}`);
+  await prisma.profile.delete({
+    where: { id },
+  });
+  revalidatePath('/profile');
+  revalidatePath(`/profile/${id}`);
   redirect('/profile');
 }
 
-//do a delete profile/account but later
 export async function getTrails() {
   return prisma.trail.findMany();
 }

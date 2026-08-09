@@ -40,24 +40,19 @@ async function main() {
   console.log('Seeding the database');
   const password = await hash('changeme', 10);
 
-  /*await Promise.all(
-    config.defaultAccounts.map(async (account) => {
-      const role = (account.role as Role) || Role.USER;
-      console.log(`  Creating user: ${account.email} with role: ${role}`);
+  for (const account of config.defaultAccounts) {
+  const role = (account.role as Role) || Role.USER;
 
-      return prisma.user.upsert({
-        where: { email: account.email },
-        update: {
-          password,
-        },
-        create: {
-          email: account.email,
-          password,
-          role,
-        },
-      });
-    })
-  );*/
+  await prisma.user.upsert({
+    where: { email: account.email },
+    update: { password },
+    create: {
+      email: account.email,
+      password,
+      role,
+      },
+    });
+  }
 
   for (const account of config.defaultAccounts) {
   const role = (account.role as Role) || Role.USER;
@@ -68,7 +63,7 @@ async function main() {
     update: { password },
     create: { email: account.email, password, role },
   });
-}
+  }
 
   /*for (const data of config.defaultData) {
     const condition = (data.condition || 'good') as Prisma.StuffCreateInput['condition'];
@@ -125,7 +120,6 @@ async function main() {
       maxmembers: group.maxmembers ?? null, // Explicitly set null if undefined
       intensity: group.intensity,
       description: group.description ?? 'hello',
-      owner: group.owner ?? 'admin@foo.com',
       lastdate: group.lastdate,
       lastlocation: group.lastlocation,
     };
@@ -150,9 +144,9 @@ async function main() {
       image: profile.image ?? '/image/default-image-user.jpg',
       summary: profile.summary,
       description: profile.description ?? 'hello',
-      owner: profile.owner ?? 'admin@foo.com',
       groupname: profile.groupname ?? null,
       descimage: profile.descimage ?? null,
+      userId: profile.userId
     };
 
     await prisma.profile.upsert({

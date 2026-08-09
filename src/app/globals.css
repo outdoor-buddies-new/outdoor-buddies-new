@@ -124,6 +124,11 @@ body .navbar {
   width:100%;
 }
 
+.profile-details-pfp {
+  width:200px;
+  height:200px;
+}
+
 .title-font {
   font-family: "Skranji", sans-serif;
 }

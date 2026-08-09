@@ -25,7 +25,6 @@ export const AddGroupSchema = Yup.object({
   .nullable().optional(),
   intensity: Yup.string().required(),
   description: Yup.string().required(),
-  owner: Yup.string().required(),
 });
 
 export const EditGroupSchema = Yup.object({
@@ -38,7 +37,6 @@ export const EditGroupSchema = Yup.object({
   .nullable().optional(),
   intensity: Yup.string().required(),
   description: Yup.string().nullable().optional(),
-  owner: Yup.string().required(),
 });
 
 export const AddProfileSchema = Yup.object({
@@ -46,7 +44,6 @@ export const AddProfileSchema = Yup.object({
   image: Yup.string().required(),
   summary: Yup.string().required(),
   description: Yup.string().required(),
-  owner: Yup.string().required(),
   groupname: Yup.string().nullable(),
   descimage: Yup.string().nullable(),
 });
@@ -57,7 +54,6 @@ export const EditProfileSchema = Yup.object({
   image: Yup.string().required(),
   summary: Yup.string().required(),
   description: Yup.string().required(),
-  owner: Yup.string().required(),
   groupname: Yup.string().nullable().optional(),
   descimage: Yup.string().nullable().optional(),
 });

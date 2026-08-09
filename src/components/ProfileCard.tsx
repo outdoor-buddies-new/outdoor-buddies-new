@@ -1,19 +1,26 @@
 'use client';
 
+import { useState } from 'react';
 import { Card, Image, Button, Container } from 'react-bootstrap';
 import { Profile } from '@prisma/client';
-import Link from 'next/link';
 
 export default function ProfileCard({ profile }: { profile:Profile }) {
+  const [imgSrc, setImgSrc] = useState(
+    profile.image || '/images/default-image-user.jpg'
+  );
+
   return (
     <Container className="justify-content-center align-items-center">
     <Card className="profile-card shadow-sm bg-white h-100 w-100">
       <Card.Header className="bg-transparent text-center border-0 pt-3 ">
         <Image 
-          src={profile.image} 
+          src={imgSrc} 
           alt={profile.name} 
           className="group-img justify-content-center" 
           roundedCircle 
+          onError={(e) => {
+            setImgSrc('/images/default-image-user.jpg'); 
+          }}
         />
         <Card.Title className="fw-bold mb-1 mt-3 fs-2">
           {profile.name}
@@ -32,11 +39,6 @@ export default function ProfileCard({ profile }: { profile:Profile }) {
             View Details
           </Button>
       </Card.Body>
-      <Card.Footer>
-        <Link href={`/profile/edit/${profile.id}`} className="btn btn-primary page-button">
-          Edit
-        </Link>
-      </Card.Footer>
     </Card>
     </Container>
   );

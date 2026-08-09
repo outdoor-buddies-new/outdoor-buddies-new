@@ -11,6 +11,7 @@ model User {
   email    String @unique
   password String
   role     Role   @default(USER)
+  profile  Profile?
 }
 
 model Stuff {
@@ -66,7 +67,6 @@ model Group {
   maxmembers   Int?
   intensity    String
   description  String?
-  owner        String
   lastdate     DateTime?
   lastlocation String?
   createdAt    DateTime  @default(now())
@@ -79,9 +79,10 @@ model Profile {
   image       String
   description String
   groupname   String?
-  owner       String
   summary     String
   descimage   String?
+  userId      Int   @unique
+  user        User  @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum Role {
@@ -100,4 +101,12 @@ enum Difficulty {
   EASY
   MODERATE
   HARD
+}
+
+enum Commitment {
+  Casual1
+  Sometimes_Casual @map("Sometimes Casual, Sometimes Moderate")
+  Moderate
+  Sometimes_Moderate @map("Sometimes Moderate, Sometimes Serious")
+  Serious
 }
