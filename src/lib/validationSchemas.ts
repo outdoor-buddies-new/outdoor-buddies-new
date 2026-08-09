@@ -30,7 +30,16 @@ export const AddGroupSchema = Yup.object({
   description: Yup.string().required(),
 });
 
-export type AddGroupFormData = Yup.InferType<typeof AddGroupSchema>;
+//export type AddGroupFormData = Yup.InferType<typeof AddGroupSchema>;
+
+export interface AddGroupFormData {
+  name: string;
+  image: string;
+  members: number;
+  maxmembers?: number | null;
+  intensity: Commitment;
+  description: string;
+}
 
 export const EditGroupSchema = Yup.object({
   id: Yup.string().required(),
