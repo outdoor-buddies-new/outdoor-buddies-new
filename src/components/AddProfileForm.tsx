@@ -60,6 +60,7 @@ const AddProfileForm: React.FC = () => {
       router.refresh();
     } catch (error) {
       console.error('Failed to create profile:', error);
+      
       if (error instanceof Error) {
         if (error.message === 'PROFILE_EXISTS') {
           swal(
