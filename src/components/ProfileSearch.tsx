@@ -52,9 +52,9 @@ const ProfileSearch: React.FC<ProfileSearchProps> = ({ profiles }) => {
           	Search
         	</Button>
         </div>
-        <Link href="/profile/add" className="btn btn-primary page-button">
+        {/*<Link href="/profile/add" className="btn btn-primary page-button">
           Add a Profile
-        </Link>
+        </Link>*/}
         <Container className="invisible mt-3 mb-3">
           invis
         </Container>

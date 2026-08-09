@@ -120,8 +120,9 @@ body .navbar {
   border-color: var(--button-secondary);
 }
 
-.profile-card {
-  width:100%;
+.profile-group-card-picture {
+  width:100px;
+  height:100px;
 }
 
 .profile-details-pfp {
@@ -131,6 +132,15 @@ body .navbar {
 
 .title-font {
   font-family: "Skranji", sans-serif;
+}
+
+.group-details-pfp {
+  width:300px;
+  height:300px;
+}
+
+.post-card {
+  width:90%;
 }
 
 /* sorry will work on this later, was formatting issues

@@ -12,6 +12,8 @@ model User {
   password String
   role     Role   @default(USER)
   profile  Profile?
+  group    Group[]
+  note     Note[]
 }
 
 model Stuff {
@@ -71,6 +73,9 @@ model Group {
   lastlocation String?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
+  userId       Int
+  user         User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  note         Note[]
 }
 
 model Profile {
@@ -83,6 +88,16 @@ model Profile {
   descimage   String?
   userId      Int   @unique
   user        User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Note {
+  id          String  @id @default(cuid())
+  title       String
+  description String
+  userId      Int
+  user        User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  groupId     String   // Matches the type of your Group's id (String or Int)
+  group       Group    @relation(fields: [groupId], references: [id], onDelete: Cascade)
 }
 
 enum Role {
@@ -104,7 +119,7 @@ enum Difficulty {
 }
 
 enum Commitment {
-  Casual1
+  Casual
   Sometimes_Casual @map("Sometimes Casual, Sometimes Moderate")
   Moderate
   Sometimes_Moderate @map("Sometimes Moderate, Sometimes Serious")

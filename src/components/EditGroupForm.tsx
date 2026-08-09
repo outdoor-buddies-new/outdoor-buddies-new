@@ -1,6 +1,6 @@
 'use client';
 
-import { Group } from '@prisma/client';
+import { Commitment, Group } from '@prisma/client';
 import { useSession } from 'next-auth/react'; // v5 compatible
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
@@ -20,7 +20,7 @@ interface EditGroupFormProps {
 
 const onSubmit = async (data: EditGroupFormData, groupData: Group) => {
   await editGroup({
-    id: data.id,
+    id: groupData.id,
     name: data.name,
     image: data.image,
     members: data.members,
@@ -50,7 +50,7 @@ const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
     image: groupData.image,
     members: groupData.members,
     maxmembers: groupData.maxmembers ?? null,
-    intensity: groupData.intensity,
+    intensity: groupData.intensity as Commitment,
     description: groupData.description,
   },
 });
@@ -105,6 +105,33 @@ const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
                   />
                   <div className="invalid-feedback">{errors.members?.message}</div>
                 </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Maximum Members</Form.Label>
+                  <input
+                    type="number"
+                    {...register('maxmembers')}
+                    className={`form-control bg-white ${errors.maxmembers ? 'is-invalid' : ''}`}
+                  />
+                  <div className="invalid-feedback">{errors.maxmembers?.message}</div>
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                      <Form.Label>
+                        Commitment
+                      </Form.Label>
+
+                      <Form.Select {...register('intensity')}
+                        className={`form-control bg-white ${errors.intensity ? 'is-invalid' : ''}`}>
+                          <option value="">Select commitment level...</option>
+                        <option value="Casual">Casual</option>
+                        <option value="Sometimes_Casual">Sometimes Casual, Sometimes Moderate</option>
+                        <option value="Moderate">Moderate</option>
+                        <option value="Sometimes_Moderate">Sometimes Moderate, Sometimes Serious</option>
+                        <option value="Serious">Serious</option>
+                      </Form.Select>
+                      <div className="invalid-feedback">{errors.intensity?.message}</div>
+                    </Form.Group>
 
                 <Form.Group className="mb-3">
                   <Form.Label>Description</Form.Label>

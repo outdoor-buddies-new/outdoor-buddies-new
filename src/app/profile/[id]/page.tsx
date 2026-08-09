@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Row, Col, Container} from 'react-bootstrap';
 import SafeImage from '@/components/SafeImage';
-import DeleteButton from '@/components/DeleteButton';
+import DeleteButtonProfile from '@/components/DeleteButtonProfile';
 
 interface ProfilesDetailsPageProps {
   params: Promise<{
@@ -37,7 +37,7 @@ const ProfilesDetailsPage = async ({
         <Row className="align-items-center mb-4">
           <Col xs={3} className="d-flex justify-content-start">
             <SafeImage 
-              src={profile.image} 
+              src={profile.image && profile.image.startsWith('/') ? profile.image : ''} 
               fallbackSrc="/images/default-image-user.jpg"
               alt={profile.name} 
               className="profile-details-pfp" 
@@ -45,7 +45,6 @@ const ProfilesDetailsPage = async ({
             />
           </Col>
 
-          {/* Centered Name */}
           <Col xs={6} className="text-center">
             <h1 className="m-0">{profile.name}</h1>
           </Col>
@@ -74,7 +73,7 @@ const ProfilesDetailsPage = async ({
         <p>{profile.description}</p>
 
         <SafeImage 
-          src={profile.descimage ?? ""}
+          src={profile.descimage && profile.descimage.startsWith('/') ? profile.descimage : ''}
           fallbackSrc="/images/default-descimage.png"
           alt={`${profile.name} Description`} 
           className="d-block mx-auto mb-4"
@@ -82,7 +81,7 @@ const ProfilesDetailsPage = async ({
         />
 
         <div className=" d-flex justify-content-end mb-4">
-          {isOwner && <DeleteButton profileId={profile.id} />}
+          {isOwner && <DeleteButtonProfile profileId={profile.id} />}
         </div>
       </Container>
     </main>

@@ -81,13 +81,12 @@ const SignIn = () => {
     const result = await signIn('credentials', {
       email,
       password,
-      redirect: false, // 👈 Stop automatic redirect so we can refresh the session smoothly
+      redirect: false,
     });
 
     if (result?.error) {
       console.error('Sign-in failed:', result.error);
     } else {
-      // Refresh router state to update session data across client components
       router.push('/announcements');
       router.refresh();
     }

@@ -4,7 +4,6 @@ import { useSession } from 'next-auth/react';
 import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import type { InferType } from 'yup';
 import swal from 'sweetalert';
 import { redirect, useRouter } from 'next/navigation';
 import { addProfile } from '@/lib/dbActions';

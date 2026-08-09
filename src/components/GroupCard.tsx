@@ -1,22 +1,25 @@
 'use client';
 
-import { Card, Image, Row, Col, Button, Container } from 'react-bootstrap';
+import { Card, Row, Col, Button, Container } from 'react-bootstrap';
 import { Group } from '@prisma/client';
+import SafeImage from '@/components/SafeImage';
 import Link from 'next/link';
 
 export default function GroupCard({ group }: { group:Group }) {
+
   return (
     <Container className="d-flex justify-content-center align-items-center">
     <Card className="group-card shadow-sm bg-white">
       <Card.Header className="bg-transparent border-0 pt-3">
         <Row className="align-items-center">
           <Col xs={4} className="d-flex justify-content-start">
-            <Image 
-              src={group.image} 
-              alt={group.name} 
-              className="group-img" 
-              roundedCircle 
-            />
+            <SafeImage 
+                      src={group.image && group.image.startsWith('/') ? group.image : ''}
+                      fallbackSrc="/images/default-image-user.jpg"
+                      alt={`${group.name} Pfp`} 
+                      className="d-block mx-auto mb-4 profile-group-card-picture"
+                      roundedCircle
+                    />
           </Col>
           <Col xs={8} className="d-flex flex-column align-items-start text-start">
             <Card.Title className="fw-bold mb-0 fs-2">
@@ -62,16 +65,11 @@ export default function GroupCard({ group }: { group:Group }) {
           </Col>
         </Row>
         <Row className="justify-content-center mt-3 mx-3 my-3">
-          <Button className="page-button">
+          <Link href={`/groups/${group.id}/forum`} className="btn btn-primary page-button">
             Request to Join
-          </Button>
+          </Link>
         </Row>
       </Card.Body>
-      <Card.Footer>
-        <Link href={`/groups/edit/${group.id}`} className="btn btn-primary page-button">
-          Edit
-        </Link>
-      </Card.Footer>
     </Card>
     </Container>
   );

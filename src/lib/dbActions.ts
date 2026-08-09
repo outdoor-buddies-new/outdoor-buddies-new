@@ -1,6 +1,7 @@
 'use server';
 
-import { Condition, Stuff, Difficulty } from '@prisma/client';
+import { Condition, Stuff, Difficulty, Commitment } from '@prisma/client';
+import { auth } from '@/lib/auth';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
@@ -103,21 +104,27 @@ export async function addGroup(group: {
     image: string;
     members: number;
     maxmembers?: number | null;
-    intensity: string;
+    intensity: Commitment;
     description: string;
   }) {
+  
+  const session = await auth();
+  
+  if (!session || !session.user?.id) {
+    throw new Error("You must be logged in to create a group.");
+  }
   // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
-  await prisma.group.create({
-    data: {
-      name: group.name,
-      image: group.image,
-      members: group.members,
-      maxmembers: group.maxmembers ?? null,
-      intensity: group.intensity,
-      description: group.description ?? null,
-    },
-  });
-  redirect('/groups');
+    await prisma.group.create({
+      data: {
+        name: group.name,
+        image: group.image,
+        members: group.members,
+        maxmembers: group.maxmembers ?? null,
+        intensity: group.intensity,
+        description: group.description ?? null,
+        userId: Number(session.user.id),
+      },
+    });
 }
 
 export async function editGroup(group: {id: string; name: string; image: string; members: number; maxmembers?: number | null; intensity: string; description: string; }) {
@@ -133,6 +140,16 @@ export async function editGroup(group: {id: string; name: string; image: string;
       description: group.description ?? null,
     },
   });
+  redirect(`/groups/${group.id}`);
+}
+
+export async function deleteGroup(id: string) {
+  // console.log(`deleteGroup id: ${id}`);
+  await prisma.group.delete({
+    where: { id },
+  });
+  revalidatePath('/groups');
+  revalidatePath(`/groups/${id}`);
   redirect('/groups');
 }
 
@@ -182,7 +199,8 @@ export async function editProfile(profile: {
     description: string;
     groupname?: string | null;
     summary: string;
-    descimage?: string | null; }) {
+    descimage?: string | null;
+  }) {
   await prisma.profile.update({
     where: { id: profile.id },
     data: {
@@ -205,6 +223,34 @@ export async function deleteProfile(id: string) {
   revalidatePath('/profile');
   revalidatePath(`/profile/${id}`);
   redirect('/profile');
+}
+
+/**
+ * Adds a new group  to the database.
+ * @param profile, an object with the following properties: id, name, description, image, members
+ */
+export async function addNote(note: {
+    title: string;
+    description: string;
+    userId: number;
+    groupId: string;
+  }) {
+    console.log("addNote server action was triggered with:", note);
+  try {
+  const newNote = await prisma.note.create({
+    data: {
+      title: note.title,
+      description: note.description,
+      userId: note.userId,
+      groupId: note.groupId,
+    },
+  });
+  console.log("Successfully created post in DB:", newNote);
+  return newNote;
+  } catch (err) {
+    console.error("Prisma error during note creation:", err);
+    throw err;
+  }
 }
 
 export async function getTrails() {
@@ -236,7 +282,11 @@ export async function getProfiles() {
  * Adds a new event to the database.
  * @param event, an object with the following properties: title, description, date.
  */
-export async function addEvent(event: { title: string; description: string; date: Date; }) {
+export async function addEvent(event: {
+    title: string;
+    description: string;
+    date: Date;
+  }) {
   await prisma.event.create({
     data: {
       title: event.title,
@@ -251,7 +301,12 @@ export async function addEvent(event: { title: string; description: string; date
  * Edits an existing event in the database.
  * @param event, an object with the following properties: id, title, description, date.
  */
-export async function editEvent(event: { id: string; title: string; description: string; date: Date }) {
+export async function editEvent(event: {
+    id: string;
+    title: string;
+    description: string;
+    date: Date;
+  }) {
   await prisma.event.update({
     where: { id: event.id },
     data: {
@@ -276,7 +331,14 @@ export async function deleteEvent(id: string) {
  * Adds a new event to the database.
  * @param event, an object with the following properties: title, description, date.
  */
-export async function addHike(trail: { name: string; location: string; description: string; difficulty: Difficulty; distance: number; image: string }) {
+export async function addHike(trail: {
+    name: string;
+    location: string;
+    description: string;
+    difficulty: Difficulty;
+    distance: number;
+    image: string
+  }) {
   await prisma.trail.create({
     data: {
       name: trail.name,
@@ -294,7 +356,15 @@ export async function addHike(trail: { name: string; location: string; descripti
  * Edits an existing event in the database.
  * @param event, an object with the following properties: id, title, description, date.
  */
-export async function editHike(trail: { id: string; name: string; location: string; description: string; difficulty: Difficulty; distance: number; image: string }) {
+export async function editHike(trail: {
+    id: string;
+    name: string;
+    location: string;
+    description: string;
+    difficulty: Difficulty;
+    distance: number;
+    image: string
+  }) {
   await prisma.trail.update({
     where: { id: trail.id },
     data: {

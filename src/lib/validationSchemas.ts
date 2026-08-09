@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { Difficulty } from '@prisma/client';
+import { Commitment, Difficulty } from '@prisma/client';
 
 export const AddStuffSchema = Yup.object({
   name: Yup.string().required(),
@@ -23,9 +23,13 @@ export const AddGroupSchema = Yup.object({
   maxmembers: Yup.number()
   .transform((value, originalValue) => (originalValue === '' ? null : value))
   .nullable().optional(),
-  intensity: Yup.string().required(),
+  intensity: Yup.mixed<Commitment>()
+    .oneOf(['Casual', 'Sometimes_Casual', 'Moderate', 'Sometimes_Moderate', 'Serious'])
+    .required('Commitment is required'),
   description: Yup.string().required(),
 });
+
+export type AddGroupFormData = Yup.InferType<typeof AddGroupSchema>;
 
 export const EditGroupSchema = Yup.object({
   id: Yup.string().required(),
@@ -35,7 +39,9 @@ export const EditGroupSchema = Yup.object({
   maxmembers: Yup.number()
   .transform((value, originalValue) => (originalValue === '' ? null : value))
   .nullable().optional(),
-  intensity: Yup.string().required(),
+  intensity: Yup.mixed<Commitment>()
+    .oneOf(['Casual', 'Sometimes_Casual', 'Moderate', 'Sometimes_Moderate', 'Serious'])
+    .required('Commitment is required'),
   description: Yup.string().nullable().optional(),
 });
 
@@ -59,6 +65,15 @@ export const EditProfileSchema = Yup.object({
   groupname: Yup.string().nullable().optional(),
   descimage: Yup.string().nullable().optional(),
 });
+
+export const AddNoteSchema = Yup.object({
+  title: Yup.string().required(),
+  description: Yup.string().required(),
+  groupId: Yup.string().required(),
+});
+
+export type AddPostFormData = Yup.InferType<typeof AddNoteSchema>;
+
 
 export const AddEventSchema = Yup.object({
   title: Yup.string().required('Title is required'),

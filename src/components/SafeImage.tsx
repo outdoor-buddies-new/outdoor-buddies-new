@@ -8,15 +8,21 @@ interface SafeImageProps extends ImageProps {
 }
 
 export default function SafeImage({ src, fallbackSrc, alt, ...props }: SafeImageProps) {
-  const [imgSrc, setImgSrc] = useState(src || fallbackSrc);
+
+  const [hasError, setHasError] = useState(false);
+
+  const isInvalidSrc = !src || (typeof src === 'string' && src.trim() === '');
+  const imgSrc = hasError || isInvalidSrc ? fallbackSrc : src;
 
   return (
     <Image
       {...props}
-      src={imgSrc}
+      src={imgSrc as string}
       alt={alt}
       onError={() => {
-        setImgSrc(fallbackSrc);
+        if (!hasError) {
+        setHasError(true);
+        }
       }}
     />
   );

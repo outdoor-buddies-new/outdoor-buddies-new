@@ -122,6 +122,7 @@ async function main() {
       description: group.description ?? 'hello',
       lastdate: group.lastdate,
       lastlocation: group.lastlocation,
+      userId: group.userId,
     };
 
     await prisma.group.upsert({
