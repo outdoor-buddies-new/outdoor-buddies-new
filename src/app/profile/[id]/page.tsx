@@ -2,9 +2,7 @@ import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Row, Col, Container, Button } from 'react-bootstrap';
-import { Trash } from 'react-bootstrap-icons';
-import { deleteProfile } from '@/lib/dbActions';
+import { Row, Col, Container} from 'react-bootstrap';
 import SafeImage from '@/components/SafeImage';
 import DeleteButton from '@/components/DeleteButton';
 
@@ -76,7 +74,7 @@ const ProfilesDetailsPage = async ({
         <p>{profile.description}</p>
 
         <SafeImage 
-          src={profile.image}
+          src={profile.descimage ?? ""}
           fallbackSrc="/images/default-descimage.png"
           alt={`${profile.name} Description`} 
           className="d-block mx-auto mb-4"
