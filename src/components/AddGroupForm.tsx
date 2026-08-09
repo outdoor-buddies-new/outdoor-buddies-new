@@ -39,19 +39,22 @@ const AddGroupForm: React.FC = () => {
   }
 
   const onSubmit = async (data: AddGroupFormData) => {
-
     try {
-      await addGroup(data);
+      // Clean up the data: if maxmembers is an empty string, NaN, or falsy (other than 0), convert it to null
+      const formattedData = {
+        ...data,
+        maxmembers: data.maxmembers ? Number(data.maxmembers) : null,
+      };
+
+      await addGroup(formattedData);
 
       await swal('Success', 'Your group has been created', 'success', {
         timer: 2000,
       });
 
-      console.log("Form submitted successfully with data:", data);
-
       reset();
-      router.push('/groups'); // Redirects to the main list
-      router.refresh();       // Refreshes server data on the list page
+      router.push('/groups');
+      router.refresh();
     } catch (error) {
       console.error('Failed to save group:', error);
     }
