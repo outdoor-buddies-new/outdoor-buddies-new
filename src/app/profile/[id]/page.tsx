@@ -33,11 +33,6 @@ const ProfilesDetailsPage = async ({
 
   const isOwner = Number(session?.user?.id) === profile.userId;
 
-  const removeProfile = async () => {
-      'use server';
-      await deleteProfile(profile.id);
-    };
-
   return (
     <main>
       <Container className="mt-5">

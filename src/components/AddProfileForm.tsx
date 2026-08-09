@@ -9,9 +9,7 @@ import swal from 'sweetalert';
 import { redirect, useRouter } from 'next/navigation';
 import { addProfile } from '@/lib/dbActions';
 import LoadingSpinner from '@/components/LoadingSpinner';
-import { AddProfileSchema } from '@/lib/validationSchemas';
-
-type AddProfileFormData = InferType<typeof AddProfileSchema>;
+import { AddProfileSchema, AddProfileFormData } from '@/lib/validationSchemas';
 
 const AddProfileForm: React.FC = () => {
   const { data: session, status } = useSession();
