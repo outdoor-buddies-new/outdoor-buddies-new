@@ -146,7 +146,6 @@ const AddProfileForm: React.FC = () => {
                       Submit
                     </Button>
                   </Col>
-
                   <Col>
                     <Button
                       type="button"
