@@ -1,80 +1,3 @@
-/*'use client';
-
-import { useSession } from 'next-auth/react'; // v5 compatible
-import { usePathname } from 'next/navigation';
-import { Container, Nav, Navbar, NavDropdown, Image } from 'react-bootstrap';
-import { BoxArrowRight, PersonFill, PersonPlusFill } from 'react-bootstrap-icons';
-import Link from 'next/link';
-
-const NavBar: React.FC = () => {
-  const { data: session, status } = useSession();
-  const pathName = usePathname();
-  if (status === 'loading') return null;
-  const currentUser = session?.user?.email;
-  const profileId = session?.user?.profileId;
-
-  console.log('CURRENT SESSION:', session);
-
-  return (
-    <Navbar bg="light" expand="lg">
-      <Container>
-        <Navbar.Brand as={Link} href="/">
-          <Image src="/images/oblogo-final.png" alt="Outdoor Buddies Logo" width={150}/>
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-
-          <Nav className="me-auto justify-content-start gap-3 text-white">
-          
-              <>
-                <Nav.Link id="events-nav" href="/announcements" active={pathName === '/announcements'}>
-                  Announcements
-                </Nav.Link>
-                <Nav.Link id="hike-rec-nav" href="/hikes" active={pathName === '/hikes'}>
-                  Hikes
-                </Nav.Link>
-                <Nav.Link id="groups-nav" href="/groups" active={pathName === '/groups'}>
-                  Groups
-                </Nav.Link>
-                <Nav.Link id="profiles-nav" href="/profile" active={pathName === '/profile'}>
-                  Profiles
-                </Nav.Link>
-              </>
-          </Nav>
-          <Nav>
-            {session ? (
-              <NavDropdown id="login-dropdown" title={currentUser}>
-                <NavDropdown.Item id="profile-nav" href={profileId ? `/profile/${profileId}` : '/profile'}>
-                  <PersonFill />
-                  View Profile
-                </NavDropdown.Item>
-                <NavDropdown.Item id="login-dropdown-sign-out" href="/api/auth/signout">
-                  <BoxArrowRight />
-                  Sign Out
-                </NavDropdown.Item>
-              </NavDropdown>
-            ) : (
-              <NavDropdown id="login-dropdown" title="Login">
-                <NavDropdown.Item id="login-dropdown-sign-in" href="/auth/signin">
-                  <PersonFill />
-                  Sign in
-                </NavDropdown.Item>
-                <NavDropdown.Item id="login-dropdown-sign-up" href="/auth/signup">
-                  <PersonPlusFill />
-                  Sign up
-                </NavDropdown.Item>
-              </NavDropdown>
-            )}
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
-  );
-};
-
-export default NavBar;
-*/
-
 'use client';
 
 import { useSession } from 'next-auth/react';
@@ -101,26 +24,29 @@ const NavBar: React.FC = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand as={Link} href="/">
+        <Navbar.Brand as={Link} href="/" className="navbar-side">
           <Image src="/images/oblogo-final.png" alt="Outdoor Buddies Logo" width={150} />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto justify-content-start gap-3 text-white">
-            <Nav.Link as={Link} id="events-nav" href="/announcements" active={pathName === '/announcements'}>
+          <Nav className="me-auto mx-auto justify-content-center align-items-center text-white gap-3 text-white">
+            <Nav.Link as={Link} id="events-nav" href="/announcements" active={pathName === '/announcements'} className="px-4 navbar-main-link">
               Announcements
             </Nav.Link>
-            <Nav.Link as={Link} id="hike-rec-nav" href="/hikes" active={pathName === '/hikes'}>
+            <span className="navbar-divider">|</span>
+            <Nav.Link as={Link} id="hike-rec-nav" href="/hikes" active={pathName === '/hikes'} className="px-4 navbar-main-link">
               Hikes
             </Nav.Link>
-            <Nav.Link as={Link} id="groups-nav" href="/groups" active={pathName === '/groups'}>
+            <span className="navbar-divider">|</span>
+            <Nav.Link as={Link} id="groups-nav" href="/groups" active={pathName === '/groups'} className="px-4 navbar-main-link">
               Groups
             </Nav.Link>
-            <Nav.Link as={Link} id="profiles-nav" href="/profile" active={pathName === '/profile'}>
+            <span className="navbar-divider">|</span>
+            <Nav.Link as={Link} id="profiles-nav" href="/profile" active={pathName === '/profile'} className="px-4 navbar-main-link">
               Profiles
             </Nav.Link>
           </Nav>
-          <Nav>
+          <Nav className="navbar-side justify-content-end">
             {session ? (
               <NavDropdown id="login-dropdown" title={currentUser}>
                 <NavDropdown.Item id="profile-nav" as={Link} href={profileLink}>
