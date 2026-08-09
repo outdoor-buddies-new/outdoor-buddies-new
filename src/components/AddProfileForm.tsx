@@ -27,7 +27,6 @@ const AddProfileForm: React.FC = () => {
   if (status === 'loading') {
     return <LoadingSpinner />;
   }
-
   if (status === 'unauthenticated') {
     redirect('/auth/signin');
   }
