@@ -105,7 +105,6 @@ export async function addGroup(group: {
     maxmembers?: number | null;
     intensity: string;
     description: string;
-    owner: string;
   }) {
   // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
   await prisma.group.create({
@@ -116,16 +115,12 @@ export async function addGroup(group: {
       maxmembers: group.maxmembers ?? null,
       intensity: group.intensity,
       description: group.description ?? null,
-      owner: group.owner,
-      user: {
-        connect: { id: profile }, // or email: profile.owner
-      },
     },
   });
   redirect('/groups');
 }
 
-export async function editGroup(group: {id: string; name: string; image: string; members: number; maxmembers?: number | null; intensity: string; description: string; owner: string; }) {
+export async function editGroup(group: {id: string; name: string; image: string; members: number; maxmembers?: number | null; intensity: string; description: string; }) {
   // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
   await prisma.group.update({
     where: { id: group.id },

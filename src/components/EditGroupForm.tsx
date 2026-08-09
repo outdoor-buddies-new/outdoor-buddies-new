@@ -27,7 +27,6 @@ const onSubmit = async (data: EditGroupFormData, groupData: Group) => {
     maxmembers: data.maxmembers ?? null,
     intensity: data.intensity,
     description: data.description ?? "",
-    owner: data.owner,
   });
 
   swal('Success', 'Your event has been edited', 'success', {
@@ -53,7 +52,6 @@ const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
     maxmembers: groupData.maxmembers ?? null,
     intensity: groupData.intensity,
     description: groupData.description,
-    owner: groupData.owner,
   },
 });
   if (status === 'loading') {

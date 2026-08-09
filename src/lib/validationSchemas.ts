@@ -48,14 +48,7 @@ export const AddProfileSchema = Yup.object({
   descimage: Yup.string().nullable().optional(),
 });
 
-export interface AddProfileFormData {
-  name: string;
-  image: string;
-  summary: string;
-  description: string;
-  groupname?: string | null | undefined;
-  descimage?: string | null | undefined;
-}
+export type AddProfileFormData = Yup.InferType<typeof AddProfileSchema>;
 
 export const EditProfileSchema = Yup.object({
   id: Yup.string().required(),

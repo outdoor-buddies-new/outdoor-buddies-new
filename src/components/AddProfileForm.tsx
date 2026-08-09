@@ -128,6 +128,16 @@ const AddProfileForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
+                  <Form.Label>Description Image URL</Form.Label>
+                  <input
+                    type="text"
+                    {...register('descimage')}
+                    className={`form-control bg-white ${errors.descimage ? 'is-invalid' : ''}`}
+                  />
+                  <div className="invalid-feedback">{errors.descimage?.message}</div>
+                </Form.Group>
+
+                <Form.Group className="mb-3">
                   <Form.Label>Group Name</Form.Label>
                   <input
                     type="text"

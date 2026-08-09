@@ -19,7 +19,6 @@ const onSubmit = async (group: { name: string; image: string; members: number; m
     maxmembers: group.maxmembers ?? null,
     intensity: group.intensity,
     description: group.description,
-    owner: group.owner,
   });
   swal('Success', 'Your group has been added', 'success', {
     timer: 2000,
