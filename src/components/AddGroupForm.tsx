@@ -25,7 +25,7 @@ const AddGroupForm: React.FC = () => {
     name: '',
     image: '',
     members: 0,
-    maxmembers: 0,
+    maxmembers: null,
     intensity: undefined,
     description: '',
   },

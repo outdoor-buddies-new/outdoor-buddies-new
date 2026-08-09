@@ -21,8 +21,9 @@ export const AddGroupSchema = Yup.object({
   image: Yup.string().required(),
   members: Yup.number().positive().required(),
   maxmembers: Yup.number()
-  .transform((value, originalValue) => (originalValue === '' ? null : value))
-  .nullable().optional(),
+    .transform((value, originalValue) => (originalValue === '' ? null : value))
+    .nullable()
+    .notRequired(),
   intensity: Yup.mixed<Commitment>()
     .oneOf(['Casual', 'Sometimes_Casual', 'Moderate', 'Sometimes_Moderate', 'Serious'])
     .required('Commitment is required'),
@@ -37,8 +38,9 @@ export const EditGroupSchema = Yup.object({
   image: Yup.string().required(),
   members: Yup.number().positive().required(),
   maxmembers: Yup.number()
-  .transform((value, originalValue) => (originalValue === '' ? null : value))
-  .nullable().optional(),
+    .transform((value, originalValue) => (originalValue === '' ? null : value))
+    .nullable()
+    .notRequired(),
   intensity: Yup.mixed<Commitment>()
     .oneOf(['Casual', 'Sometimes_Casual', 'Moderate', 'Sometimes_Moderate', 'Serious'])
     .required('Commitment is required'),
