@@ -28,7 +28,7 @@ const HikeDetailsPage = async ({
       <Container>
         <h1 className="mt-5">{hike.name}</h1>
 
-        <div className="d-flex gap-4 ms-auto">
+        <div className="d-flex gap-4 ms-auto fs-5">
         <p>
           <strong>Location:</strong>{' '}
           {hike.location}
@@ -48,7 +48,9 @@ const HikeDetailsPage = async ({
         <hr />
         <Row className="mb-3">
           <Col>    
-        <p>{hike.description}</p>
+						<p className="fs-5 lh-lg">
+							{hike.description}
+						</p>
           </Col>
           <Col>
             <Image src={hike.image} alt={hike.name} className="img-fluid" />

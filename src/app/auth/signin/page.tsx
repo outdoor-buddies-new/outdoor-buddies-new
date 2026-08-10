@@ -39,7 +39,7 @@ const SignIn = () => {
                     <input name="password" type="password" className="form-control bg-white" />
                   </Form.Group>
                   <Button type="submit" className="mt-3">
-                    Signin
+                    Sign in
                   </Button>
                 </Form>
               </Card.Body>

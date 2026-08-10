@@ -17,7 +17,9 @@ const HikeList: React.FC<HikeListProps> = ({ trails }) => {
   const { data: session } = useSession();
 	const role = session?.user?.role;
   const [searchTerm, setSearchTerm] = useState('');
+  const [difficultyFilter, setDifficultyFilter] = useState('All');
   const [results, setResults] = useState(trails);
+  const [distanceFilter, setDistanceFilter] = useState('');
 
   const handleSearch = async () => {
     if (searchTerm.trim() === '') {
@@ -36,12 +38,16 @@ const HikeList: React.FC<HikeListProps> = ({ trails }) => {
     redirect('/auth/signin');
   }
 
+  const filteredResults = results.filter((trail) => {
+    return (difficultyFilter === 'All' || trail.difficulty === difficultyFilter) && (distanceFilter === '' || trail.distance < Number(distanceFilter))
+  });
+
   return (
     <Container className="py-3 justify-content-center">
       <Row className="align-items-center mb-3">
         <Col>
           <h1 className="mb-0 title-font">
-            List Hikes
+            List of Hikes
           </h1>
         </Col>
 
@@ -56,22 +62,49 @@ const HikeList: React.FC<HikeListProps> = ({ trails }) => {
       <p className="mb-4">
         Check out the list of hikes below. You can search for hikes by name or location using the search bar!
       </p>
-        <div className="my-3 d-flex gap-3">
-          <Form.Control
-            type="search"
-            placeholder="Find your place"
-            className="search-bg"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+      <Row className="my-3 g-3">
+        <Col md={6}>
+          <Form className="d-flex gap-1" onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
+            <Form.Control
+              type="search"
+              placeholder="Find your place"
+              className="search-bg"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
 
-          <Button onClick={handleSearch} className="page-button">
-            Search
-          </Button>
-        </div>
-      <Row xs={1} md={2} lg={3}>
-        {results.map((trail) => (
-          <Col className="mt-2" key={trail.id}>
+            <Button type="submit" className="page-button">
+              Search
+            </Button>
+          </Form>
+        </Col>
+
+        <Col md={3}>
+          <Form.Select
+            value={difficultyFilter}
+            onChange={(e) => setDifficultyFilter(e.target.value)}
+            className="search-bg"
+          >
+            <option value="All">All Difficulties</option>
+            <option value="EASY">Easy</option>
+            <option value="MODERATE">Moderate</option>
+            <option value="HARD">Hard</option>
+          </Form.Select>
+        </Col>
+
+        <Col md={3}>
+          <Form.Control
+            type="number"
+            placeholder="Max distance (miles)"
+            value={distanceFilter}
+            onChange={(e) => setDistanceFilter(e.target.value)}
+            className="search-bg"
+          />
+        </Col>
+      </Row>
+      <Row>
+        {filteredResults.map((trail) => (
+          <Col md={4} className="mt-2" key={trail.id}>
             <HikeCard trail={trail} />
           </Col>
         ))}

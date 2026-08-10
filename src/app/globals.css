@@ -42,6 +42,32 @@ body .navbar {
   --bs-navbar-hover-color: var(--nat-navbar-highlight-text);
 }
 
+.navbar-side {
+	width: 180px;
+}
+
+.navbar-main-link {
+	min-width: 140px;
+	text-align: center;
+}
+
+.navbar .nav-link {
+	font-family: "Montserrat", sans-serif;
+	font-size: 1.1rem;
+	font-weight: 600;
+}
+
+.navbar-divider {
+	color: white;
+	margin: 0 8px;
+}
+
+@media (max-width: 991.98px) {
+	.navbar-divider {
+		display: none;
+	}
+}
+
 /*.hero-image {
   background-image: url('/palmtrail-kahuku.jpg');
   background-size: cover;
@@ -90,6 +116,16 @@ body .navbar {
 .footer {
   background-color: var(--footer-bg);
   color: var(--footer-text-color);
+}
+
+.footer a {
+	color: var(--nat-navbar-highlight-text);
+	text-decoration: none;
+}
+
+.footer a:hover {
+	color: white;
+	text-decoration: underline;
 }
 
 .group-card {
