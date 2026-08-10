@@ -23,11 +23,9 @@ const NavBar: React.FC = () => {
     await update();
   };
   refresh();
-  },);
+  }, []);
 
-  if (status === 'loading') {
-    return <div style={{ padding: '10px', background: '#ccc' }}>Loading Navbar...</div>;
-  }
+  if (status === 'loading') return null;
 
   const currentUser = session?.user?.email;
 
@@ -43,7 +41,7 @@ const NavBar: React.FC = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto mx-auto justify-content-center align-items-center gap-3 text-white">
+          <Nav className="me-auto mx-auto justify-content-center align-items-center text-white gap-3 text-white">
             <Nav.Link as={Link} id="events-nav" href="/announcements" active={pathName === '/announcements'} className="px-4 navbar-main-link">
               Announcements
             </Nav.Link>
