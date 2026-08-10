@@ -48,7 +48,7 @@ const AddEventForm: React.FC = () => {
     <Container className="py-3">
       <Row className="justify-content-center">
         <Col xs={10}>
-          <h2 className="text-center mb-4">
+          <h2 className="text-center mb-4 title-font">
             Create Event
           </h2>
 
