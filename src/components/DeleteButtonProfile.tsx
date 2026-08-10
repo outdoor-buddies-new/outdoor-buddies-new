@@ -6,7 +6,6 @@
 
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import swal from 'sweetalert'
 import { Button } from 'react-bootstrap';
 import { Trash } from 'react-bootstrap-icons';
@@ -15,7 +14,7 @@ import { deleteProfile } from '@/lib/dbActions';
 
 export default function DeleteButton({ profileId }: { profileId: string }) {
   const { update } = useSession();
-  const router = useRouter();
+
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async (e: React.SyntheticEvent) => {
@@ -36,13 +35,13 @@ export default function DeleteButton({ profileId }: { profileId: string }) {
 
       await deleteProfile(profileId);
 
-      await update({});
+      await update({ profileId: null });
 
       await swal('Success', 'Your profile has been deleted', 'success', {
         timer: 2000,
       });
 
-      window.location.href = '/profile/add';
+      window.location.href = '/profile';
       
     } catch (error: unknown) {
       console.error('Error deleting profile:', error);

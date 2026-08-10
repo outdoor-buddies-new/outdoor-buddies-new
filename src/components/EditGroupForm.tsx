@@ -24,42 +24,27 @@ interface EditGroupFormProps {
   groupData: Group;
 }
 
-const onSubmit = async (data: EditGroupFormData, groupData: Group) => {
-  await editGroup({
-    id: groupData.id,
-    name: data.name,
-    image: data.image,
-    members: data.members,
-    maxmembers: data.maxmembers ?? null,
-    intensity: data.intensity,
-    description: data.description ?? "",
-  });
-
-  swal('Success', 'Your event has been edited', 'success', {
-    timer: 2000,
-  });
-};
 
 const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
   const { data: session, status } = useSession();
-  const role = session?.user?.role;
+
   const {
-  register,
-  handleSubmit,
-  reset,
-  formState: { errors },
-} = useForm({
-  resolver: yupResolver(EditGroupSchema),
-  defaultValues: {
-    id: groupData.id,
-    name: groupData.name,
-    image: groupData.image,
-    members: groupData.members,
-    maxmembers: groupData.maxmembers ?? null,
-    intensity: groupData.intensity as Commitment,
-    description: groupData.description ?? '',
-  },
-});
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(EditGroupSchema),
+    defaultValues: {
+      id: groupData.id,
+      name: groupData.name,
+      image: groupData.image,
+      members: groupData.members,
+      maxmembers: groupData.maxmembers ?? null,
+      intensity: groupData.intensity as Commitment,
+      description: groupData.description ?? '',
+    },
+  });
 
   if (status === 'loading') {
     return <LoadingSpinner />;
@@ -67,6 +52,32 @@ const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
   if (status === 'unauthenticated') {
     redirect('/auth/signin');
   }
+
+  const onSubmit = async (data: EditGroupFormData, groupData: Group) => {
+    if (!session?.user?.id) {
+      console.error('User is not logged in or user ID is missing.');
+      return;
+    }
+
+    try {
+      await editGroup({
+        id: groupData.id,
+        name: data.name,
+        image: data.image,
+        members: data.members,
+        maxmembers: data.maxmembers ?? null,
+        intensity: data.intensity,
+        description: data.description ?? "",
+      });
+
+      swal('Success', 'Your event has been edited', 'success', {
+        timer: 2000,
+      });
+    } catch(error) {
+      console.error('Failed to save group:', error);
+      swal('Error', 'Something went wrong while editing the group.', 'error');
+    }
+  };
 
   return (
     <Container className="py-3">

@@ -6,10 +6,10 @@
 'use client';
 
 import { useSession } from 'next-auth/react'; // v5 compatible
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch} from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import type { InferType } from 'yup';
-import { redirect, useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import swal from 'sweetalert';
 import { Button, Card, Col, Container, Form, Row, Image } from 'react-bootstrap';
 
@@ -26,13 +26,12 @@ interface EditProfileFormProps {
 
 const EditProfileForm: React.FC<EditProfileFormProps> = ({ profileData }) => {
   const { data: session, status } = useSession();
-  const router = useRouter();
 
   const {
     register,
     handleSubmit,
     reset,
-    watch,
+    control,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(EditProfileSchema),
@@ -47,8 +46,15 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ profileData }) => {
     },
   });
 
-  const watchedImage = watch('image');
-  const watchedDescImage = watch('descimage');
+  const watchedImage = useWatch({
+    control,
+    name: 'image',
+  });
+
+  const watchedDescImage = useWatch({
+    control,
+    name: 'descimage',
+  });
 
   if (status === 'loading') {
     return <LoadingSpinner />;
@@ -58,30 +64,33 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ profileData }) => {
   }
 
   const onSubmit = async (data: EditProfileFormData, profileData: Profile) => {
-  
-  try {
-  await editProfile({
-    id: profileData.id,
-    name: data.name,
-    image: data.image,
-    description: data.description,
-    groupname: data.groupname,
-    summary: data.summary,
-    descimage: data.descimage,
-  });
+    if (!session?.user?.id) {
+      console.error('User is not logged in or user ID is missing.');
+      return;
+    }
+    
+    try {
+      await editProfile({
+        id: profileData.id,
+        name: data.name,
+      image: data.image,
+      description: data.description,
+      groupname: data.groupname,
+      summary: data.summary,
+      descimage: data.descimage,
+      });
 
-  swal('Success', 'Your event has been edited', 'success', {
-    timer: 2000,
-  });
+      swal('Success', 'Your event has been edited', 'success', {
+      timer: 2000,
+    });
 
-  window.location.href = `/profile/${profileData.id}`;
+    window.location.assign(`/profile/${profileData.id}`);
 
-  } catch(error) {
-    console.error('Failed to update profile:', error);
-    console.error("Database error updating profile:", error);
-    throw new Error("Failed to update profile");
-  } 
-};
+    } catch(error) {
+      console.error('Failed to save group:', error);
+      swal('Error', 'Something went wrong while editing the profile.', 'error');
+    } 
+  };
 
   return (
     <Container className="py-3">

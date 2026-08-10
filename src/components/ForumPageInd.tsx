@@ -32,6 +32,11 @@ const Forum: React.FC<ForumProps> = ({ group, posts }) => {
     redirect('/auth/signin');
   }
 
+  if (!session?.user?.id) {
+    console.error('User is not logged in or user ID is missing.');
+    return;
+  }
+
   return (
     <Container className="py-4">
       <Row className="align-items-center mb-3">

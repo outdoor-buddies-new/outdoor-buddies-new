@@ -16,8 +16,6 @@ const GroupsPage = async () => {
     } | null,
   );
 
-  const owner = session?.user!.email ? session.user.email : '';
-
   const group = await getGroups();
 
   return (
