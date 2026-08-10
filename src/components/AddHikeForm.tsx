@@ -1,15 +1,21 @@
+/**
+ * @fileoverview AddHikeForm component where User.Admin can create a Trail
+ * This file handles User.Admin inputs for Trail creation
+ */
+
 'use client';
 
 import { useSession } from 'next-auth/react'; // v5 compatible
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import swal from 'sweetalert';
 import { redirect } from 'next/navigation';
-import { addHike } from '@/lib/dbActions';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import { AddHikeSchema } from '@/lib/validationSchemas';
+import swal from 'sweetalert';
+import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+
 import { Difficulty } from '@prisma/client';
+import { addHike } from '@/lib/dbActions';
+import { AddHikeSchema } from '@/lib/validationSchemas';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 type AddHikeFormData = {
   name: string;
@@ -20,8 +26,8 @@ type AddHikeFormData = {
   image: string;
 };
 
-// Sends validated form data to the server action,
-// which creates a new Trail record in Prisma.
+/*Sends validated form data to the server action,
+which creates a new Trail record in Prisma.*/
 const onSubmit = async (data: AddHikeFormData) => {
   await addHike({
     name: data.name,
@@ -131,7 +137,6 @@ const AddHikeForm: React.FC = () => {
                       <Form.Label htmlFor="distance">
                         One-Way Distance (miles)
                       </Form.Label>
-
                       <input
                         id="distance"
                         type="number"
@@ -139,7 +144,6 @@ const AddHikeForm: React.FC = () => {
                         {...register('distance', { valueAsNumber: true })}
                         className={`form-control bg-white ${errors.distance ? 'is-invalid' : ''}`}
                       />
-
                       <div className="invalid-feedback">
                         {errors.distance?.message}
                       </div>
@@ -150,7 +154,6 @@ const AddHikeForm: React.FC = () => {
                       <Form.Label>
                         Difficulty
                       </Form.Label>
-
                       <Form.Select {...register('difficulty')} className="bg-white">
                         <option value="EASY">Easy</option>
                         <option value="MODERATE">Moderate</option>
@@ -164,7 +167,6 @@ const AddHikeForm: React.FC = () => {
                   <Form.Label>
                     Image URL
                   </Form.Label>
-
                   <input
                     id="image"
                     type="text"

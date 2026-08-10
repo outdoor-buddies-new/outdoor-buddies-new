@@ -1,3 +1,6 @@
+/**
+ * Page displays a list of Profile through the ProfileSearch component
+ */
 
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import ProfileSearch from '@/components/ProfileSearch';
@@ -14,11 +17,6 @@ const ProfilesPage = async () => {
   );
 
   const owner = session?.user!.email ? session.user.email : '';
-  /*const group: Group[] = await prisma.group.findMany({
-    where: {
-      owner
-    },
-  });*/
 
   const profile = await getProfiles();
 

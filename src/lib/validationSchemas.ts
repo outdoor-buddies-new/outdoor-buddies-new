@@ -35,7 +35,6 @@ export const EditGroupSchema = Yup.object({
       'Members cannot exceed max members',
       function (value) {
         const { members } = this.parent;
-        // If maxmembers is empty/null, pass validation. Otherwise, check if members <= maxmembers
         if (value === null || value === undefined) return true;
         return members <= value;
       }
@@ -74,7 +73,6 @@ export const AddNoteSchema = Yup.object({
 });
 
 export type AddPostFormData = Yup.InferType<typeof AddNoteSchema>;
-
 
 export const AddEventSchema = Yup.object({
   title: Yup.string().required('Title is required'),

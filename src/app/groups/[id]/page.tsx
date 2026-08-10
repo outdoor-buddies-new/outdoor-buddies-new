@@ -1,3 +1,7 @@
+/**
+ * Page that displays a details page of a Group
+ */
+
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
@@ -28,6 +32,8 @@ const GroupsDetailsPage = async ({
     notFound();
   }
 
+  /*checks to see if the image can load properly, if it can load, then
+  it uses that image, if it cannot load properly then it loads a 'fallback' image*/
   const getValidImageUrl = (url: string | null | undefined, fallback: string) => {
     if (!url) return fallback;
     if (url.startsWith('/') || url.startsWith('http://') || url.startsWith('https://')) {
@@ -36,6 +42,7 @@ const GroupsDetailsPage = async ({
     return fallback;
   };
 
+  //this checks if the image a User has submitted is valid
   const groupImageSrc = getValidImageUrl(group.image, '/images/default-image-user.jpg');
 
   const isOwner = Number(session?.user?.id) === group.userId;
@@ -51,9 +58,7 @@ const GroupsDetailsPage = async ({
             />
         </div>
         <Row className="align-items-center mt-5 mb-4">
-          <Col xs={3} className="d-flex justify-content-start">
-            
-          </Col>
+          <Col xs={3} className="d-flex justify-content-start"></Col>
           
           <Col xs={6} className="text-center">
             <h1 className="m-0">{group.name}</h1>
@@ -96,19 +101,17 @@ const GroupsDetailsPage = async ({
             {group.lastdate ? new Date(group.lastdate).toLocaleDateString() : 'N/A'}
           </p>
         </div>
-        
 
         <hr/>
         
         <p>{group.description}</p>
 
         <div className=" d-flex justify-content-end mb-4">
-                  {isOwner && <DeleteButtonGroup groupId={group.id} />}
-                </div>
+          {isOwner && <DeleteButtonGroup groupId={group.id} />}
+        </div>
 
       </Container>
     </main>
-
   );
 };
 

@@ -1,3 +1,7 @@
+/**
+ * Page that displays a details page of the Profile
+ */
+
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
@@ -30,6 +34,8 @@ const ProfilesDetailsPage = async ({
 
   const isOwner = Number(session?.user?.id) === profile.userId;
 
+  /*checks to see if the image can load properly, if it can load, then
+  it uses that image, if it cannot load properly then it loads a 'fallback' image*/
   const getValidImageUrl = (url: string | null | undefined, fallback: string) => {
     if (!url) return fallback;
     if (url.startsWith('/') || url.startsWith('http://') || url.startsWith('https://')) {
@@ -38,6 +44,7 @@ const ProfilesDetailsPage = async ({
     return fallback;
   };
 
+  //does this for both the profile picture image (profile.image) and the description image (profile.descimage)
   const profileImageSrc = getValidImageUrl(profile.image, '/images/default-image-user.jpg');
   const descImageSrc = getValidImageUrl(profile.descimage, '/images/default-descimage.png');
 
@@ -80,7 +87,6 @@ const ProfilesDetailsPage = async ({
 
         <p>{profile.description}</p>
 
-        {/* Only render description image if it actually exists and is valid */}
         {profile.descimage && (
           <div className="text-center mb-4">
             <Image 

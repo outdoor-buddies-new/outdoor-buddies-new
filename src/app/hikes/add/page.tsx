@@ -1,8 +1,12 @@
+/**
+ * Page that displays the AddHikeForm for Users to create a new Trail
+ * Only ADMIN can use 
+ */
+
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import AddHikeForm from '@/components/AddHikeForm';
 import { auth } from '@/lib/auth';
 
-/** The Add Hikes page. */
 
 const addHike = async () => {
   // Protect the page, only logged in users can access it.

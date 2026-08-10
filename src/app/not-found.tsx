@@ -1,6 +1,9 @@
+/**
+ * Render a Not Found page if the user enters a URL that doesn't match any route.
+ */
+
 import { Col, Container, Row } from 'react-bootstrap';
 
-/* Render a Not Found page if the user enters a URL that doesn't match any route. */
 const NotFound = () => (
   <Container className="py-3">
     <Row className="justify-content-center">

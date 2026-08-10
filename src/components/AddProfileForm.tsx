@@ -1,14 +1,21 @@
+/**
+ * @fileoverview AddProfileForm component where Users can create a Profile
+ * This file handles User inputs for Profile creation
+ * Users can only create one Profile
+ */
+
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { Button, Card, Col, Container, Form, Row, Image } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import swal from 'sweetalert';
 import { redirect, useRouter } from 'next/navigation';
+import swal from 'sweetalert';
+import { Button, Card, Col, Container, Form, Row, Image } from 'react-bootstrap';
+
 import { addProfile } from '@/lib/dbActions';
-import LoadingSpinner from '@/components/LoadingSpinner';
 import { AddProfileSchema, AddProfileFormData } from '@/lib/validationSchemas';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 const AddProfileForm: React.FC = () => {
   const { data: session, status, update } = useSession();
@@ -21,16 +28,16 @@ const AddProfileForm: React.FC = () => {
     watch,
     formState: { errors },
   } = useForm<AddProfileFormData>({
-  resolver: yupResolver(AddProfileSchema),
-  defaultValues: {
-    name: '',
-    image: '',
-    summary: '',
-    description: '',
-    groupname: null,
-    descimage: null,
-  },
-});
+    resolver: yupResolver(AddProfileSchema),
+    defaultValues: {
+      name: '',
+      image: '',
+      summary: '',
+      description: '',
+      groupname: null,
+      descimage: null,
+    },
+  });
 
   const watchedImage = watch('image');
   const watchedDescImage = watch('descimage');

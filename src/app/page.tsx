@@ -1,8 +1,12 @@
+/**
+ * Displays the Landing Page for Outdoor Buddies
+ * Users can read our mission statement and decide whether they want to create a User
+ */
+
 import { Col, Container, Row, Button, Card } from 'react-bootstrap';
 import { PeopleFill, PersonWalking, SendFill } from 'react-bootstrap-icons';
 import { auth } from '@/lib/auth';
 
-/** The Landing page. */
 const Home = async () => {
   const session = await auth();
 

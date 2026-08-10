@@ -1,3 +1,7 @@
+/**
+ * @fileoverview DeleteButtonGroup component where User can delete a Group
+ */
+
 'use client';
 
 import { useSession } from 'next-auth/react';
@@ -6,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import swal from 'sweetalert'
 import { Button } from 'react-bootstrap';
 import { Trash } from 'react-bootstrap-icons';
+
 import { deleteGroup } from '@/lib/dbActions';
 
 export default function DeleteButton({ groupId }: { groupId: string }) {
@@ -20,7 +25,7 @@ export default function DeleteButton({ groupId }: { groupId: string }) {
       title: "Are you sure?",
       text: "Once deleted, you will not be able to recover this group!",
       icon: "warning",
-      buttons: [true, true], // Cancel / OK
+      buttons: [true, true], // Cancel , OK
       dangerMode: true,
     });
 

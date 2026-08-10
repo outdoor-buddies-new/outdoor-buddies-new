@@ -1,36 +1,42 @@
+/**
+ * @fileoverview AddGroupForm component where User can create a Group
+ * This file handles User inputs for Group creation
+ */
+
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { Button, Card, Col, Container, Form, Row, Image } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import swal from 'sweetalert';
 import { redirect, useRouter } from 'next/navigation';
-import { addGroup } from '@/lib/dbActions';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import { AddGroupSchema, AddGroupFormData } from '@/lib/validationSchemas';
+import swal from 'sweetalert';
+import { Button, Card, Col, Container, Form, Row, Image } from 'react-bootstrap';
+
 import { Commitment } from '@prisma/client';
+import { addGroup } from '@/lib/dbActions';
+import { AddGroupSchema, AddGroupFormData } from '@/lib/validationSchemas';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 const AddGroupForm: React.FC = () => {
   const { data: session, status, update } = useSession();
   const router = useRouter();
 
   const {
-  register,
-  handleSubmit,
-  reset,
-  watch,
-  formState: { errors },
-} = useForm({
-  resolver: yupResolver(AddGroupSchema),
-  defaultValues: {
-    name: '',
-    image: '',
-    members: 0,
-    maxmembers: null,
-    intensity: '' as Commitment,
-    description: '',
-  },
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(AddGroupSchema),
+    defaultValues: {
+      name: '',
+      image: '',
+      members: 0,
+      maxmembers: null,
+      intensity: '' as Commitment,
+      description: '',
+    },
   });
 
   const watchedImage = watch('image');
@@ -44,12 +50,6 @@ const AddGroupForm: React.FC = () => {
 
   const onSubmit = async (data: AddGroupFormData) => {
     try {
-      
-      /*const newGroup = {
-        ...data,
-        maxmembers: data.maxmembers ? Number(data.maxmembers) : null,
-      };*/
-
       const newGroup = await addGroup({
         name: data.name,
         image: data.image,
@@ -66,7 +66,6 @@ const AddGroupForm: React.FC = () => {
       });
 
       reset();
-      //window.location.href = `/groups/${newGroup.id}``;
       router.push(`/groups/${newGroup.id}`);
       router.refresh();
 
@@ -138,21 +137,21 @@ const AddGroupForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                      <Form.Label>
-                        Commitment
-                      </Form.Label>
+                  <Form.Label>
+                    Commitment
+                  </Form.Label>
 
-                      <Form.Select {...register('intensity')}
-                        className={`form-control bg-white ${errors.intensity ? 'is-invalid' : ''}`}>
-                          <option value="">Select commitment level...</option>
-                        <option value="Casual">Casual</option>
-                        <option value="Sometimes_Casual">Sometimes Casual, Sometimes Moderate</option>
-                        <option value="Moderate">Moderate</option>
-                        <option value="Sometimes_Moderate">Sometimes Moderate, Sometimes Serious</option>
-                        <option value="Serious">Serious</option>
-                      </Form.Select>
-                      <div className="invalid-feedback">{errors.intensity?.message}</div>
-                    </Form.Group>
+                  <Form.Select {...register('intensity')}
+                    className={`form-control bg-white ${errors.intensity ? 'is-invalid' : ''}`}>
+                    <option value="">Select commitment level...</option>
+                    <option value="Casual">Casual</option>
+                    <option value="Sometimes_Casual">Sometimes Casual, Sometimes Moderate</option>
+                    <option value="Moderate">Moderate</option>
+                    <option value="Sometimes_Moderate">Sometimes Moderate, Sometimes Serious</option>
+                    <option value="Serious">Serious</option>
+                  </Form.Select>
+                  <div className="invalid-feedback">{errors.intensity?.message}</div>
+                </Form.Group>
 
                 <Form.Group className="mb-3">
                   <Form.Label>Description</Form.Label>

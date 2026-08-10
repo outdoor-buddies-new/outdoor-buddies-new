@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Skranji:wght@400&display=swap');
 
+/*setting our variables for font, navbar, footer, button,
+and background color for body*/
 :root {
   --font-primary: "Montserrat", sans-serif;
   --nat-navbar-bg: #0cc0df;
@@ -17,6 +19,8 @@
   --bs-body-bg: var(--bg-custom-color);
 }
 
+/*affecting background color, bootstrap theme,
+box-sizing, height, padding, and margin for body*/
 html, body {
   background-color: var(--bg-custom-color);
   --bs-light: var(--nat-navbar-bg);
@@ -34,6 +38,7 @@ html, body {
   flex-direction: column;
 }
 
+/*setting defaults for navbar in thehe body*/
 body .navbar {
   --bs-navbar-active-color: var(--nat-navbar-highlight-text);
   --bs-navbar-brand-color: var(--nat-navbar-text-color);
@@ -42,6 +47,43 @@ body .navbar {
   --bs-navbar-hover-color: var(--nat-navbar-highlight-text);
 }
 
+/*so that most buttons for users are a consistent color*/
+.page-button {
+  background-color: var(--button-primary);
+  border-color: var(--button-primary);
+  color: white;
+}
+
+.page-button:hover {
+  background-color: var(--button-secondary);
+  border-color: var(--button-secondary);
+}
+
+/*for formatting to have a div element but not show up for spacing*/
+.invisible {
+  color: var(--bg-custom-color);
+}
+
+/*specifically search function for all components background is always white*/
+.search-bg {
+  background-color:white !important;
+}
+
+/*to keep titles across pages consistent font*/
+.title-font {
+  font-family: "Skranji", sans-serif;
+}
+
+/*to keep links across pages consistent color*/
+.link-title {
+  color: var(--button-primary);
+}
+
+.link-title:hover {
+  color: var(--button-secondary);
+}
+
+/*related to navbar*/
 .navbar-side {
 	width: 180px;
 }
@@ -77,6 +119,7 @@ body .navbar {
   align-items: center;
 }
 
+/*related to landing page*/
 .landing-img {
   background-image:url('/images/paliokeaotrail-kahuku.jpg');
   background-position: center;
@@ -106,6 +149,7 @@ body .navbar {
   max-width: 100% !important;
 }
 
+/*relating to footer*/
 .footer {
   background-color: var(--footer-bg);
   color: var(--footer-text-color);
@@ -121,6 +165,7 @@ body .navbar {
 	text-decoration: underline;
 }
 
+/*relating to Group*/
 .group-card {
   width:80%;
 }
@@ -130,25 +175,17 @@ body .navbar {
   max-height:100px;
 }
 
-.invisible {
-  color: var(--bg-custom-color);
+.group-details-pfp {
+  width:300px;
+  height:300px;
 }
 
-.search-bg {
-  background-color:white !important;
+.post-card {
+  width:90%;
 }
 
-.page-button {
-  background-color: var(--button-primary);
-  border-color: var(--button-primary);
-  color: white;
-}
 
-.page-button:hover {
-  background-color: var(--button-secondary);
-  border-color: var(--button-secondary);
-}
-
+/*relating to Pofile*/
 .profile-group-card-picture {
   width:100px;
   height:100px;
@@ -162,25 +199,4 @@ body .navbar {
 .profile-details-desc {
   width:420px;
   height:420px;
-}
-
-.title-font {
-  font-family: "Skranji", sans-serif;
-}
-
-.group-details-pfp {
-  width:300px;
-  height:300px;
-}
-
-.post-card {
-  width:90%;
-}
-
-.link-title {
-  color: var(--button-primary);
-}
-
-.link-title:hover {
-  color: var(--button-secondary);
 }

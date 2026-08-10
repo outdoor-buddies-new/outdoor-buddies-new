@@ -1,10 +1,12 @@
+/**
+ * Page that displays the EditEventForm for editing an existing Event/Announcement
+ */
+
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import EditEventForm from '@/components/EditEventForm';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
-
-/** The Edit Announcements page. */
 
 const editAnnouncement = async ({ params,}: { params: Promise<{ id: string }>; }) => {
   const session = await auth();
