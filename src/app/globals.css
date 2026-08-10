@@ -130,6 +130,11 @@ body .navbar {
   height:200px;
 }
 
+.profile-details-desc {
+  width:420px;
+  height:420px;
+}
+
 .title-font {
   font-family: "Skranji", sans-serif;
 }

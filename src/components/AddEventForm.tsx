@@ -48,8 +48,8 @@ const AddEventForm: React.FC = () => {
     <Container className="py-3">
       <Row className="justify-content-center">
         <Col xs={10}>
-          <h2 className="text-center mb-4">
-            Create Event
+          <h2 className="text-center mb-4 title-font">
+            Create Announcement or Event
           </h2>
 
           <Card className="bg-white">

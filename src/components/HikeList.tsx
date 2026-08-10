@@ -69,9 +69,9 @@ const HikeList: React.FC<HikeListProps> = ({ trails }) => {
             Search
           </Button>
         </div>
-      <Row>
+      <Row xs={1} md={2} lg={3}>
         {results.map((trail) => (
-          <Col md={4} className="mt-2" key={trail.id}>
+          <Col className="mt-2" key={trail.id}>
             <HikeCard trail={trail} />
           </Col>
         ))}

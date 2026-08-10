@@ -68,7 +68,7 @@ const AddHikeForm: React.FC = () => {
     <Container className="py-3">
       <Row className="justify-content-center">
         <Col xs={10}>
-          <h2 className="text-center mb-4">
+          <h2 className="text-center mb-4 title-font">
             Create Hike
           </h2>
 
@@ -151,7 +151,7 @@ const AddHikeForm: React.FC = () => {
                         Difficulty
                       </Form.Label>
 
-                      <Form.Select {...register('difficulty')}>
+                      <Form.Select {...register('difficulty')} className="bg-white">
                         <option value="EASY">Easy</option>
                         <option value="MODERATE">Moderate</option>
                         <option value="HARD">Hard</option>

@@ -51,7 +51,7 @@ const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
     members: groupData.members,
     maxmembers: groupData.maxmembers ?? null,
     intensity: groupData.intensity as Commitment,
-    description: groupData.description,
+    description: groupData.description ?? '',
   },
 });
   if (status === 'loading') {

@@ -14,7 +14,7 @@ const HikeCard = ({ trail }: HikeCardProps) => {
 	const role = session?.user?.role;
 
 	return (
-		<Card className="bg-white" style={{ height: '440px' }}>
+		<Card className="bg-white" style={{ height: '450px' }}>
 			<Card.Img
 				variant="top"
 				src={trail.image}
@@ -34,7 +34,7 @@ const HikeCard = ({ trail }: HikeCardProps) => {
 						</Button>
 					</Col>
 				</Row>
-				<Row>
+				<Row className="mt-4">
 					<Col>
 						<Card.Text>
 							Difficulty: {trail.difficulty}
@@ -48,7 +48,7 @@ const HikeCard = ({ trail }: HikeCardProps) => {
 				</Row>
 				<hr />
 
-				<Row className="mt-2">
+				<Row className="mt-4">
 					<Col md={10}>
 						<Card.Text>
 							<strong>Location:</strong> {trail.location}

@@ -1,29 +1,59 @@
 'use client';
 
-import { useTransition } from 'react';
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import swal from 'sweetalert'
 import { Button } from 'react-bootstrap';
 import { Trash } from 'react-bootstrap-icons';
 import { deleteGroup } from '@/lib/dbActions';
 
 export default function DeleteButton({ groupId }: { groupId: string }) {
+  const { update } = useSession();
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const [isDeleting, setIsDeleting] = useState(false);
 
-  const handleDelete = async () => {
-    // 1. Delete from database via Server Action
-    await deleteGroup(groupId);
-    
-    // 2. Force Next.js to clear cache and refresh session tokens
-    startTransition(() => {
-      router.refresh();
+  const handleDelete = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+
+    const isConfirmed = await swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this group!",
+      icon: "warning",
+      buttons: [true, true], // Cancel / OK
+      dangerMode: true,
     });
+
+    if (!isConfirmed) return;
+    
+    try {
+      setIsDeleting(true);
+
+      await deleteGroup(groupId);
+
+      await update({});
+
+      await swal('Success', 'Your group has been deleted', 'success', {
+        timer: 2000,
+      });
+
+      window.location.href = '/groups';
+      
+    } catch (error: unknown) {
+      console.error('Error deleting group:', error);
+      setIsDeleting(false);
+     if (error instanceof Error) {
+        swal('Error', error.message, 'error');
+      } else {
+        swal('Error', 'Something went wrong while deleting the group.', 'error');
+      }
+    }
   };
 
   return (
-    <form action={handleDelete}>
-      <Button type="submit" variant="danger" disabled={isPending}>
-        <Trash />
+    <form onSubmit={handleDelete}>
+      <Button type="submit" variant="danger" disabled={isDeleting}>
+        <Trash /> {isDeleting ? 'Deleting...' : ''}
       </Button>
     </form>
   );

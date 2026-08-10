@@ -1,10 +1,17 @@
 'use client';
 
-import { Card, Form, Container } from 'react-bootstrap';
+import { useSession } from 'next-auth/react';
+import { Card, Container } from 'react-bootstrap';
 import { Note } from '@prisma/client';
+import DeleteButtonPost from '@/components/DeleteButtonPost';
 import Link from 'next/link';
 
 export default function Post({ post }: { post:Note }) {
+
+  const { data: session } = useSession();
+
+  const role = session?.user?.role;
+
   return (
     <Container fluid className="d-flex justify-content-center align-items-center px-0 w-100">
     <Card className="post-card shadow-sm bg-white">
@@ -18,6 +25,11 @@ export default function Post({ post }: { post:Note }) {
           {post.description}
         </Card.Text>
       </Card.Body>
+      {role === 'ADMIN' &&
+      <Card.Footer>
+        <DeleteButtonPost noteId={post.id} />
+      </Card.Footer>
+      }
     </Card>
     </Container>
   );
