@@ -68,13 +68,6 @@ body .navbar {
 	}
 }
 
-/*.hero-image {
-  background-image: url('/palmtrail-kahuku.jpg');
-  background-size: cover;
-  background-position: center;
-  min-height: calc(100vh - 120px);
-}*/
-
 .hero-text {
   background-color: #0cc0df;
   color: #faf9f9;
@@ -191,22 +184,3 @@ body .navbar {
 .link-title:hover {
   color: var(--button-secondary);
 }
-
-/* sorry will work on this later, was formatting issues
-.hike-card {
-  height wasn't consistent across everything (change card most likely but)
-}*/
-
-/*
-.hero-button {
-  background-color: var(--button-primary);
-  border-color: var(--button-primary);
-  color: white;
-}
-
-.hero-button:hover {
-  background-color: var(--button-secondary);
-  border-color: var(--button-secondary);
-  color: var(--nat-navbar-highlight-text);
-}
-*/

@@ -1,69 +1,11 @@
 'use server';
 
-import { Condition, Stuff, Difficulty, Commitment } from '@prisma/client';
+import { Difficulty, Commitment } from '@prisma/client';
 import { auth } from '@/lib/auth';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { revalidatePath } from 'next/cache';
-
-/**
- * Adds a new stuff to the database.
- * @param stuff, an object with the following properties: name, quantity, owner, condition.
- */
-export async function addStuff(stuff: { name: string; quantity: number; owner: string; condition: string }) {
-  // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
-  let condition: Condition = 'good';
-  if (stuff.condition === 'poor') {
-    condition = 'poor';
-  } else if (stuff.condition === 'excellent') {
-    condition = 'excellent';
-  } else {
-    condition = 'fair';
-  }
-  await prisma.stuff.create({
-    data: {
-      name: stuff.name,
-      quantity: stuff.quantity,
-      owner: stuff.owner,
-      condition,
-    },
-  });
-  // After adding, redirect to the list page
-  redirect('/list');
-}
-
-/**
- * Edits an existing stuff in the database.
- * @param stuff, an object with the following properties: id, name, quantity, owner, condition.
- */
-export async function editStuff(stuff: Stuff) {
-  // console.log(`editStuff data: ${JSON.stringify(stuff, null, 2)}`);
-  await prisma.stuff.update({
-    where: { id: stuff.id },
-    data: {
-      name: stuff.name,
-      quantity: stuff.quantity,
-      owner: stuff.owner,
-      condition: stuff.condition,
-    },
-  });
-  // After updating, redirect to the list page
-  redirect('/list');
-}
-
-/**
- * Deletes an existing stuff from the database.
- * @param id, the id of the stuff to delete.
- */
-export async function deleteStuff(id: number) {
-  // console.log(`deleteStuff id: ${id}`);
-  await prisma.stuff.delete({
-    where: { id },
-  });
-  // After deleting, redirect to the list page
-  redirect('/list');
-}
 
 /**
  * Creates a new user in the database.
@@ -113,7 +55,6 @@ export async function addGroup(group: {
   if (!session || !session.user?.id) {
     throw new Error("You must be logged in to create a group.");
   }
-  // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
     const newGroup = await prisma.group.create({
       data: {
         name: group.name,
@@ -138,7 +79,6 @@ export async function editGroup(group: {
     intensity: string;
     description: string;
   }) {
-  // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
   await prisma.group.update({
     where: { id: group.id },
     data: {
@@ -176,7 +116,6 @@ export async function addProfile(profile: {
     descimage?: string | null;
     userId: number;
   }) {
-  // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
   const existingProfile = await prisma.profile.findFirst({
     where: { userId: profile.userId },
   });

@@ -65,21 +65,6 @@ async function main() {
   });
   }
 
-  /*for (const data of config.defaultData) {
-    const condition = (data.condition || 'good') as Prisma.StuffCreateInput['condition'];
-    console.log(`  Adding stuff: ${JSON.stringify(data)}`);
-    await prisma.stuff.upsert({
-      where: { id: config.defaultData.indexOf(data) + 1 },
-      update: {},
-      create: {
-        name: data.name,
-        quantity: data.quantity,
-        owner: data.owner,
-        condition,
-      },
-    });
-  }*/
-
   for (const trail of defaultTrails) {
     console.log(`Adding trail: ${trail.name}`);
 
