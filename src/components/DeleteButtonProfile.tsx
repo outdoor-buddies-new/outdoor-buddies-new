@@ -35,13 +35,13 @@ export default function DeleteButton({ profileId }: { profileId: string }) {
 
       await deleteProfile(profileId);
 
-      await update({});
+      await update({ profileId: null });
 
       await swal('Success', 'Your profile has been deleted', 'success', {
         timer: 2000,
       });
 
-      window.location.href = '/profile/add';
+      window.location.href = '/profile';
       
     } catch (error: unknown) {
       console.error('Error deleting profile:', error);
