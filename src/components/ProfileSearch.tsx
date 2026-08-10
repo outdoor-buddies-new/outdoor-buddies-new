@@ -40,18 +40,22 @@ const ProfileSearch: React.FC<ProfileSearchProps> = ({ profiles }) => {
     return (
       <Container className="py-3">
         <h1 className="title-font mb-4">Profiles</h1>
-        <div className="my-3 d-flex gap-3">
-          <Form.Control
-            type="search"
-            placeholder="Get to know others"
-			className="search-bg"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <Button className="page-button" onClick={handleSearch}>
-          	Search
-        	</Button>
-        </div>
+          <Row className="my-3 d-flex gap-3">
+            <Col md={12}>
+            <Form className="d-flex gap-1" onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
+              <Form.Control
+                type="search"
+                placeholder="Find other people"
+                className="search-bg"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <Button type="submit" className="page-button">
+                Search
+              </Button>
+            </Form>
+            </Col>
+          </Row>
         {/*<Link href="/profile/add" className="btn btn-primary page-button">
           Add a Profile
         </Link>*/}

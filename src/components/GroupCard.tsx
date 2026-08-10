@@ -53,8 +53,7 @@ export default function GroupCard({ group }: { group:Group }) {
             </div>
             <div>
             <Card.Text>
-              No
-              {/*Date: {group.lastdate ? new Date(group.lastdate).toLocaleDateString() : 'N/A'}*/}
+              Date: {group.lastdate ? new Date(group.lastdate).toLocaleDateString() : 'N/A'}
             </Card.Text>
             </div>
           </Col>
