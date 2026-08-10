@@ -97,7 +97,7 @@ const SignIn = () => {
       <Container>
         <Row className="justify-content-center mt-3">
           <Col xs={5}>
-            <h1 className="text-center">Sign In</h1>
+            <h1 className="text-center title-font">Sign In</h1>
             <Card className="bg-white mt-4">
               <Card.Body>
                 <Form method="post" onSubmit={handleSubmit}>
