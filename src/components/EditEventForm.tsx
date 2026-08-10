@@ -63,7 +63,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
     <Container className="py-3">
       <Row className="justify-content-center">
         <Col xs={10}>
-          <h2 className="text-center">
+          <h2 className="text-center title-font">
             Edit Event
           </h2>
 

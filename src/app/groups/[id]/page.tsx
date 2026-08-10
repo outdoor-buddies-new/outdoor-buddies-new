@@ -69,9 +69,11 @@ const GroupsDetailsPage = async ({
 
           <p>
             <strong>Maximum Members:</strong>{' '}
-            {group.maxmembers}
+            {group.maxmembers ?? 'N/A'}
           </p>
+        </div>
 
+        <div className="d-flex gap-4 ms-auto">
           <p>
             <strong>Created At:</strong>{' '}
             {new Date(group.createdAt).toLocaleDateString()}
@@ -79,10 +81,15 @@ const GroupsDetailsPage = async ({
 
           <p>
             <strong>Last Event:</strong>{' '}
-            {/*new Date(group.lastdate).toLocaleDateString()*/}
-            ee
+            {group.lastlocation}
+          </p>  
+
+          <p>
+            <strong>Last Event Date:</strong>{' '}
+            {group.lastdate ? new Date(group.lastdate).toLocaleDateString() : 'N/A'}
           </p>
         </div>
+        
 
         <hr/>
         

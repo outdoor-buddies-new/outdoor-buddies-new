@@ -69,7 +69,7 @@ const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
     <Container className="py-3">
       <Row className="justify-content-center">
         <Col xs={10}>
-          <h2 className="text-center">
+          <h2 className="text-center title-font">
             Edit Profile
           </h2>
 

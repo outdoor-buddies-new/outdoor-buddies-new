@@ -88,7 +88,7 @@ const AddProfileForm: React.FC = () => {
     <Container className="py-3">
       <Row className="justify-content-center">
         <Col xs={6}>
-          <div className="text-center mb-4">
+          <div className="text-center mb-4 title-font">
             <h2>Create Profile</h2>
           </div>
           <Card className="bg-white">
