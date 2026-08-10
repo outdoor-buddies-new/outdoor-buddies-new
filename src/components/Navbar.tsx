@@ -25,7 +25,9 @@ const NavBar: React.FC = () => {
   refresh();
   },);
 
-  if (status === 'loading') return null;
+  if (status === 'loading') {
+    return <div style={{ padding: '10px', background: '#ccc' }}>Loading Navbar...</div>;
+  }
 
   const currentUser = session?.user?.email;
 
