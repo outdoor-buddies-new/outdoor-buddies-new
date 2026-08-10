@@ -151,7 +151,7 @@ const AddHikeForm: React.FC = () => {
                         Difficulty
                       </Form.Label>
 
-                      <Form.Select {...register('difficulty')}>
+                      <Form.Select {...register('difficulty')} className="bg-white">
                         <option value="EASY">Easy</option>
                         <option value="MODERATE">Moderate</option>
                         <option value="HARD">Hard</option>

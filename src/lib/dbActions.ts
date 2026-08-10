@@ -114,7 +114,7 @@ export async function addGroup(group: {
     throw new Error("You must be logged in to create a group.");
   }
   // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
-    await prisma.group.create({
+    const newGroup = await prisma.group.create({
       data: {
         name: group.name,
         image: group.image,
@@ -125,9 +125,19 @@ export async function addGroup(group: {
         userId: Number(session.user.id),
       },
     });
+
+    return newGroup;
 }
 
-export async function editGroup(group: {id: string; name: string; image: string; members: number; maxmembers?: number | null; intensity: string; description: string; }) {
+export async function editGroup(group: {
+    id: string;
+    name: string;
+    image: string; 
+    members: number;
+    maxmembers?: number | null;
+    intensity: string;
+    description: string;
+  }) {
   // console.log(`addStuff data: ${JSON.stringify(stuff, null, 2)}`);
   await prisma.group.update({
     where: { id: group.id },
@@ -148,9 +158,9 @@ export async function deleteGroup(id: string) {
   await prisma.group.delete({
     where: { id },
   });
-  revalidatePath('/groups');
+  /*revalidatePath('/groups');
   revalidatePath(`/groups/${id}`);
-  redirect('/groups');
+  redirect('/groups');*/
 }
 
 /**
@@ -212,7 +222,6 @@ export async function editProfile(profile: {
       descimage: profile.descimage ?? null,
     },
   });
-  redirect(`/profile/${profile.id}`);
 }
 
 export async function deleteProfile(id: string) {
@@ -222,7 +231,6 @@ export async function deleteProfile(id: string) {
   });
   revalidatePath('/profile');
   revalidatePath(`/profile/${id}`);
-  redirect('/profile');
 }
 
 /**
@@ -251,6 +259,14 @@ export async function addNote(note: {
     console.error("Prisma error during note creation:", err);
     throw err;
   }
+}
+
+export async function deleteNote(id: string) {
+  // console.log(`deleteNote id: ${id}`);
+  const deletedNote = await prisma.note.delete({
+    where: { id },
+  });
+  redirect(`/groups/${deletedNote.groupId}/forum`);
 }
 
 export async function getTrails() {

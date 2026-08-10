@@ -67,7 +67,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
             Edit Event
           </h2>
 
-          <Card>
+          <Card className="bg-white">
             <Card.Body>
               <Form onSubmit={handleSubmit((data) => onSubmit(data, eventData))}>
                 <Form.Group>
@@ -77,7 +77,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
                   <input
                     type="text"
                     {...register('title')}
-                    className={`form-control ${errors.title ? 'is-invalid' : ''}`}
+                    className={`form-control bg-white ${errors.title ? 'is-invalid' : ''}`}
                   />
                   <div className="invalid-feedback">
                     {errors.title?.message}
@@ -90,7 +90,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
                   </Form.Label>
                   <textarea
                     {...register('description')}
-                    className={`form-control ${errors.description ? 'is-invalid' : ''}`}
+                    className={`form-control bg-white ${errors.description ? 'is-invalid' : ''}`}
                   />
                   <div className="invalid-feedback">
                     {errors.description?.message}
@@ -104,7 +104,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
                   <input
                     type="date"
                     {...register('date')}
-                    className={`form-control ${errors.date ? 'is-invalid' : ''}`}
+                    className={`form-control bg-white ${errors.date ? 'is-invalid' : ''}`}
                   />
                   <div className="invalid-feedback">
                     {errors.date?.message}
@@ -113,7 +113,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
 
                 <Row className="pt-3">
                   <Col>
-                    <Button type="submit">
+                    <Button type="submit" className="page-button">
                       Submit
                     </Button>
                   </Col>

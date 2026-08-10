@@ -2,8 +2,7 @@ import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Row, Col, Container} from 'react-bootstrap';
-import SafeImage from '@/components/SafeImage';
+import { Row, Col, Container, Image} from 'react-bootstrap';
 import DeleteButtonGroup from '@/components/DeleteButtonGroup';
 
 interface GroupsDetailsPageProps {
@@ -29,18 +28,26 @@ const GroupsDetailsPage = async ({
     notFound();
   }
 
+  const getValidImageUrl = (url: string | null | undefined, fallback: string) => {
+    if (!url) return fallback;
+    if (url.startsWith('/') || url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+    return fallback;
+  };
+
+  const groupImageSrc = getValidImageUrl(group.image, '/images/default-image-user.jpg');
+
   const isOwner = Number(session?.user?.id) === group.userId;
 
   return (
     <main>
       <Container className="mt-5">
         <div className="d-flex justify-content-center">
-        <SafeImage 
-              src={group.image && group.image.startsWith('/') ? group.image : ''} 
-              fallbackSrc="/images/default-image-user.jpg"
+          <Image
+              src={groupImageSrc} 
               alt={group.name} 
-              className="group-details-pfp" 
-              roundedCircle 
+              className="group-details-pfp rounded-circle" 
             />
         </div>
         <Row className="align-items-center mt-5 mb-4">

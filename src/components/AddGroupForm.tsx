@@ -1,7 +1,7 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Row, Image } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import swal from 'sweetalert';
@@ -12,13 +12,14 @@ import { AddGroupSchema, AddGroupFormData } from '@/lib/validationSchemas';
 import { Commitment } from '@prisma/client';
 
 const AddGroupForm: React.FC = () => {
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const router = useRouter();
 
   const {
   register,
   handleSubmit,
   reset,
+  watch,
   formState: { errors },
 } = useForm({
   resolver: yupResolver(AddGroupSchema),
@@ -32,6 +33,8 @@ const AddGroupForm: React.FC = () => {
   },
   });
 
+  const watchedImage = watch('image');
+
   if (status === 'loading') {
     return <LoadingSpinner />;
   }
@@ -41,21 +44,32 @@ const AddGroupForm: React.FC = () => {
 
   const onSubmit = async (data: AddGroupFormData) => {
     try {
-      // Clean up the data: if maxmembers is an empty string, NaN, or falsy (other than 0), convert it to null
-      const formattedData = {
+      
+      /*const newGroup = {
         ...data,
         maxmembers: data.maxmembers ? Number(data.maxmembers) : null,
-      };
+      };*/
 
-      await addGroup(formattedData);
+      const newGroup = await addGroup({
+        name: data.name,
+        image: data.image,
+        members: Number(data.members),
+        maxmembers: data.maxmembers ? Number(data.maxmembers) : null,
+        intensity: data.intensity,
+        description: data.description,
+      });
+
+      await update();
 
       await swal('Success', 'Your group has been created', 'success', {
         timer: 2000,
       });
 
       reset();
-      router.push('/groups');
+      //window.location.href = `/groups/${newGroup.id}``;
+      router.push(`/groups/${newGroup.id}`);
       router.refresh();
+
     } catch (error) {
       console.error('Failed to save group:', error);
     }
@@ -83,13 +97,25 @@ const AddGroupForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Image URL</Form.Label>
+                  <Form.Label>Image URL (please use a square image)</Form.Label>
                   <input
                     type="text"
                     {...register('image')}
                     className={`form-control bg-white ${errors.image ? 'is-invalid' : ''}`}
                   />
                   <div className="invalid-feedback">{errors.image?.message}</div>
+                  {watchedImage && (
+                    <div className="mt-3 text-center">
+                      <Image 
+                        src={watchedImage} 
+                        alt="Profile Preview" 
+                        roundedCircle 
+                        style={{ width: '100px', height: '100px', objectFit: 'cover' }} 
+                        onError={(e) => (e.currentTarget.style.display = 'none')}
+                        onLoad={(e) => (e.currentTarget.style.display = 'inline-block')}
+                      />
+                    </div>
+                  )}
                 </Form.Group>
 
                 <Form.Group className="mb-3">

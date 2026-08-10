@@ -57,7 +57,7 @@ const AddPostForm: React.FC = () => {
         title: data.title,
         description: data.description,
         userId: userId,
-        groupId: groupId, // 4. Pass the URL-derived groupId here!
+        groupId: groupId,
       });
 
       await swal('Success', 'Your post has been created', 'success', {

@@ -49,7 +49,7 @@ const AddEventForm: React.FC = () => {
       <Row className="justify-content-center">
         <Col xs={10}>
           <h2 className="text-center mb-4 title-font">
-            Create Event
+            Create Announcement or Event
           </h2>
 
           <Card className="bg-white">
