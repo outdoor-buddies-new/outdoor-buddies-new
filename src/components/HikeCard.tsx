@@ -26,7 +26,7 @@ const HikeCard = ({ trail }: HikeCardProps) => {
 			</Link>
 			<Card.Body className="d-flex flex-column">
 				<Card.Title className="mb-1">
-					<Link href={`/hikes/${trail.id}`} className="text-decoration-none">
+					<Link href={`/hikes/${trail.id}`} className="text-decoration-none link-title">
 					{trail.name}
 					</Link>
 				</Card.Title>

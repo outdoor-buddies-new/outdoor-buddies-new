@@ -179,6 +179,14 @@ body .navbar {
   width:90%;
 }
 
+.link-title {
+  color: var(--button-primary);
+}
+
+.link-title:hover {
+  color: var(--button-secondary);
+}
+
 /* sorry will work on this later, was formatting issues
 .hike-card {
   height wasn't consistent across everything (change card most likely but)
