@@ -6,7 +6,6 @@
 
 import { useSession } from 'next-auth/react';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import swal from 'sweetalert'
 import { Button } from 'react-bootstrap';
 import { Trash } from 'react-bootstrap-icons';
@@ -15,7 +14,7 @@ import { deleteGroup } from '@/lib/dbActions';
 
 export default function DeleteButton({ groupId }: { groupId: string }) {
   const { update } = useSession();
-  const router = useRouter();
+
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async (e: React.SyntheticEvent) => {

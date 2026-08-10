@@ -48,6 +48,11 @@ const GroupSearch: React.FC<GroupSearchProps> = ({ groups }) => {
     redirect('/auth/signin');
   }
 
+  if (!session?.user?.id) {
+    console.error('User is not logged in or user ID is missing.');
+    return;
+  }
+
   const filteredResults = results.filter((groups) => {
     return (commitmentFilter === 'All' || groups.intensity=== commitmentFilter)
   });

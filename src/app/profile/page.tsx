@@ -16,8 +16,6 @@ const ProfilesPage = async () => {
     } | null,
   );
 
-  const owner = session?.user!.email ? session.user.email : '';
-
   const profile = await getProfiles();
 
   return (

@@ -46,6 +46,11 @@ const ProfileSearch: React.FC<ProfileSearchProps> = ({ profiles }) => {
     redirect('/auth/signin');
   }
 
+  if (!session?.user?.id) {
+    console.error('User is not logged in or user ID is missing.');
+    return;
+  }
+
   return (
     <Container className="py-3">
       <h1 className="title-font mb-4">Profiles</h1>

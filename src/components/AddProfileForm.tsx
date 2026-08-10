@@ -7,7 +7,7 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { redirect, useRouter } from 'next/navigation';
 import swal from 'sweetalert';
@@ -25,7 +25,7 @@ const AddProfileForm: React.FC = () => {
     register,
     handleSubmit,
     reset,
-    watch,
+    control,
     formState: { errors },
   } = useForm<AddProfileFormData>({
     resolver: yupResolver(AddProfileSchema),
@@ -39,8 +39,15 @@ const AddProfileForm: React.FC = () => {
     },
   });
 
-  const watchedImage = watch('image');
-  const watchedDescImage = watch('descimage');
+  const watchedImage = useWatch({
+    control,
+    name: 'image',
+  });
+
+  const watchedDescImage = useWatch({
+    control,
+    name: 'descimage',
+  });
 
   if (status === 'loading') {
     return <LoadingSpinner />;
