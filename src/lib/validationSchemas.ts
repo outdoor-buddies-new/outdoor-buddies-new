@@ -6,6 +6,9 @@ export const AddGroupSchema = Yup.object({
   image: Yup.string().required('Image is required'),
   members: Yup.number().positive().required('Number of People is required'),
   maxmembers: Yup.number().positive().nullable().notRequired()
+    .transform((value, originalValue) =>
+      originalValue === '' || isNaN(value) ? null : value
+    )
     .test(
       'is-less-than-max',
       'Members cannot exceed max members',
@@ -30,6 +33,9 @@ export const EditGroupSchema = Yup.object({
   image: Yup.string().required('Image is required'),
   members: Yup.number().positive().required('Number of People is required'),
   maxmembers: Yup.number().positive().nullable().notRequired()
+    .transform((value, originalValue) =>
+      originalValue === '' || isNaN(value) ? null : value
+    )
     .test(
       'is-less-than-max',
       'Members cannot exceed max members',
