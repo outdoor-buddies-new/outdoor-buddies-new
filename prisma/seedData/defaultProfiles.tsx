@@ -1,3 +1,16 @@
+/**
+ * defaultProfiles holds our seed data for the profiles page
+ * @param {Object} profile - The complete Profile Object
+ * @param {string} id - The unique identifier for the Profile
+ * @param {string} userId - The unique identifier that connects the Profile to a User (1 per user)
+ * @param {string} name - The name of the Profile
+ * @param {string} image - The rounded profile picture associated with the Profile
+ * @param {string} summary - The status that a Profile can set (meant to be a short statement)
+ * @param {string} description - The description telling what the Profile (person) is about or looking for
+ * @param {string} groupname - The group that a Profile has joined (self-reported)
+ * @param {string} descimage - The square image that can be more descriptive associated with the Profile
+ */
+
 export const defaultProfiles = [
   {
     id: 'hy-1',

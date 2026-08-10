@@ -1,3 +1,14 @@
+/**
+ * defaultEvents holds our seed data for the announcements/events page
+ * @param {Object} event - The complete Event Object, which can also be used for Announcements
+ * @param {string} id - The unique identifier for the Event/Announcement
+ * @param {string} title - The title of the Event/Announcement
+ * @param {string} description - The description telling what the Event/Announcement is about
+ * @param {Date}   date - The date the Event/Announcement is
+ * @param {string} location - The location where the Event will take place
+ * @param {string} image - The image associated with the Event
+ */
+
 export const defaultEvents = [
 	{
 		id: 'summer-hiking-meetup',

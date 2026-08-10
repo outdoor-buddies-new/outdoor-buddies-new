@@ -1,3 +1,7 @@
+/**
+ * Page displays a list of Trail through the HikeList component
+ */
+
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import HikeList from '@/components/HikeList';
 import { auth } from '@/lib/auth';

@@ -1,16 +1,22 @@
+/**
+ * @fileoverview EditProfileForm component where User can edit a Profile
+ * This file handles User inputs for Profile revision
+ */
+
 'use client';
 
-import { Profile } from '@prisma/client';
 import { useSession } from 'next-auth/react'; // v5 compatible
-import { Button, Card, Col, Container, Form, Row, Image } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import type { InferType } from 'yup';
-import swal from 'sweetalert';
 import { redirect, useRouter } from 'next/navigation';
+import swal from 'sweetalert';
+import { Button, Card, Col, Container, Form, Row, Image } from 'react-bootstrap';
+
+import { Profile } from '@prisma/client';
 import { editProfile } from '@/lib/dbActions';
-import LoadingSpinner from '@/components/LoadingSpinner';
 import { EditProfileSchema } from '@/lib/validationSchemas';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 type EditProfileFormData = InferType<typeof EditProfileSchema>;
 
@@ -23,23 +29,23 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ profileData }) => {
   const router = useRouter();
 
   const {
-  register,
-  handleSubmit,
-  reset,
-  watch,
-  formState: { errors },
-} = useForm({
-  resolver: yupResolver(EditProfileSchema),
-  defaultValues: {
-    id: profileData.id,
-    name: profileData.name,
-    image: profileData.image ?? '/images/default-image-user.jpg',
-    description: profileData.description,
-    groupname: profileData.groupname ?? '',
-    summary: profileData.summary,
-    descimage: profileData.descimage ?? '',
-  },
-});
+    register,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(EditProfileSchema),
+    defaultValues: {
+      id: profileData.id,
+      name: profileData.name,
+      image: profileData.image ?? '/images/default-image-user.jpg',
+      description: profileData.description,
+      groupname: profileData.groupname ?? '',
+      summary: profileData.summary,
+      descimage: profileData.descimage ?? '',
+    },
+  });
 
   const watchedImage = watch('image');
   const watchedDescImage = watch('descimage');
@@ -111,17 +117,17 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ profileData }) => {
                   />
                   <div className="invalid-feedback">{errors.image?.message}</div>
                   {watchedImage && (
-                                      <div className="mt-3 text-center">
-                                        <Image 
-                                          src={watchedImage} 
-                                          alt="Profile Preview" 
-                                          roundedCircle 
-                                          style={{ width: '100px', height: '100px', objectFit: 'cover' }} 
-                                          onError={(e) => (e.currentTarget.style.display = 'none')}
-                                          onLoad={(e) => (e.currentTarget.style.display = 'inline-block')}
-                                        />
-                                      </div>
-                                    )}
+                    <div className="mt-3 text-center">
+                      <Image 
+                        src={watchedImage} 
+                        alt="Profile Preview" 
+                        roundedCircle 
+                        style={{ width: '100px', height: '100px', objectFit: 'cover' }} 
+                        onError={(e) => (e.currentTarget.style.display = 'none')}
+                        onLoad={(e) => (e.currentTarget.style.display = 'inline-block')}
+                        />
+                    </div>
+                  )}
                 </Form.Group>
 
                 <Form.Group className="mb-3">

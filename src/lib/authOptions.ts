@@ -26,7 +26,6 @@ export const authOptions: NextAuthConfig = {
         const isPasswordValid = await compare(credentials.password as string, user.password);
         if (!isPasswordValid) return null;
 
-        // Return user object with id as string
         return {
           id: user.id.toString(),
           email: user.email,
@@ -36,18 +35,15 @@ export const authOptions: NextAuthConfig = {
     }),
   ],
   callbacks: {
-    // 1. JWT Callback: Executed when JWT is created or updated
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id; // Assign explicit id property
-        token.sub = user.id; // Also set standard sub (subject) field
+        token.id = user.id;
+        token.sub = user.id;
       }
       return token;
     },
-    // 2. Session Callback: Executed whenever session is requested on the client
     async session({ session, token }) {
       if (session.user) {
-        // Fallback to token.sub if token.id is missing
         session.user.id = (token.id || token.sub) as string;
       }
       return session;

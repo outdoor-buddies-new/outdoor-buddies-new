@@ -1,3 +1,7 @@
+/**
+ * Page that displays the EditGroupForm for Users to edit the details of a Group
+ */
+
 import { notFound } from 'next/navigation';
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { prisma } from '@/lib/prisma';
@@ -15,13 +19,8 @@ const editGroup = async ({ params,}: { params: Promise<{ id: string }>; }) => {
 
   const { id } = await params;
 
-  //const owner = session?.user!.email ? session.user.email : '';
-  
-
   const group = await prisma.group.findUnique({
-    where: {
-     id
-    },
+    where: { id },
   });
   if (!group) {
     notFound();

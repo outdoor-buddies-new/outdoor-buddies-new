@@ -1,3 +1,7 @@
+/**
+ * Page that displays the ForumPage for the Group where Users can create Notes(Posts)
+ */
+
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import ForumPageInd from '@/components/ForumPageInd';

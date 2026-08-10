@@ -1,3 +1,17 @@
+/**
+ * defaultGroups holds our seed data for the groups page
+ * @param {Object} group - The complete Group Object
+ * @param {string} id - The unique identifier for the Group
+ * @param {string} userId - The unique identifier that connects the Group to a User (as many as like)
+ * @param {string} name - The name of the Group
+ * @param {string} image - The rounded profile image associated with the Group
+ * @param {number} members - The number of people that are currently in the Group
+ * @param {number} maxmembers - The maximum number of people that the Group would like to have
+ * @param {string} description - The description telling what the Group is about
+ * @param {Date} lastdate - The last date that the group has had a meeting
+ * @param {string} lastlocation - The last location that the Group has been to during their last meeting
+ */
+
 import { Commitment } from "@prisma/client";
 
 export const defaultGroups = [

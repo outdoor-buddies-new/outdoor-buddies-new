@@ -1,9 +1,11 @@
+/**
+ * Page displays a list of Event/Announcement through the AnnouncementList component
+ */
+
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import AnnouncementList from '@/components/AnnouncementList';
 import { auth } from '@/lib/auth';
 import { getEvents } from '@/lib/dbActions';
-
-/** The Announcements page. */
 
 const Announcement = async () => {
   // Protect the page, only logged in users can access it.

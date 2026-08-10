@@ -1,3 +1,8 @@
+/**
+ * Page that displays the Sign Out form for existing Users to sign out
+ * After the user clicks the "SignOut" link in the NavBar, log them out and display this page.
+ */
+
 'use client';
 
 import { signOut } from 'next-auth/react'; // v5 compatible

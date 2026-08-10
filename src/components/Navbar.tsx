@@ -1,3 +1,8 @@
+/**
+ * The Navbar Component, which appears at the top of all pages
+ * Rendered by the App Layout component.
+ */
+
 'use client';
 
 import { useSession } from 'next-auth/react';

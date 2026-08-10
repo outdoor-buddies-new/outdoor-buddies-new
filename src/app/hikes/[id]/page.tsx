@@ -1,3 +1,7 @@
+/**
+ * Page that displays a details page of a Trail
+ */
+
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import { Col, Container, Row, Image } from 'react-bootstrap';
@@ -14,9 +18,7 @@ const HikeDetailsPage = async ({
 	const { id } = await params;
 
 	const hike = await prisma.trail.findUnique({
-		where: {
-			id,
-		},
+		where: { id, },
 	});
 
 	if (!hike) {

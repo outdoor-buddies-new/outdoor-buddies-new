@@ -1,8 +1,13 @@
+/**
+ * @fileoverview HikeCard component renders one Trail Card
+ */
+
 'use client';
 
-import { Trail } from '@prisma/client';
-import { Card, Button, Row, Col } from 'react-bootstrap';
 import { useSession } from 'next-auth/react';
+import { Card, Button, Row, Col } from 'react-bootstrap';
+
+import { Trail } from '@prisma/client';
 import Link from 'next/link';
 
 interface HikeCardProps {
@@ -30,6 +35,7 @@ const HikeCard = ({ trail }: HikeCardProps) => {
 					{trail.name}
 					</Link>
 				</Card.Title>
+
 				<Row>
 					<Col>
 						<Card.Text>
@@ -42,6 +48,7 @@ const HikeCard = ({ trail }: HikeCardProps) => {
 						</Card.Text>
 					</Col>
 				</Row>
+
 				<hr />
 
 				<Row className="mt-2">

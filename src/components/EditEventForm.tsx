@@ -1,15 +1,21 @@
+/**
+ * @fileoverview EditEventForm component where User.Admin can edit a Event
+ * This file handles User.Admin inputs for Event revision
+ */
+
 'use client';
 
-import { Event } from '@prisma/client';
 import { useSession } from 'next-auth/react'; // v5 compatible
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import swal from 'sweetalert';
 import { redirect } from 'next/navigation';
+import swal from 'sweetalert';
+import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+
+import { Event } from '@prisma/client';
 import { editEvent } from '@/lib/dbActions';
-import LoadingSpinner from '@/components/LoadingSpinner';
 import { EditEventSchema } from '@/lib/validationSchemas';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 interface EditEventFormProps {
   eventData: Event;
@@ -48,6 +54,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
       date: eventData.date.toISOString().split('T')[0],
     },
   });
+
   if (status === 'loading') {
     return <LoadingSpinner />;
   }
@@ -128,7 +135,6 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
                     </Button>
                   </Col>
                 </Row>
-
               </Form>
             </Card.Body>
           </Card>

@@ -1,11 +1,21 @@
+/**
+ * @fileoverview AnnouncementList component where User can view all Event/Announcement Cards
+ * User: This file displays all Event/Announcement Cards
+ * User.Admin: Can create, edit, and delete Event/Announcement Cards through:
+ *  - AddEventForm in announcements/add
+ *  - EditEventForm in announcements/edit/[id] on EventCard
+ *  - removeEvent in dbActions
+ */
+
 'use client';
 
 import { useSession } from 'next-auth/react'; // v5 compatible
-import { Button, Col, Container, Row } from 'react-bootstrap';
 import { redirect } from 'next/navigation';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import EventCard from '@/components/EventCard';
+import { Button, Col, Container, Row } from 'react-bootstrap';
+
 import { Event } from '@prisma/client';
+import EventCard from '@/components/EventCard';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 interface AnnouncementListProps {
   events: Event[];

@@ -1,3 +1,7 @@
+/**
+ * Page that displays the Sign Up form for new people to create a new User
+ */
+
 'use client';
 
 import { signIn } from 'next-auth/react'; // v5 compatible

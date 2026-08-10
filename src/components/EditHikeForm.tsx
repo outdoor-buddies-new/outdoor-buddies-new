@@ -1,15 +1,21 @@
+/**
+ * @fileoverview EditHikeForm component where User.Admin can edit a Trail
+ * This file handles User.Admin inputs for Trail revision
+ */
+
 'use client';
 
 import { useSession } from 'next-auth/react'; // v5 compatible
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import swal from 'sweetalert';
 import { redirect } from 'next/navigation';
+import swal from 'sweetalert';
+import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+
+import { Trail, Difficulty } from '@prisma/client';
 import { editHike, deleteHike } from '@/lib/dbActions';
-import LoadingSpinner from '@/components/LoadingSpinner';
 import { EditHikeSchema } from '@/lib/validationSchemas';
-import { Difficulty, Trail } from '@prisma/client';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 type EditHikeFormProps = {
   trail: Trail;
@@ -66,6 +72,7 @@ const EditHikeForm: React.FC<EditHikeFormProps> = ({ trail }) => {
       image: trail.image,
     },
   });
+
   if (status === 'loading') {
     return <LoadingSpinner />;
   }

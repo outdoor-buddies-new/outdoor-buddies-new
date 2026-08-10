@@ -1,21 +1,26 @@
+/**
+ * @fileoverview AddPostForm component where User can create a Post within a Forum for a Group
+ * This file handles User inputs for Post creation
+ */
+
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { redirect, useRouter, useParams } from 'next/navigation';
 import swal from 'sweetalert';
-import { redirect, useRouter, useParams } from 'next/navigation'; // 1. Import useParams
+import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+
 import { addNote } from '@/lib/dbActions';
-import LoadingSpinner from '@/components/LoadingSpinner';
 import { AddNoteSchema, AddPostFormData } from '@/lib/validationSchemas';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 const AddPostForm: React.FC = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const params = useParams(); // 2. Initialize params hook
+  const params = useParams();
   
-  // 3. Extract the group ID from the URL (adjust 'id' if your folder is named [groupId])
   const groupId = params.id as string; 
 
   const {
@@ -53,7 +58,7 @@ const AddPostForm: React.FC = () => {
     }
 
     try {
-      const newPost = await addNote({
+      await addNote({
         title: data.title,
         description: data.description,
         userId: userId,
@@ -112,6 +117,7 @@ const AddPostForm: React.FC = () => {
                       Submit
                     </Button>
                   </Col>
+
                   <Col>
                     <Button
                       type="button"

@@ -1,3 +1,8 @@
+/**
+ * Page that displays the EditHikeForm for Users to create a new Trail
+ * Only ADMIN can use
+ */
+
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import EditHikeForm from '@/components/EditHikeForm';

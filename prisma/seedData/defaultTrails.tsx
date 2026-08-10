@@ -1,3 +1,13 @@
+/**
+ * defaultTrails holds our seed data for the hikelist page
+ * @param {Object} Trail - The complete Trail Object
+ * @param {string} name - The name of the Trail
+ * @param {string} location - The location of the Trail
+ * @param {string} distance - The distance of the Trail in miles
+ * @param {string} description - The description telling what the Trail is about
+ * @param {string} image - The image associated with the Trail
+ */
+
 import { Difficulty } from '@prisma/client';
 
 export const defaultTrails = [

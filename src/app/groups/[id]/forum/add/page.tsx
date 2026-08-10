@@ -1,3 +1,7 @@
+/**
+ * Page that displays the AddPostForm for Users to create a Note on the Forum for the Group
+ */
+
 'use client';
 
 import AddPostForm from '../../../../../components/AddPostForm';
