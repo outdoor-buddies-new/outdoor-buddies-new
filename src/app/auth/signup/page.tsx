@@ -83,7 +83,7 @@ const SignUp = () => {
                   <Form.Group className="form-group py-3">
                     <Row>
                       <Col>
-                        <Button type="submit" className="btn btn-primary">
+                        <Button type="submit" className="btn btn-primary page-button">
                           Register
                         </Button>
                       </Col>

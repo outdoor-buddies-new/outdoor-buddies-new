@@ -109,7 +109,7 @@ const SignIn = () => {
                     <Form.Label>Password</Form.Label>
                     <input name="password" type="password" className="form-control bg-white" required />
                   </Form.Group>
-                  <Button type="submit" className="mt-3 w-100">
+                  <Button type="submit" className="mt-3 w-100 page-button">
                     Sign in
                   </Button>
                 </Form>
