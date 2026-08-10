@@ -84,7 +84,7 @@ const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
       <Row className="justify-content-center">
         <Col xs={10}>
           <h2 className="text-center title-font">
-            Edit Profile
+            Edit Group
           </h2>
 
           <Card className="bg-white">
