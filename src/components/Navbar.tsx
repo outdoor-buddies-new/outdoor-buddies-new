@@ -23,7 +23,7 @@ const NavBar: React.FC = () => {
     await update();
   };
   refresh();
-  }, [update]);
+  },);
 
   if (status === 'loading') return null;
 
