@@ -34,7 +34,7 @@ export default function DeleteButton({ profileId }: { profileId: string }) {
 
   return (
     <form onSubmit={handleDelete}>
-      <Button type="submit" variant="danger" disabled={isPending}>
+      <Button type="submit" variant="danger" disabled={isPending} aria-label="Delete Profile">
         <Trash /> {isPending ? 'Deleting...' : ''}
       </Button>
     </form>

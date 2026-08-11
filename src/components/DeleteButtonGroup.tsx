@@ -22,7 +22,7 @@ export default function DeleteButton({ groupId }: { groupId: string }) {
 
   return (
     <form action={handleDelete}>
-      <Button type="submit" variant="danger" disabled={isPending}>
+      <Button type="submit" variant="danger" disabled={isPending} aria-label="Delete Group">
         <Trash />
       </Button>
     </form>

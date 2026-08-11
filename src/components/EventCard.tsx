@@ -54,7 +54,7 @@ const EventCard = ({ event }: EventCardProps) => {
                 Edit
               </Button>
 
-              <Button variant="danger" onClick={removeEvent}>
+              <Button variant="danger" onClick={removeEvent} aria-label="Delete Event">
                 <Trash />
               </Button>
             </div>

@@ -29,7 +29,7 @@ const onSubmit = async (data: EditProfileFormData, profileData: Profile) => {
     descimage: data.descimage,
   });
 
-  swal('Success', 'Your event has been edited', 'success', {
+  swal('Success', 'Your profile has been edited', 'success', {
     timer: 2000,
   });
 };

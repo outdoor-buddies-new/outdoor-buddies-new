@@ -29,7 +29,7 @@ const onSubmit = async (data: EditGroupFormData, groupData: Group) => {
     description: data.description ?? "",
   });
 
-  swal('Success', 'Your event has been edited', 'success', {
+  swal('Success', 'Your group has been edited', 'success', {
     timer: 2000,
   });
 };
@@ -70,7 +70,7 @@ const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
       <Row className="justify-content-center">
         <Col xs={10}>
           <h2 className="text-center title-font">
-            Edit Profile
+            Edit Group
           </h2>
 
           <Card className="bg-white">
