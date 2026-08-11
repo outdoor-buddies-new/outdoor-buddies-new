@@ -75,18 +75,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.profileId = user.profileId;
       }
 
-      if ((!token.profileId || trigger === 'update') && token.id) {
-        const parsedUserId = parseInt(token.id, 10);
-        
-        if (!isNaN(parsedUserId)) {
-          const dbProfile = await prisma.profile.findFirst({
-            where: { userId: parsedUserId },
-            select: { id: true },
-          });
+    if (token.id) {
+      const parsedUserId = parseInt(token.id, 10);
 
-          token.profileId = dbProfile ? String(dbProfile.id) : null;
-        }
+      if (!isNaN(parsedUserId)) {
+        const dbProfile = await prisma.profile.findFirst({
+          where: { userId: parsedUserId },
+          select: { id: true },
+        });
+
+        token.profileId = dbProfile ? String(dbProfile.id) : null;
       }
+    }
 
       return token;
     },
