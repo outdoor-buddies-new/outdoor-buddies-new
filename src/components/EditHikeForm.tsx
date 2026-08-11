@@ -167,11 +167,11 @@ const EditHikeForm: React.FC<EditHikeFormProps> = ({ trail }) => {
                   </Col>
                   <Col>
                     <Form.Group className="mt-3">
-                      <Form.Label>
+                      <Form.Label htmlFor="difficulty">
                         Difficulty
                       </Form.Label>
 
-                      <Form.Select {...register('difficulty')} className="bg-white">
+                      <Form.Select id="difficulty" {...register('difficulty')} className="bg-white">
                         <option value="EASY">Easy</option>
                         <option value="MODERATE">Moderate</option>
                         <option value="HARD">Hard</option>
@@ -181,7 +181,7 @@ const EditHikeForm: React.FC<EditHikeFormProps> = ({ trail }) => {
                 </Row>
 
                 <Form.Group className="mt-3">
-                  <Form.Label>
+                  <Form.Label htmlFor="image">
                     Image URL
                   </Form.Label>
 

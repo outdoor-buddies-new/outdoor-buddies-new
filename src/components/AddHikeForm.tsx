@@ -151,10 +151,10 @@ const AddHikeForm: React.FC = () => {
                   </Col>
                   <Col>
                     <Form.Group className="mt-3">
-                      <Form.Label>
+                      <Form.Label htmlFor="difficulty">
                         Difficulty
                       </Form.Label>
-                      <Form.Select {...register('difficulty')} className="bg-white">
+                      <Form.Select id="difficulty" {...register('difficulty')} className="bg-white">
                         <option value="EASY">Easy</option>
                         <option value="MODERATE">Moderate</option>
                         <option value="HARD">Hard</option>
@@ -164,7 +164,7 @@ const AddHikeForm: React.FC = () => {
                 </Row>
 
                 <Form.Group className="mt-3">
-                  <Form.Label>
+                  <Form.Label htmlFor="image">
                     Image URL
                   </Form.Label>
                   <input

@@ -197,13 +197,13 @@ export async function editProfile(profile: {
  * Deletes an existing profile from the database.
  * @param id, the profile id
 */
-export async function deleteProfile(id: string) {
-  await prisma.profile.delete({
-    where: { id },
-  });
-  revalidatePath('/profile');
-  revalidatePath(`/profile/${id}`);
-}
+  export async function deleteProfile(id: string) {
+    await prisma.profile.delete({
+      where: { id },
+    });
+    revalidatePath('/profile');
+    revalidatePath(`/profile/${id}`);
+  }
 
 /**
  * Adds a new note to the database.

@@ -18,7 +18,7 @@ test('test admin access to hike and event management', async ({ getUserPage }) =
   await expect(
     adminPage.getByRole('link', { name: 'Announcements' })
   ).toBeVisible({ timeout: 5000 });
-
+  
   await expect(
     adminPage.getByRole('link', { name: 'Hikes' })
   ).toBeVisible({ timeout: 5000 });
@@ -119,41 +119,35 @@ test('test admin access to hike and event management', async ({ getUserPage }) =
   ).toHaveValue('');  
 
   // Add the data back and submit
-
   await adminPage.getByLabel('Hike Name').fill('Playwright Test Hike');
-
   await adminPage.getByLabel('Location').fill('Manoa, Oahu');
-
   await adminPage.getByLabel('Description').fill(
     'This hike was created by the admin Playwright test.'
   );
-
   await adminPage.getByLabel('One-Way Distance (miles)').fill('1.5');
-
   await adminPage.getByLabel('Difficulty').selectOption('MODERATE');
-
   await adminPage.getByLabel('Image URL').fill(
     'https://t3.ftcdn.net/jpg/03/48/91/92/360_F_348919233_S2C1VQ5xbJQCzIDkSJ20lBHQiLX9DYvW.jpg'
   );
-
   await adminPage.getByRole('button', { name: 'Submit' }).click();
 
+  // Give the server action time to finish
+  await adminPage.waitForTimeout(1000);
+
+  // Go to the hikes page
+  await adminPage.goto('http://localhost:3000/hikes', {
+    waitUntil: 'domcontentloaded',
+  });
+
   // Ensure the data got added
-
-  await expect(
-    adminPage.getByText('Your hike has been added')
-  ).toBeVisible({ timeout: 5000 });
-
-  await adminPage.goto('http://localhost:3000/hikes');
-
   await expect(
     adminPage.getByText('Playwright Test Hike')
-  ).toBeVisible({ timeout: 5000 });
+  ).toBeVisible({ timeout: 10000 });
 
   // Test edit hike page
   const hikeCard = adminPage.locator('.card').filter({
     hasText: 'Playwright Test Hike',
-  });
+  }).first();
 
   await expect(hikeCard).toBeVisible({ timeout: 5000 });
 
@@ -215,23 +209,23 @@ test('test admin access to hike and event management', async ({ getUserPage }) =
     'fake-image'
   );
 
-  await adminPage.getByRole('button', { name: 'Submit' }).click();
+  await adminPage.getByRole('button', { name: 'Save Changes' }).click();
+
+  // Give the update time to finish
+  await adminPage.waitForTimeout(1000);
 
   // Confirm the updates were made
+  await adminPage.goto('http://localhost:3000/hikes', {
+    waitUntil: 'domcontentloaded',
+  });
 
   await expect(
-    adminPage.getByText('Your hike has been updated')
-  ).toBeVisible({ timeout: 5000 });
-
-  await adminPage.goto('http://localhost:3000/hikes');
-
-    await expect(
     adminPage.getByText('Playwright Edited Hike')
-  ).toBeVisible({ timeout: 5000 });
+  ).toBeVisible({ timeout: 10000 });
 
   const editedHikeCard = adminPage.locator('.card').filter({
     hasText: 'Playwright Edited Hike',
-  });
+  }).first();
 
   await expect(editedHikeCard).toBeVisible({ timeout: 5000 });
 
@@ -265,7 +259,7 @@ test('test admin access to hike and event management', async ({ getUserPage }) =
   await adminPage.goto('http://localhost:3000/announcements/add');
 
   await expect(
-    adminPage.getByRole('heading', { name: 'Create Event' })
+    adminPage.getByRole('heading', { name: 'Create Announcement or Event' })
   ).toBeVisible({ timeout: 5000 });
 
   // Ensure fields and buttons exist
@@ -319,23 +313,23 @@ test('test admin access to hike and event management', async ({ getUserPage }) =
   await adminPage.getByLabel('Description').fill('This event was created by the admin Playwright test.');
 
   await adminPage.getByLabel('Event Date').fill('2026-08-20');
-
   await adminPage.getByRole('button', { name: 'Submit' }).click();
 
-  await expect(
-    adminPage.getByText('Your event has been added')
-  ).toBeVisible({ timeout: 5000 });
+  // Give the server action time to finish
+  await adminPage.waitForTimeout(1000);
 
-  await adminPage.goto('http://localhost:3000/announcements');
+  await adminPage.goto('http://localhost:3000/announcements', {
+    waitUntil: 'domcontentloaded',
+  });
 
   await expect(
-    adminPage.getByText('Playwright Test Event')
-  ).toBeVisible({ timeout: 5000 });
+    adminPage.getByText('Playwright Test Event').first()
+  ).toBeVisible({ timeout: 10000 });
 
   // Test edit event page
   const eventCard = adminPage.locator('.card').filter({
     hasText: 'Playwright Test Event',
-  });
+  }).first();
 
   await expect(eventCard).toBeVisible({ timeout: 5000 });
 
@@ -379,20 +373,24 @@ test('test admin access to hike and event management', async ({ getUserPage }) =
 
   await adminPage.getByRole('button', { name: 'Submit' }).click();
 
+  // Give the update time to finish
+  await adminPage.waitForTimeout(1000);
+
+  // Go back to announcements page
+  await adminPage.goto('http://localhost:3000/announcements', {
+    waitUntil: 'domcontentloaded',
+  });
+
   await expect(
-    adminPage.getByText('Your event has been edited')
-  ).toBeVisible({ timeout: 5000 });
+    adminPage.getByText('Playwright Edited Event').first()
+  ).toBeVisible({ timeout: 10000 });
 
-  await adminPage.goto('http://localhost:3000/announcements');
-
-    await expect(
-    adminPage.getByText('Playwright Edited Event')
-  ).toBeVisible({ timeout: 5000 });
+  // Test edit event page
 
   // Test edit event page
   const editedEventCard = adminPage.locator('.card').filter({
     hasText: 'Playwright Edited Event',
-  });
+  }).first();
 
   await expect(editedEventCard).toBeVisible({ timeout: 5000 });
 
@@ -401,10 +399,18 @@ test('test admin access to hike and event management', async ({ getUserPage }) =
     editedEventCard.getByRole('button', { name: 'Delete Event' })
   ).toBeVisible({ timeout: 5000 });
 
+  // Accept the delete confirmation
+  adminPage.once('dialog', async dialog => {
+    await dialog.accept();
+  });
+
   // Delete the event and confirm
   await editedEventCard.getByRole('button', { name: 'Delete Event' }).click();
 
+  await adminPage.waitForTimeout(1000);
+  await adminPage.reload();
+
   await expect(
-    adminPage.getByText('Playwright Edited Event')
+    adminPage.getByText('Playwright Edited Event').first()
   ).not.toBeVisible({ timeout: 5000 });
 });

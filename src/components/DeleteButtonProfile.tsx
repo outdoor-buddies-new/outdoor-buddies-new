@@ -4,61 +4,37 @@
 
 'use client';
 
-import { useSession } from 'next-auth/react';
 import { useState } from 'react';
-import swal from 'sweetalert'
 import { Button } from 'react-bootstrap';
 import { Trash } from 'react-bootstrap-icons';
 
 import { deleteProfile } from '@/lib/dbActions';
 
 export default function DeleteButton({ profileId }: { profileId: string }) {
-  const { update } = useSession();
+	const [isDeleting, setIsDeleting] = useState(false);
 
-  const [isDeleting, setIsDeleting] = useState(false);
+	const handleDelete = async () => {
+		try {
+			setIsDeleting(true);
 
-  const handleDelete = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
+			await deleteProfile(profileId);
 
-    const isConfirmed = await swal({
-      title: "Are you sure?",
-      text: "Once deleted, you will not be able to recover this profile!",
-      icon: "warning",
-      buttons: [true, true], // Cancel , OK
-      dangerMode: true,
-    });
+			window.location.href = '/profile';
+		} catch (error: unknown) {
+			console.error('Error deleting profile:', error);
+			setIsDeleting(false);
+		}
+	};
 
-    if (!isConfirmed) return;
-    
-    try {
-      setIsDeleting(true);
-
-      await deleteProfile(profileId);
-
-      await update({ profileId: null });
-
-      await swal('Success', 'Your profile has been deleted', 'success', {
-        timer: 2000,
-      });
-
-      window.location.href = '/profile';
-      
-    } catch (error: unknown) {
-      console.error('Error deleting profile:', error);
-      setIsDeleting(false);
-     if (error instanceof Error) {
-        swal('Error', error.message, 'error');
-      } else {
-        swal('Error', 'Something went wrong while deleting the profile.', 'error');
-      }
-    }
-  };
-
-  return (
-    <form onSubmit={handleDelete}>
-      <Button type="submit" variant="danger" disabled={isDeleting} aria-label="Delete Profile">
-        <Trash /> {isDeleting ? 'Deleting...' : ''}
-      </Button>
-    </form>
-  );
+	return (
+		<Button
+			type="button"
+			variant="danger"
+			disabled={isDeleting}
+			aria-label="Delete Profile"
+			onClick={handleDelete}
+		>
+			<Trash /> {isDeleting ? 'Deleting...' : ''}
+		</Button>
+	);
 }

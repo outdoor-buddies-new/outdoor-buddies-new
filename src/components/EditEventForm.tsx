@@ -78,10 +78,11 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
             <Card.Body>
               <Form onSubmit={handleSubmit((data) => onSubmit(data, eventData))}>
                 <Form.Group>
-                  <Form.Label>
+                  <Form.Label htmlFor="title">
                     Title
                   </Form.Label>
                   <input
+                    id="title"
                     type="text"
                     {...register('title')}
                     className={`form-control bg-white ${errors.title ? 'is-invalid' : ''}`}
@@ -92,10 +93,11 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
                 </Form.Group>
 
                 <Form.Group className="mt-3">
-                  <Form.Label>
+                  <Form.Label htmlFor="description">
                     Description
                   </Form.Label>
                   <textarea
+                    id="description"
                     {...register('description')}
                     className={`form-control bg-white ${errors.description ? 'is-invalid' : ''}`}
                   />
@@ -105,10 +107,11 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
                 </Form.Group>
 
                 <Form.Group className="mt-3">
-                  <Form.Label>
+                  <Form.Label htmlFor="eventDate">
                     Event Date
                   </Form.Label>
                   <input
+                    id="eventDate"
                     type="date"
                     {...register('date')}
                     className={`form-control bg-white ${errors.date ? 'is-invalid' : ''}`}

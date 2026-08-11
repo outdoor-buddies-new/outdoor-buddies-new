@@ -96,8 +96,9 @@ const AddGroupForm: React.FC = () => {
               <Form onSubmit={handleSubmit(onSubmit)}>
                 
                 <Form.Group className="mb-3">
-                  <Form.Label>Name</Form.Label>
+                  <Form.Label htmlFor="name">Name</Form.Label>
                   <input
+                    id="name"
                     type="text"
                     {...register('name')}
                     className={`form-control bg-white ${errors.name ? 'is-invalid' : ''}`}
@@ -106,8 +107,9 @@ const AddGroupForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Image URL (please use a square image)</Form.Label>
+                  <Form.Label htmlFor="image">Image URL (please use a square image)</Form.Label>
                   <input
+                    id="image"
                     type="text"
                     {...register('image')}
                     className={`form-control bg-white ${errors.image ? 'is-invalid' : ''}`}
@@ -128,8 +130,9 @@ const AddGroupForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Members</Form.Label>
+                  <Form.Label htmlFor="members">Members</Form.Label>
                   <input
+                    id="members"
                     type="number"
                     {...register('members')}
                     className={`form-control bg-white ${errors.members ? 'is-invalid' : ''}`}
@@ -137,8 +140,9 @@ const AddGroupForm: React.FC = () => {
                   <div className="invalid-feedback">{errors.members?.message}</div>
                 </Form.Group>
                 <Form.Group className="mb-3">
-                  <Form.Label>Max Members</Form.Label>
+                  <Form.Label htmlFor="maxmembers">Max Members</Form.Label>
                   <input
+                    id="maxmembers"
                     type="number"
                     {...register('maxmembers')}
                     className={`form-control bg-white ${errors.maxmembers ? 'is-invalid' : ''}`}
@@ -147,11 +151,11 @@ const AddGroupForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>
+                  <Form.Label htmlFor="commitment">
                     Commitment
                   </Form.Label>
 
-                  <Form.Select {...register('intensity')}
+                  <Form.Select id="commitment" {...register('intensity')}
                     className={`form-control bg-white ${errors.intensity ? 'is-invalid' : ''}`}>
                     <option value="">Select commitment level...</option>
                     <option value="Casual">Casual</option>
@@ -164,8 +168,9 @@ const AddGroupForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Description</Form.Label>
+                  <Form.Label htmlFor="description">Description</Form.Label>
                   <textarea
+                    id="description"
                     {...register('description')}
                     className={`form-control bg-white ${errors.description ? 'is-invalid' : ''}`}
                     rows={3}

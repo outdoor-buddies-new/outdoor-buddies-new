@@ -107,8 +107,9 @@ const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
               <Form onSubmit={handleSubmit((data) => onSubmit(data, groupData))}>
                 
                 <Form.Group className="mb-3">
-                  <Form.Label>Name</Form.Label>
+                  <Form.Label htmlFor="name">Name</Form.Label>
                   <input
+                    id="name"
                     type="text"
                     {...register('name')}
                     className={`form-control bg-white ${errors.name ? 'is-invalid' : ''}`}
@@ -117,8 +118,9 @@ const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Image URL</Form.Label>
+                  <Form.Label htmlFor="image">Image URL</Form.Label>
                   <input
+                    id="image"
                     type="text"
                     {...register('image')}
                     className={`form-control bg-white ${errors.image ? 'is-invalid' : ''}`}
@@ -127,8 +129,9 @@ const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Members</Form.Label>
+                  <Form.Label htmlFor="members">Members</Form.Label>
                   <input
+                    id="members"
                     type="number"
                     {...register('members')}
                     className={`form-control bg-white ${errors.members ? 'is-invalid' : ''}`}
@@ -137,8 +140,9 @@ const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Maximum Members</Form.Label>
+                  <Form.Label htmlFor="maxmembers">Maximum Members</Form.Label>
                   <input
+                    id="maxmembers"
                     type="number"
                     {...register('maxmembers')}
                     className={`form-control bg-white ${errors.maxmembers ? 'is-invalid' : ''}`}
@@ -147,11 +151,11 @@ const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>
+                  <Form.Label htmlFor="commitment">
                     Commitment
                   </Form.Label>
 
-                  <Form.Select {...register('intensity')}
+                  <Form.Select id="commitment" {...register('intensity')}
                     className={`form-control bg-white ${errors.intensity ? 'is-invalid' : ''}`}>
                       <option value="">Select commitment level...</option>
                       <option value="Casual">Casual</option>
@@ -164,8 +168,9 @@ const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Description</Form.Label>
+                  <Form.Label htmlFor="description">Description</Form.Label>
                   <textarea
+                    id="description"
                     {...register('description')}
                     className={`form-control bg-white ${errors.description ? 'is-invalid' : ''}`}
                     rows={3}

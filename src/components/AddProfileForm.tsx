@@ -116,8 +116,9 @@ const AddProfileForm: React.FC = () => {
               <Form onSubmit={handleSubmit(onSubmit)}>
                 
                 <Form.Group className="mb-3">
-                  <Form.Label>Name</Form.Label>
+                  <Form.Label htmlFor="name">Name</Form.Label>
                   <input
+                    id="name"
                     type="text"
                     {...register('name')}
                     className={`form-control bg-white ${errors.name ? 'is-invalid' : ''}`}
@@ -126,8 +127,9 @@ const AddProfileForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Image URL (please use a square image)</Form.Label>
+                  <Form.Label htmlFor="image">Image URL (please use a square image)</Form.Label>
                   <input
+                  id="image"
                     type="text"
                     {...register('image')}
                     className={`form-control bg-white ${errors.image ? 'is-invalid' : ''}`}
@@ -148,8 +150,9 @@ const AddProfileForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Status</Form.Label>
+                  <Form.Label htmlFor="summary">Status</Form.Label>
                   <input
+                  id="summary"
                     type="text"
                     {...register('summary')}
                     className={`form-control bg-white ${errors.summary ? 'is-invalid' : ''}`}
@@ -158,8 +161,9 @@ const AddProfileForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Description</Form.Label>
+                  <Form.Label htmlFor="description">Description</Form.Label>
                   <textarea
+                  id="description"
                     {...register('description')}
                     className={`form-control bg-white ${errors.description ? 'is-invalid' : ''}`}
                     rows={3}
@@ -168,8 +172,9 @@ const AddProfileForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Description Image URL</Form.Label>
+                  <Form.Label htmlFor="descimage">Description Image URL</Form.Label>
                   <input
+                    id="descimage"
                     type="text"
                     {...register('descimage')}
                     className={`form-control bg-white ${errors.descimage ? 'is-invalid' : ''}`}
@@ -190,8 +195,9 @@ const AddProfileForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Group Name</Form.Label>
+                  <Form.Label htmlFor="groupname">Group Name</Form.Label>
                   <input
+                    id="groupname"
                     type="text"
                     {...register('groupname')}
                     className={`form-control bg-white ${errors.groupname ? 'is-invalid' : ''}`}

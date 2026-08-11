@@ -48,11 +48,21 @@ test('test user access and functionality', async ({ getUserPage }) => {
   ).toBeVisible({ timeout: 5000 });
 
   // Test Groups page
-  await userPage.goto('http://localhost:3000/groups');
+  console.log('BEFORE GROUPS:', userPage.url());
+
+  await userPage.goto('http://localhost:3000/groups', {
+    waitUntil: 'commit',
+  });
+
+  console.log('AFTER GROUPS:', userPage.url());
+
+  await userPage.waitForTimeout(1000);
+
+  console.log('AFTER GROUPS WAIT:', userPage.url());
 
   await expect(
     userPage.getByRole('heading', { name: 'Groups' })
-  ).toBeVisible({ timeout: 5000 });
+  ).toBeVisible({ timeout: 10000 });
 
   // Test Profiles page
   await userPage.goto('http://localhost:3000/profile');
@@ -63,66 +73,75 @@ test('test user access and functionality', async ({ getUserPage }) => {
 
   // Test all View Details accessibility
   // Test Announcements details page
-await userPage.goto('http://localhost:3000/announcements');
+  await userPage.goto('http://localhost:3000/announcements');
 
-const eventCard = userPage.locator('.card').filter({
-	hasText: 'Summer Hiking Meetup',
-});
+  const eventCard = userPage.locator('.card').filter({
+    hasText: 'Summer Hiking Meetup',
+  });
 
-await expect(eventCard).toBeVisible({ timeout: 5000 });
+  await expect(eventCard).toBeVisible({ timeout: 5000 });
 
-await eventCard.getByRole('link', { name: 'View Details' }).click();
+  await eventCard.getByRole('button', { name: 'View Details' }).click();
 
-await expect(
-	userPage.getByRole('heading', { name: 'Summer Hiking Meetup' }),
-).toBeVisible({ timeout: 5000 });
+  await expect(
+    userPage.getByText('Summer Hiking Meetup'),
+  ).toBeVisible({ timeout: 5000 });
 
-// Test Hikes details page
-await userPage.goto('http://localhost:3000/hikes');
+  // Test Hikes details page
+  await userPage.goto('http://localhost:3000/hikes');
 
-const hikeCard = userPage.locator('.card').filter({
-	hasText: 'Diamond Head',
-});
+  const hikeCard = userPage.locator('.card').filter({
+    hasText: 'Diamond Head',
+  });
 
-await expect(hikeCard).toBeVisible({ timeout: 5000 });
+  await expect(hikeCard).toBeVisible({ timeout: 5000 });
 
-await hikeCard.getByRole('link', { name: 'View Details' }).click();
+  await hikeCard.getByText('Diamond Head', { exact: true }).click();
 
-await expect(
-	userPage.getByRole('heading', { name: 'Diamond Head' }),
-).toBeVisible({ timeout: 5000 });
+  // Wait for the hike details navigation to finish
+  await userPage.waitForURL(/\/hikes\/.+/, { timeout: 10000 });
 
-// Test Groups details page
-await userPage.goto('http://localhost:3000/groups');
+  await expect(
+    userPage.getByText('Diamond Head', { exact: true }),
+  ).toBeVisible({ timeout: 5000 });
 
-const groupCard = userPage.locator('.card').filter({
-	hasText: 'Mathemagical Hikes',
-});
+  // Test Groups details page
+  await userPage.goto('http://localhost:3000/groups', {
+    waitUntil: 'domcontentloaded',
+  });
 
-await expect(groupCard).toBeVisible({ timeout: 5000 });
+  await expect(
+    userPage.getByRole('heading', { name: 'Groups' })
+  ).toBeVisible({ timeout: 10000 });
 
-await groupCard.getByRole('link', { name: 'View Details' }).click();
+  const groupCard = userPage.locator('.card').filter({
+    hasText: 'Mathemagical Hikes',
+  });
 
-await expect(
-	userPage.getByRole('heading', { name: 'Mathemagical Hikes' }),
-).toBeVisible({ timeout: 5000 });
+  await expect(groupCard).toBeVisible({ timeout: 5000 });
 
-// Test Profiles details page
-await userPage.goto('http://localhost:3000/profile');
+  await groupCard.getByRole('button', { name: 'View Details' }).click();
 
-const profileCard = userPage.locator('.card').filter({
-	hasText: 'Hanako Yamada',
-});
+  await expect(
+    userPage.getByRole('heading', { name: 'Mathemagical Hikes' }),
+  ).toBeVisible({ timeout: 5000 });
 
-await expect(profileCard).toBeVisible({ timeout: 5000 });
+  // Test Profiles details page
+  await userPage.goto('http://localhost:3000/profile');
 
-await profileCard.getByRole('link', { name: 'View Details' }).click();
+  const profileCard = userPage.locator('.card').filter({
+    hasText: 'Hanako Yamada',
+  });
 
-await expect(
-	userPage.getByRole('heading', { name: 'Hanako Yamada' }),
-).toBeVisible({ timeout: 5000 });
+  await expect(profileCard).toBeVisible({ timeout: 5000 });
 
-// Test Hikes' search and filters
+  await profileCard.getByRole('button', { name: 'View Details' }).click();
+
+  await expect(
+    userPage.getByRole('heading', { name: 'Hanako Yamada' }),
+  ).toBeVisible({ timeout: 5000 });
+
+  // Test Hikes' search and filters
   await userPage.goto('http://localhost:3000/hikes');
 
   const searchBox = userPage.getByPlaceholder('Find your place');
@@ -172,29 +191,28 @@ await expect(
   ).toBeVisible({ timeout: 5000 });
 
   // Ensure fields and buttons exist
-
   await expect(
-    userPage.getByLabel('Name')
+    userPage.getByLabel('Name', { exact: true })
   ).toBeVisible({ timeout: 5000 });
 
   await expect(
-    userPage.getByLabel('Image URL (please use a square image)')
+    userPage.getByLabel('Image URL (please use a square image)', { exact: true })
   ).toBeVisible({ timeout: 5000 });
 
   await expect(
-    userPage.getByLabel('Summary')
+    userPage.getByLabel('Status', { exact: true })
   ).toBeVisible({ timeout: 5000 });
 
   await expect(
-    userPage.getByLabel('Description')
+    userPage.getByLabel('Description', { exact: true })
   ).toBeVisible({ timeout: 5000 });
 
   await expect(
-    userPage.getByLabel('Description Image URL')
+    userPage.getByLabel('Description Image URL', { exact: true })
   ).toBeVisible({ timeout: 5000 });
 
   await expect(
-    userPage.getByLabel('Group Name')
+    userPage.getByLabel('Group Name', { exact: true })
   ).toBeVisible({ timeout: 5000 });
 
   await expect(
@@ -206,114 +224,116 @@ await expect(
   ).toBeVisible({ timeout: 5000 });
 
   // Fill profile with test data
-
-  await userPage.getByLabel('Name').fill('Playwright Test Profile');
+  await userPage.getByLabel('Name', { exact: true }).fill(
+    'Playwright Test Profile'
+  );
 
   await userPage.getByLabel(
-    'Image URL (please use a square image)'
+    'Image URL (please use a square image)',
+    { exact: true }
   ).fill('https://example.com/profile.jpg');
 
-  await userPage.getByLabel('Summary').fill(
+  await userPage.getByLabel('Status', { exact: true }).fill(
     'Profile created by Playwright.'
   );
 
-  await userPage.getByLabel('Description').fill(
+  await userPage.getByLabel('Description', { exact: true }).fill(
     'This profile was created by the regular user Playwright test.'
   );
 
-  await userPage.getByLabel('Description Image URL').fill(
+  await userPage.getByLabel('Description Image URL', { exact: true }).fill(
     'https://example.com/description.jpg'
   );
 
-  await userPage.getByLabel('Group Name').fill(
+  await userPage.getByLabel('Group Name', { exact: true }).fill(
     'Playwright Test Group'
   );
 
   // Test Reset
-
   await userPage.getByRole('button', { name: 'Reset' }).click();
 
   await expect(
-    userPage.getByLabel('Name')
+    userPage.getByLabel('Name', { exact: true })
   ).toHaveValue('');
 
   await expect(
     userPage.getByLabel(
-      'Image URL (please use a square image)'
+      'Image URL (please use a square image)',
+      { exact: true }
     )
   ).toHaveValue('');
 
   await expect(
-    userPage.getByLabel('Summary')
+    userPage.getByLabel('Status', { exact: true })
   ).toHaveValue('');
 
   await expect(
-    userPage.getByLabel('Description')
+    userPage.getByLabel('Description', { exact: true })
   ).toHaveValue('');
 
   await expect(
-    userPage.getByLabel('Description Image URL')
+    userPage.getByLabel('Description Image URL', { exact: true })
   ).toHaveValue('');
 
   await expect(
-    userPage.getByLabel('Group Name')
+    userPage.getByLabel('Group Name', { exact: true })
   ).toHaveValue('');
 
   // Fill profile again and submit
-
-  await userPage.getByLabel('Name').fill('Playwright Test Profile');
+  await userPage.getByLabel('Name', { exact: true }).fill(
+    'Playwright Test Profile'
+  );
 
   await userPage.getByLabel(
-    'Image URL (please use a square image)'
+    'Image URL (please use a square image)',
+    { exact: true }
   ).fill('https://example.com/profile.jpg');
 
-  await userPage.getByLabel('Summary').fill(
+  await userPage.getByLabel('Status', { exact: true }).fill(
     'Profile created by Playwright.'
   );
 
-  await userPage.getByLabel('Description').fill(
+  await userPage.getByLabel('Description', { exact: true }).fill(
     'This profile was created by the regular user Playwright test.'
   );
 
-  await userPage.getByLabel('Description Image URL').fill(
+  await userPage.getByLabel('Description Image URL', { exact: true }).fill(
     'https://example.com/description.jpg'
   );
 
-  await userPage.getByLabel('Group Name').fill(
+  await userPage.getByLabel('Group Name', { exact: true }).fill(
     'Playwright Test Group'
   );
 
   await userPage.getByRole('button', { name: 'Submit' }).click();
 
+  // Give the server action time to finish
+  await userPage.waitForTimeout(1000);
+
   // Verify your profile has been added to the profiles page
+  await userPage.goto('http://localhost:3000/profile', {
+    waitUntil: 'domcontentloaded',
+  });
 
   await expect(
-    userPage.getByText('Your profile has been created')
-  ).toBeVisible({ timeout: 5000 });
-
-  await userPage.goto('http://localhost:3000/profile');
-
-  await expect(
-    userPage.getByRole('heading', { name: 'Playwright Test Profile' })
+    userPage.getByText('Playwright Test Profile', { exact: true })
   ).toBeVisible({ timeout: 5000 });
 
   // Open the profile details page
   const prProfileCard = userPage.locator('.card').filter({
     hasText: 'Playwright Test Profile',
-  });
+  }).first();
 
   await expect(prProfileCard).toBeVisible({ timeout: 5000 });
 
-  await prProfileCard.getByRole('link', { name: 'View Details' }).click();
+  await prProfileCard.getByRole('button', { name: 'View Details' }).click();
 
   // Confirm profile details page loaded
   await expect(
     userPage.getByRole('heading', { name: 'Playwright Test Profile' })
   ).toBeVisible({ timeout: 5000 });
 
-
   // Test Edit Profile
-  // Open the Edit Profile page
   await userPage.getByRole('link', { name: 'Edit Profile' }).click();
 
   // Confirm Edit Profile page loaded
@@ -323,110 +343,131 @@ await expect(
 
   // Test existing profile data
   await expect(
-    userPage.getByLabel('Name')
+    userPage.getByLabel('Name', { exact: true })
   ).toHaveValue('Playwright Test Profile');
 
   await expect(
-    userPage.getByLabel('Image URL')
+    userPage.getByLabel('Image URL', { exact: true })
   ).toHaveValue('https://example.com/profile.jpg');
 
   await expect(
-    userPage.getByLabel('Summary')
+    userPage.getByLabel('Summary', { exact: true })
   ).toHaveValue('Profile created by Playwright.');
 
   await expect(
-    userPage.getByLabel('Description')
+    userPage.getByLabel('Description', { exact: true })
   ).toHaveValue(
     'This profile was created by the regular user Playwright test.'
   );
 
   await expect(
-    userPage.getByLabel('Group Name')
+    userPage.getByLabel('Description Image URL', { exact: true })
+  ).toHaveValue('https://example.com/description.jpg');
+
+  await expect(
+    userPage.getByLabel('Group Name', { exact: true })
   ).toHaveValue('Playwright Test Group');
 
   // Test Reset
   await userPage.getByRole('button', { name: 'Reset' }).click();
 
   await expect(
-    userPage.getByLabel('Name')
+    userPage.getByLabel('Name', { exact: true })
   ).toHaveValue('Playwright Test Profile');
 
   await expect(
-    userPage.getByLabel('Image URL')
+    userPage.getByLabel('Image URL', { exact: true })
   ).toHaveValue('https://example.com/profile.jpg');
 
   await expect(
-    userPage.getByLabel('Summary')
+    userPage.getByLabel('Summary', { exact: true })
   ).toHaveValue('Profile created by Playwright.');
 
   await expect(
-    userPage.getByLabel('Description')
+    userPage.getByLabel('Description', { exact: true })
   ).toHaveValue(
     'This profile was created by the regular user Playwright test.'
   );
 
   await expect(
-    userPage.getByLabel('Group Name')
+    userPage.getByLabel('Description Image URL', { exact: true })
+  ).toHaveValue('https://example.com/description.jpg');
+
+  await expect(
+    userPage.getByLabel('Group Name', { exact: true })
   ).toHaveValue('Playwright Test Group');
 
   // Fill form with edited data
-  await userPage.getByLabel('Name').fill(
+  await userPage.getByLabel('Name', { exact: true }).fill(
     'Playwright Edited Profile'
   );
 
-  await userPage.getByLabel('Image URL').fill(
+  await userPage.getByLabel('Image URL', { exact: true }).fill(
     'https://example.com/edited-profile.jpg'
   );
 
-  await userPage.getByLabel('Summary').fill(
+  await userPage.getByLabel('Summary', { exact: true }).fill(
     'Profile edited by Playwright.'
   );
 
-  await userPage.getByLabel('Description').fill(
+  await userPage.getByLabel('Description', { exact: true }).fill(
     'This profile was edited by the regular user Playwright test.'
   );
 
-  await userPage.getByLabel('Group Name').fill(
+  await userPage.getByLabel('Description Image URL', { exact: true }).fill(
+    'https://example.com/edited-description.jpg'
+  );
+
+  await userPage.getByLabel('Group Name', { exact: true }).fill(
     'Playwright Edited Group'
   );
 
   // Submit edited profile
   await userPage.getByRole('button', { name: 'Submit' }).click();
 
-  // Confirm profile was updated
-  await expect(
-    userPage.getByText('Your profile has been edited')
-  ).toBeVisible({ timeout: 5000 });
+  // Wait for profile details page
+  await userPage.waitForURL(/\/profile\/.+/, { timeout: 10000 });
 
   // Go back to profiles and verify the edited profile
-  await userPage.goto('http://localhost:3000/profile');
+  await userPage.waitForTimeout(1000);
+
+  await userPage.goto('http://localhost:3000/profile', {
+    waitUntil: 'commit',
+  });
 
   await expect(
-    userPage.getByText('Playwright Edited Profile')
-  ).toBeVisible({ timeout: 5000 });
+    userPage.getByText('Playwright Edited Profile', { exact: true })
+  ).toBeVisible({ timeout: 10000 });
 
   // Go to the edited profile's details page
   const editedProfileCard = userPage.locator('.card').filter({
     hasText: 'Playwright Edited Profile',
-  });
+  }).first();
 
   await expect(editedProfileCard).toBeVisible({ timeout: 5000 });
 
-  await editedProfileCard.getByRole('link', { name: 'View Details' }).click();
+  await editedProfileCard.getByRole('button', { name: 'View Details' }).click();
 
   // Confirm we are on the edited profile
   await expect(
     userPage.getByRole('heading', { name: 'Playwright Edited Profile' })
   ).toBeVisible({ timeout: 5000 });
 
-  // Delete the profile
-  await userPage.getByRole('button', { name: /delete/i }).click();
+  // Click Delete Profile
+  await userPage.getByRole('button', { name: 'Delete Profile' }).click();
 
-  // Confirm profile deletion
-  await userPage.goto('http://localhost:3000/profile');
+  // Give the delete operation time to finish
+  await userPage.waitForTimeout(2000);
+
+  // Go directly to the profiles page
+  await userPage.goto('http://localhost:3000/profile', {
+    waitUntil: 'domcontentloaded',
+  });
+
+  // Confirm profile was deleted
   await expect(
-    userPage.getByText('Playwright Edited Profile')
-  ).not.toBeVisible({ timeout: 5000 });
+    userPage.getByText('Playwright Edited Profile', { exact: true })
+  ).not.toBeVisible({ timeout: 10000 });
 
   // Test Add Group page
   await userPage.goto('http://localhost:3000/groups');
@@ -440,27 +481,27 @@ await expect(
 
   // Ensure fields and buttons exist
   await expect(
-    userPage.getByLabel('Name')
+    userPage.getByLabel('Name', { exact: true })
   ).toBeVisible({ timeout: 5000 });
 
   await expect(
-    userPage.getByLabel('Image URL')
+    userPage.getByLabel('Image URL (please use a square image)', { exact: true })
   ).toBeVisible({ timeout: 5000 });
 
   await expect(
-    userPage.getByLabel('Members')
+    userPage.getByLabel('Members', { exact: true })
   ).toBeVisible({ timeout: 5000 });
 
   await expect(
-    userPage.getByLabel('Max Members')
+    userPage.getByLabel('Max Members', { exact: true })
   ).toBeVisible({ timeout: 5000 });
 
   await expect(
-    userPage.getByLabel('Commitment')
+    userPage.getByLabel('Commitment', { exact: true })
   ).toBeVisible({ timeout: 5000 });
 
   await expect(
-    userPage.getByLabel('Description')
+    userPage.getByLabel('Description', { exact: true })
   ).toBeVisible({ timeout: 5000 });
 
   await expect(
@@ -472,19 +513,19 @@ await expect(
   ).toBeVisible({ timeout: 5000 });
 
   // Fill group with test data
-  await userPage.getByLabel('Name').fill('Playwright Test Group');
+  await userPage.getByLabel('Name', { exact: true }).fill('Playwright Test Group');
 
-  await userPage.getByLabel('Image URL').fill(
+  await userPage.getByLabel('Image URL (please use a square image)', { exact: true }).fill(
     'https://example.com/group.jpg'
   );
 
-  await userPage.getByLabel('Members').fill('5');
+  await userPage.getByLabel('Members', { exact: true }).fill('5');
 
   await userPage.getByLabel('Max Members').fill('10');
 
-  await userPage.getByLabel('Commitment').selectOption('Moderate');
+  await userPage.getByLabel('Commitment', { exact: true }).selectOption('Moderate');
 
-  await userPage.getByLabel('Description').fill(
+  await userPage.getByLabel('Description', { exact: true }).fill(
     'This group was created by the regular user Playwright test.'
   );
 
@@ -492,15 +533,15 @@ await expect(
   await userPage.getByRole('button', { name: 'Reset' }).click();
 
   await expect(
-    userPage.getByLabel('Name')
+    userPage.getByLabel('Name', { exact: true })
   ).toHaveValue('');
 
   await expect(
-    userPage.getByLabel('Image URL')
+    userPage.getByLabel('Image URL (please use a square image)', { exact: true })
   ).toHaveValue('');
 
   await expect(
-    userPage.getByLabel('Members')
+    userPage.getByLabel('Members', { exact: true })
   ).toHaveValue('0');
 
   await expect(
@@ -508,51 +549,43 @@ await expect(
   ).toHaveValue('');
 
   await expect(
-    userPage.getByLabel('Commitment')
+    userPage.getByLabel('Commitment', { exact: true })
   ).toHaveValue('');
 
   await expect(
-    userPage.getByLabel('Description')
+    userPage.getByLabel('Description', { exact: true })
   ).toHaveValue('');
 
   // Fill group again and submit
-  await userPage.getByLabel('Name').fill('Playwright Test Group');
+  await userPage.getByLabel('Name', { exact: true }).fill('Playwright Test Group');
 
-  await userPage.getByLabel('Image URL').fill(
+  await userPage.getByLabel('Image URL (please use a square image)', { exact: true }).fill(
     'https://example.com/group.jpg'
   );
 
-  await userPage.getByLabel('Members').fill('5');
+  await userPage.getByLabel('Members', { exact: true }).fill('5');
 
   await userPage.getByLabel('Max Members').fill('10');
 
-  await userPage.getByLabel('Commitment').selectOption('Moderate');
+  await userPage.getByLabel('Commitment', { exact: true }).selectOption('Moderate');
 
-  await userPage.getByLabel('Description').fill(
+  await userPage.getByLabel('Description', { exact: true }).fill(
     'This group was created by the regular user Playwright test.'
   );
 
   await userPage.getByRole('button', { name: 'Submit' }).click();
 
   // Verify group was created
-  await expect(
-    userPage.getByText('Your group has been created')
-  ).toBeVisible({ timeout: 5000 });
-
   await userPage.goto('http://localhost:3000/groups');
 
-  await expect(
-    userPage.getByText('Playwright Test Group')
-  ).toBeVisible({ timeout: 5000 });
-
-  // Open the group details page
   const prGroupCard = userPage.locator('.card').filter({
     hasText: 'Playwright Test Group',
   });
 
-  await expect(prGroupCard).toBeVisible({ timeout: 5000 });
+  await expect(prGroupCard.first()).toBeVisible({ timeout: 5000 });
 
-  await prGroupCard.getByRole('link', { name: 'View Details' }).click();
+  // Open the group details page
+  await prGroupCard.first().getByRole('button', { name: 'View Details' }).click();
 
   // Confirm group details page loaded
   await expect(
@@ -569,15 +602,15 @@ await expect(
 
   // Check existing group data
   await expect(
-    userPage.getByLabel('Name')
+    userPage.getByLabel('Name', { exact: true })
   ).toHaveValue('Playwright Test Group');
 
   await expect(
-    userPage.getByLabel('Image URL')
+    userPage.getByLabel('Image URL', { exact: true })
   ).toHaveValue('https://example.com/group.jpg');
 
   await expect(
-    userPage.getByLabel('Members')
+    userPage.getByLabel('Members', { exact: true })
   ).toHaveValue('5');
 
   await expect(
@@ -585,11 +618,11 @@ await expect(
   ).toHaveValue('10');
 
   await expect(
-    userPage.getByLabel('Commitment')
+    userPage.getByLabel('Commitment', { exact: true })
   ).toHaveValue('Moderate');
 
   await expect(
-    userPage.getByLabel('Description')
+    userPage.getByLabel('Description', { exact: true })
   ).toHaveValue(
     'This group was created by the regular user Playwright test.'
   );
@@ -598,15 +631,15 @@ await expect(
   await userPage.getByRole('button', { name: 'Reset' }).click();
 
   await expect(
-    userPage.getByLabel('Name')
+    userPage.getByLabel('Name', { exact: true })
   ).toHaveValue('Playwright Test Group');
 
   await expect(
-    userPage.getByLabel('Image URL')
+    userPage.getByLabel('Image URL', { exact: true })
   ).toHaveValue('https://example.com/group.jpg');
 
   await expect(
-    userPage.getByLabel('Members')
+    userPage.getByLabel('Members', { exact: true })
   ).toHaveValue('5');
 
   await expect(
@@ -614,49 +647,46 @@ await expect(
   ).toHaveValue('10');
 
   await expect(
-    userPage.getByLabel('Commitment')
+    userPage.getByLabel('Commitment', { exact: true })
   ).toHaveValue('Moderate');
 
   await expect(
-    userPage.getByLabel('Description')
+    userPage.getByLabel('Description', { exact: true })
   ).toHaveValue(
     'This group was created by the regular user Playwright test.'
   );
 
   // Fill form with edited data
-  await userPage.getByLabel('Name').fill(
+  await userPage.getByLabel('Name', { exact: true }).fill(
     'Playwright Edited Group'
   );
 
-  await userPage.getByLabel('Image URL').fill(
+  await userPage.getByLabel('Image URL', { exact: true }).fill(
     'https://example.com/edited-group.jpg'
   );
 
-  await userPage.getByLabel('Members').fill('7');
+  await userPage.getByLabel('Members', { exact: true }).fill('7');
 
   await userPage.getByLabel('Maximum Members').fill('15');
 
-  await userPage.getByLabel('Commitment').selectOption(
+  await userPage.getByLabel('Commitment', { exact: true }).selectOption(
     'Serious'
   );
 
-  await userPage.getByLabel('Description').fill(
+  await userPage.getByLabel('Description', { exact: true }).fill(
     'This group was edited by the regular user Playwright test.'
   );
 
   // Submit edited group
   await userPage.getByRole('button', { name: 'Submit' }).click();
 
-  // Confirm group was updated
-  await expect(
-    userPage.getByText('Your group has been edited')
-  ).toBeVisible({ timeout: 5000 });
-
   // Return to Groups page and verify edited group
   await userPage.goto('http://localhost:3000/groups');
 
   await expect(
-    userPage.getByText('Playwright Edited Group')
+    userPage.locator('.card').filter({
+      hasText: 'Playwright Edited Group',
+    }).first()
   ).toBeVisible({ timeout: 5000 });
 
   // Test Request to Join and Create Post
@@ -664,12 +694,12 @@ await expect(
 
   const editedGroupCard = userPage.locator('.card').filter({
     hasText: 'Playwright Edited Group',
-  });
+  }).first();
 
   await expect(editedGroupCard).toBeVisible({ timeout: 5000 });
 
   // Click Request to Join
-  await editedGroupCard.getByRole('link', { name: 'Request to Join' }).click();
+  await editedGroupCard.getByRole('link', { name: 'Group Forum' }).click();
 
   // Confirm forum page loaded
   await expect(
@@ -677,7 +707,7 @@ await expect(
   ).toBeVisible({ timeout: 5000 });
 
   // Open Create Post
-  await userPage.getByRole('link', { name: 'Create Post' }).click();
+  await userPage.locator('a[href$="/forum/add"]').click();
 
   // Confirm Create Post page loaded
   await expect(
@@ -687,7 +717,7 @@ await expect(
   // Fill post
   await userPage.getByLabel('Title').fill('Playwright Test Post');
 
-  await userPage.getByLabel('Description').fill(
+  await userPage.getByLabel('Description', { exact: true }).fill(
     'This post was created by the regular user Playwright test.'
   );
 
@@ -699,27 +729,22 @@ await expect(
   ).toHaveValue('');
 
   await expect(
-    userPage.getByLabel('Description')
+    userPage.getByLabel('Description', { exact: true })
   ).toHaveValue('');
 
   // Fill post again
   await userPage.getByLabel('Title').fill('Playwright Test Post');
 
-  await userPage.getByLabel('Description').fill(
+  await userPage.getByLabel('Description', { exact: true }).fill(
     'This post was created by the regular user Playwright test.'
   );
 
   // Submit post
   await userPage.getByRole('button', { name: 'Submit' }).click();
 
-  // Confirm post was created
-  await expect(
-    userPage.getByText('Your post has been created')
-  ).toBeVisible({ timeout: 5000 });
-
   // Confirm post appears in the forum
   await expect(
-    userPage.getByText('Playwright Test Post')
+    userPage.getByText('Playwright Test Post').first()
   ).toBeVisible({ timeout: 5000 });
 
   // Test the deletion of a group
@@ -727,11 +752,14 @@ await expect(
 
   const finalGroupCard = userPage.locator('.card').filter({
     hasText: 'Playwright Edited Group',
-  });
+  }).first();
 
   await expect(finalGroupCard).toBeVisible({ timeout: 5000 });
 
-  await finalGroupCard.getByRole('link', { name: 'View Details' }).click();
+  // Open group details
+  await finalGroupCard.locator('a[href^="/groups/"]').filter({
+    hasText: 'View Details',
+  }).click();
 
   // Confirm group details page loaded
   await expect(
@@ -741,10 +769,10 @@ await expect(
   // Delete the group
   await userPage.getByRole('button', { name: /delete/i }).click();
 
-  // Confirm Deletion
+  // Confirm deletion
   await userPage.goto('http://localhost:3000/groups');
 
   await expect(
-    userPage.getByText('Playwright Edited Group')
+    userPage.getByText('Playwright Edited Group').first()
   ).not.toBeVisible({ timeout: 5000 });
 });

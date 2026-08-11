@@ -90,8 +90,9 @@ const AddPostForm: React.FC = () => {
               <Form onSubmit={handleSubmit(onSubmit, (errors) => console.log("Validation errors:", errors))}>
                 
                 <Form.Group className="mb-3">
-                  <Form.Label>Title</Form.Label>
+                  <Form.Label htmlFor="title">Title</Form.Label>
                   <input
+                    id="title"
                     type="text"
                     {...register('title')}
                     className={`form-control bg-white ${errors.title ? 'is-invalid' : ''}`}
@@ -100,8 +101,9 @@ const AddPostForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Description</Form.Label>
+                  <Form.Label htmlFor="description">Description</Form.Label>
                   <textarea
+                    id="description"
                     {...register('description')}
                     className={`form-control bg-white ${errors.description ? 'is-invalid' : ''}`}
                     rows={3}
