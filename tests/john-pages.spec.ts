@@ -41,24 +41,18 @@ test('test user access and functionality', async ({ getUserPage }) => {
   ).toBeVisible({ timeout: 5000 });
 
   // Test Hikes page
-  await userPage.goto('http://localhost:3000/hikes');
+
+await userPage.goto('http://localhost:3000/hikes', {
+	waitUntil: 'domcontentloaded',
+});
 
   await expect(
     userPage.getByRole('heading', { name: 'List of Hikes' })
   ).toBeVisible({ timeout: 5000 });
 
   // Test Groups page
-  console.log('BEFORE GROUPS:', userPage.url());
 
-  await userPage.goto('http://localhost:3000/groups', {
-    waitUntil: 'commit',
-  });
-
-  console.log('AFTER GROUPS:', userPage.url());
-
-  await userPage.waitForTimeout(1000);
-
-  console.log('AFTER GROUPS WAIT:', userPage.url());
+  await userPage.goto('http://localhost:3000/groups');
 
   await expect(
     userPage.getByRole('heading', { name: 'Groups' })
@@ -307,9 +301,6 @@ test('test user access and functionality', async ({ getUserPage }) => {
 
   await userPage.getByRole('button', { name: 'Submit' }).click();
 
-  // Give the server action time to finish
-  await userPage.waitForTimeout(1000);
-
   // Verify your profile has been added to the profiles page
   await userPage.goto('http://localhost:3000/profile', {
     waitUntil: 'domcontentloaded',
@@ -429,10 +420,8 @@ test('test user access and functionality', async ({ getUserPage }) => {
   await userPage.waitForURL(/\/profile\/.+/, { timeout: 10000 });
 
   // Go back to profiles and verify the edited profile
-  await userPage.waitForTimeout(1000);
-
   await userPage.goto('http://localhost:3000/profile', {
-    waitUntil: 'commit',
+    waitUntil: 'domcontentloaded',
   });
 
   await expect(
@@ -456,10 +445,6 @@ test('test user access and functionality', async ({ getUserPage }) => {
   // Click Delete Profile
   await userPage.getByRole('button', { name: 'Delete Profile' }).click();
 
-  // Give the delete operation time to finish
-  await userPage.waitForTimeout(2000);
-
-  // Go directly to the profiles page
   await userPage.goto('http://localhost:3000/profile', {
     waitUntil: 'domcontentloaded',
   });
@@ -558,25 +543,21 @@ test('test user access and functionality', async ({ getUserPage }) => {
 
   // Fill group again and submit
   await userPage.getByLabel('Name', { exact: true }).fill('Playwright Test Group');
-
   await userPage.getByLabel('Image URL (please use a square image)', { exact: true }).fill(
     'https://example.com/group.jpg'
   );
-
   await userPage.getByLabel('Members', { exact: true }).fill('5');
-
   await userPage.getByLabel('Max Members').fill('10');
-
   await userPage.getByLabel('Commitment', { exact: true }).selectOption('Moderate');
-
   await userPage.getByLabel('Description', { exact: true }).fill(
     'This group was created by the regular user Playwright test.'
   );
 
   await userPage.getByRole('button', { name: 'Submit' }).click();
 
-  // Verify group was created
-  await userPage.goto('http://localhost:3000/groups');
+  await userPage.goto('http://localhost:3000/groups', {
+    waitUntil: 'domcontentloaded',
+  });
 
   const prGroupCard = userPage.locator('.card').filter({
     hasText: 'Playwright Test Group',

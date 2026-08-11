@@ -9,7 +9,7 @@ import { useSession } from 'next-auth/react'; // v5 compatible
 import { useForm, useWatch} from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import type { InferType } from 'yup';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import swal from 'sweetalert';
 import { Button, Card, Col, Container, Form, Row, Image } from 'react-bootstrap';
 
@@ -24,24 +24,9 @@ interface EditProfileFormProps {
   profileData: Profile;
 }
 
-const onSubmit = async (data: EditProfileFormData, profileData: Profile) => {
-  await editProfile({
-    id: profileData.id,
-    name: data.name,
-    image: data.image,
-    description: data.description,
-    groupname: data.groupname,
-    summary: data.summary,
-    descimage: data.descimage,
-  });
-
-  swal('Success', 'Your profile has been edited', 'success', {
-    timer: 2000,
-  });
-};
 const EditProfileForm: React.FC<EditProfileFormProps> = ({ profileData }) => {
   const { data: session, status } = useSession();
-
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -88,21 +73,21 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ profileData }) => {
       await editProfile({
         id: profileData.id,
         name: data.name,
-      image: data.image,
-      description: data.description,
-      groupname: data.groupname,
-      summary: data.summary,
-      descimage: data.descimage,
+        image: data.image,
+        description: data.description,
+        groupname: data.groupname,
+        summary: data.summary,
+        descimage: data.descimage,
       });
 
-      swal('Success', 'Your event has been edited', 'success', {
+      swal('Success', 'Your profile has been edited', 'success', {
       timer: 2000,
     });
 
-    window.location.assign(`/profile/${profileData.id}`);
+    router.push(`/profile/${profileData.id}`);
 
     } catch(error) {
-      console.error('Failed to save group:', error);
+      console.error('Failed to save profile:', error);
       swal('Error', 'Something went wrong while editing the profile.', 'error');
     } 
   };

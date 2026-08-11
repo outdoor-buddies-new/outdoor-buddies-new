@@ -113,9 +113,16 @@ export async function editGroup(group: {
  * @param id, the group id
 */
 export async function deleteGroup(id: string) {
-  await prisma.group.delete({
-    where: { id },
-  });
+
+	await prisma.group.delete({
+		where: { id },
+	});
+
+	const check = await prisma.group.findUnique({
+		where: { id },
+	});
+
+	revalidatePath('/groups');
 }
 
 /**
@@ -197,13 +204,18 @@ export async function editProfile(profile: {
  * Deletes an existing profile from the database.
  * @param id, the profile id
 */
-  export async function deleteProfile(id: string) {
-    await prisma.profile.delete({
-      where: { id },
-    });
-    revalidatePath('/profile');
-    revalidatePath(`/profile/${id}`);
-  }
+export async function deleteProfile(id: string) {
+
+	await prisma.profile.delete({
+		where: { id },
+	});
+
+	const check = await prisma.profile.findUnique({
+		where: { id },
+	});
+
+	revalidatePath('/profile');
+}
 
 /**
  * Adds a new note to the database.
