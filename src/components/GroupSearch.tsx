@@ -1,17 +1,27 @@
+/**
+ * @fileoverview GroupSearch component where User can view and search through all Group Cards
+ * User:Can create, edit, and delete Group Cards through:
+ *  - AddGroupForm in groups/add
+ *  - EditGroupForm in groups/edit/[id]
+ *  - DeleteButtonGroup in components
+ * searchGroups in dbActions
+ */
+
 'use client';
 
-import { Group } from '@prisma/client';
 import { useSession } from 'next-auth/react'; // v5 compatible
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
-import { redirect } from 'next/navigation';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import GroupCard from '@/components/GroupCard';
 import { useState } from 'react';
+import { redirect } from 'next/navigation';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+
+import { Group } from '@prisma/client';
 import { searchGroups } from '@/lib/dbActions';
+import GroupCard from '@/components/GroupCard';
+import LoadingSpinner from '@/components/LoadingSpinner';
 import Link from 'next/link';
 
 interface GroupSearchProps {
-    groups: Group[];
+  groups: Group[];
 }
 
 const GroupSearch: React.FC<GroupSearchProps> = ({ groups }) => {
@@ -28,24 +38,29 @@ const GroupSearch: React.FC<GroupSearchProps> = ({ groups }) => {
     }
 
     const searchedGroups = await searchGroups(searchTerm);
-      setResults(searchedGroups);
-    };
+    setResults(searchedGroups);
+  };
 
-    if (status === 'loading') {
-        return <LoadingSpinner />;
-    }
-    if (status === 'unauthenticated') {
-        redirect('/auth/signin');
-    }
+  if (status === 'loading') {
+      return <LoadingSpinner />;
+  }
+  if (status === 'unauthenticated') {
+    redirect('/auth/signin');
+  }
 
-    const filteredResults = results.filter((groups) => {
-      return (commitmentFilter === 'All' || groups.intensity=== commitmentFilter)
-    });
+  if (!session?.user?.id) {
+    console.error('User is not logged in or user ID is missing.');
+    return;
+  }
 
-    return (
-      <Container className="py-3">
-        <h1 className="mb-4 title-font">Groups</h1>
-        <Row className="my-3 d-flex g-3">
+  const filteredResults = results.filter((groups) => {
+    return (commitmentFilter === 'All' || groups.intensity=== commitmentFilter)
+  });
+
+  return (
+    <Container className="py-3">
+      <h1 className="mb-4 title-font">Groups</h1>
+      <Row className="my-3 d-flex g-3">
         <Col md={9}>
           <Form className="d-flex gap-1" onSubmit={(e) => { e.preventDefault(); handleSearch(); }}>
             <Form.Control
@@ -74,24 +89,24 @@ const GroupSearch: React.FC<GroupSearchProps> = ({ groups }) => {
               <option value="Serious">Serious</option>
           </Form.Select>
         </Col>
+      </Row>
+      <Link href="/groups/add" className="btn btn-primary page-button">
+        Add a Group
+      </Link>
+      <Container className="invisible mt-3 mb-3">
+        invis
+      </Container>
+      <Container>
+        <Row xs={1} md={1} lg={1} className="g-4 justify-content-center">
+          {filteredResults.map((group) => (
+            <Col key={`Groups-${group.name}`} className="d-flex justify-content-center">
+              <GroupCard group={group} />
+            </Col>
+          ))}
         </Row>
-        <Link href="/groups/add" className="btn btn-primary page-button">
-          Add a Group
-        </Link>
-        <Container className="invisible mt-3 mb-3">
-          invis
-        </Container>
-				<Container>
-          <Row xs={1} md={1} lg={1} className="g-4 justify-content-center">
-            {filteredResults.map((group) => (
-              <Col key={`Groups-${group.name}`} className="d-flex justify-content-center">
-                <GroupCard group={group} />
-              </Col>
-            ))}
-          </Row>
-        </Container>
-			</Container>
-    );
+      </Container>
+		</Container>
+  );
 };
 
 export default GroupSearch;

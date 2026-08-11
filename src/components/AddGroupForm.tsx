@@ -1,35 +1,47 @@
+/**
+ * @fileoverview AddGroupForm component where User can create a Group
+ * This file handles User inputs for Group creation
+ */
+
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import swal from 'sweetalert';
 import { redirect, useRouter } from 'next/navigation';
-import { addGroup } from '@/lib/dbActions';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import { AddGroupSchema, AddGroupFormData } from '@/lib/validationSchemas';
+import swal from 'sweetalert';
+import { Button, Card, Col, Container, Form, Row, Image } from 'react-bootstrap';
+
 import { Commitment } from '@prisma/client';
+import { addGroup } from '@/lib/dbActions';
+import { AddGroupSchema, AddGroupFormData } from '@/lib/validationSchemas';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 const AddGroupForm: React.FC = () => {
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const router = useRouter();
 
   const {
-  register,
-  handleSubmit,
-  reset,
-  formState: { errors },
-} = useForm({
-  resolver: yupResolver(AddGroupSchema),
-  defaultValues: {
-    name: '',
-    image: '',
-    members: 0,
-    maxmembers: null,
-    intensity: '' as Commitment,
-    description: '',
-  },
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(AddGroupSchema),
+    defaultValues: {
+      name: '',
+      image: '',
+      members: 0,
+      maxmembers: null,
+      intensity: '' as Commitment,
+      description: '',
+    },
+  });
+
+  const watchedImage = useWatch({
+    control,
+    name: 'image',
   });
 
   if (status === 'loading') {
@@ -40,24 +52,35 @@ const AddGroupForm: React.FC = () => {
   }
 
   const onSubmit = async (data: AddGroupFormData) => {
-    try {
-      // Clean up the data: if maxmembers is an empty string, NaN, or falsy (other than 0), convert it to null
-      const formattedData = {
-        ...data,
-        maxmembers: data.maxmembers ? Number(data.maxmembers) : null,
-      };
 
-      await addGroup(formattedData);
+    if (!session?.user?.id) {
+      console.error('User is not logged in or user ID is missing.');
+      return;
+    }
+
+    try {
+      const newGroup = await addGroup({
+        name: data.name,
+        image: data.image,
+        members: Number(data.members),
+        maxmembers: data.maxmembers ? Number(data.maxmembers) : null,
+        intensity: data.intensity,
+        description: data.description,
+      });
+
+      await update();
 
       await swal('Success', 'Your group has been created', 'success', {
         timer: 2000,
       });
 
       reset();
-      router.push('/groups');
+      router.push(`/groups/${newGroup.id}`);
       router.refresh();
+
     } catch (error) {
       console.error('Failed to save group:', error);
+      swal('Error', 'Something went wrong while creating the group.', 'error');
     }
   };
 
@@ -83,13 +106,25 @@ const AddGroupForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Image URL</Form.Label>
+                  <Form.Label>Image URL (please use a square image)</Form.Label>
                   <input
                     type="text"
                     {...register('image')}
                     className={`form-control bg-white ${errors.image ? 'is-invalid' : ''}`}
                   />
                   <div className="invalid-feedback">{errors.image?.message}</div>
+                  {watchedImage && (
+                    <div className="mt-3 text-center">
+                      <Image 
+                        src={watchedImage} 
+                        alt="Profile Preview" 
+                        roundedCircle 
+                        style={{ width: '100px', height: '100px', objectFit: 'cover' }} 
+                        onError={(e) => (e.currentTarget.style.display = 'none')}
+                        onLoad={(e) => (e.currentTarget.style.display = 'inline-block')}
+                      />
+                    </div>
+                  )}
                 </Form.Group>
 
                 <Form.Group className="mb-3">
@@ -112,21 +147,21 @@ const AddGroupForm: React.FC = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                      <Form.Label>
-                        Commitment
-                      </Form.Label>
+                  <Form.Label>
+                    Commitment
+                  </Form.Label>
 
-                      <Form.Select {...register('intensity')}
-                        className={`form-control bg-white ${errors.intensity ? 'is-invalid' : ''}`}>
-                          <option value="">Select commitment level...</option>
-                        <option value="Casual">Casual</option>
-                        <option value="Sometimes_Casual">Sometimes Casual, Sometimes Moderate</option>
-                        <option value="Moderate">Moderate</option>
-                        <option value="Sometimes_Moderate">Sometimes Moderate, Sometimes Serious</option>
-                        <option value="Serious">Serious</option>
-                      </Form.Select>
-                      <div className="invalid-feedback">{errors.intensity?.message}</div>
-                    </Form.Group>
+                  <Form.Select {...register('intensity')}
+                    className={`form-control bg-white ${errors.intensity ? 'is-invalid' : ''}`}>
+                    <option value="">Select commitment level...</option>
+                    <option value="Casual">Casual</option>
+                    <option value="Sometimes_Casual">Sometimes Casual, Sometimes Moderate</option>
+                    <option value="Moderate">Moderate</option>
+                    <option value="Sometimes_Moderate">Sometimes Moderate, Sometimes Serious</option>
+                    <option value="Serious">Serious</option>
+                  </Form.Select>
+                  <div className="invalid-feedback">{errors.intensity?.message}</div>
+                </Form.Group>
 
                 <Form.Group className="mb-3">
                   <Form.Label>Description</Form.Label>

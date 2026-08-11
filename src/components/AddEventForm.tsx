@@ -1,17 +1,22 @@
+/**
+ * @fileoverview AddEventForm component where User.Admin can create a Event
+ * This file handles User.Admin inputs for Event creation
+ */
+
 'use client';
 
 import { useSession } from 'next-auth/react'; // v5 compatible
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import swal from 'sweetalert';
 import { redirect } from 'next/navigation';
+import swal from 'sweetalert';
+import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+
 import { addEvent } from '@/lib/dbActions';
-import LoadingSpinner from '@/components/LoadingSpinner';
 import { AddEventSchema } from '@/lib/validationSchemas';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 const onSubmit = async (data: { title: string; description: string; date: Date }) => {
-  // console.log(`onSubmit data: ${JSON.stringify(data, null, 2)}`);
   await addEvent({
     title: data.title,
     description: data.description,
@@ -33,6 +38,7 @@ const AddEventForm: React.FC = () => {
   } = useForm({
     resolver: yupResolver(AddEventSchema),
   });
+
   if (status === 'loading') {
     return <LoadingSpinner />;
   }
@@ -49,7 +55,7 @@ const AddEventForm: React.FC = () => {
       <Row className="justify-content-center">
         <Col xs={10}>
           <h2 className="text-center mb-4 title-font">
-            Create Event
+            Create Announcement or Event
           </h2>
 
           <Card className="bg-white">

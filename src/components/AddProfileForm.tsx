@@ -1,35 +1,53 @@
+/**
+ * @fileoverview AddProfileForm component where Users can create a Profile
+ * This file handles User inputs for Profile creation
+ * Users can only create one Profile
+ */
+
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import swal from 'sweetalert';
 import { redirect, useRouter } from 'next/navigation';
+import swal from 'sweetalert';
+import { Button, Card, Col, Container, Form, Row, Image } from 'react-bootstrap';
+
 import { addProfile } from '@/lib/dbActions';
-import LoadingSpinner from '@/components/LoadingSpinner';
 import { AddProfileSchema, AddProfileFormData } from '@/lib/validationSchemas';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 const AddProfileForm: React.FC = () => {
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const router = useRouter();
 
   const {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<AddProfileFormData>({
-  resolver: yupResolver(AddProfileSchema),
-  defaultValues: {
-    name: '',
-    image: '',
-    summary: '',
-    description: '',
-    groupname: null,
-    descimage: null,
-  },
-});
+    resolver: yupResolver(AddProfileSchema),
+    defaultValues: {
+      name: '',
+      image: '',
+      summary: '',
+      description: '',
+      groupname: null,
+      descimage: null,
+    },
+  });
+
+  const watchedImage = useWatch({
+    control,
+    name: 'image',
+  });
+
+  const watchedDescImage = useWatch({
+    control,
+    name: 'descimage',
+  });
 
   if (status === 'loading') {
     return <LoadingSpinner />;
@@ -39,7 +57,7 @@ const AddProfileForm: React.FC = () => {
   }
 
   const onSubmit = async (data: AddProfileFormData) => {
-    // Make sure we have the user's ID from the active NextAuth session
+
     const userId = session?.user?.id ? Number(session.user.id) : undefined;
 
     if (!userId) {
@@ -57,6 +75,8 @@ const AddProfileForm: React.FC = () => {
         descimage: data.descimage ?? null,
         userId: userId, // Linked to the authenticated user!
       });
+
+      await update();
 
       await swal('Success', 'Your profile has been created', 'success', {
         timer: 2000,
@@ -113,10 +133,22 @@ const AddProfileForm: React.FC = () => {
                     className={`form-control bg-white ${errors.image ? 'is-invalid' : ''}`}
                   />
                   <div className="invalid-feedback">{errors.image?.message}</div>
+                  {watchedImage && (
+                    <div className="mt-3 text-center">
+                      <Image 
+                        src={watchedImage} 
+                        alt="Profile Preview" 
+                        roundedCircle 
+                        style={{ width: '100px', height: '100px', objectFit: 'cover' }} 
+                        onError={(e) => (e.currentTarget.style.display = 'none')}
+                        onLoad={(e) => (e.currentTarget.style.display = 'inline-block')}
+                      />
+                    </div>
+                  )}
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Summary</Form.Label>
+                  <Form.Label>Status</Form.Label>
                   <input
                     type="text"
                     {...register('summary')}
@@ -143,6 +175,18 @@ const AddProfileForm: React.FC = () => {
                     className={`form-control bg-white ${errors.descimage ? 'is-invalid' : ''}`}
                   />
                   <div className="invalid-feedback">{errors.descimage?.message}</div>
+                  {watchedDescImage && (
+                    <div className="mt-3 text-center">
+                      <Image 
+                        src={watchedDescImage} 
+                        alt="Description Preview" 
+                        fluid 
+                        style={{ maxHeight: '200px', objectFit: 'cover', borderRadius: '8px' }}
+                        onError={(e) => (e.currentTarget.style.display = 'none')}
+                        onLoad={(e) => (e.currentTarget.style.display = 'inline-block')}
+                      />
+                    </div>
+                  )}
                 </Form.Group>
 
                 <Form.Group className="mb-3">

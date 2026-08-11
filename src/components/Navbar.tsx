@@ -1,3 +1,8 @@
+/**
+ * The Navbar Component, which appears at the top of all pages
+ * Rendered by the App Layout component.
+ */
+
 'use client';
 
 import { useSession } from 'next-auth/react';
@@ -11,7 +16,6 @@ export const dynamic = 'force-dynamic';
 const NavBar: React.FC = () => {
   const { data: session, status } = useSession();
   const pathName = usePathname();
-  console.log('CLIENT SESSION USER:', session?.user);
 
   if (status === 'loading') return null;
 

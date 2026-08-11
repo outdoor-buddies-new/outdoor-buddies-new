@@ -1,9 +1,12 @@
+/**
+ * Page that displays a details page of a Group
+ */
+
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Row, Col, Container} from 'react-bootstrap';
-import SafeImage from '@/components/SafeImage';
+import { Row, Col, Container, Image} from 'react-bootstrap';
 import DeleteButtonGroup from '@/components/DeleteButtonGroup';
 
 interface GroupsDetailsPageProps {
@@ -29,24 +32,33 @@ const GroupsDetailsPage = async ({
     notFound();
   }
 
+  /*checks to see if the image can load properly, if it can load, then
+  it uses that image, if it cannot load properly then it loads a 'fallback' image*/
+  const getValidImageUrl = (url: string | null | undefined, fallback: string) => {
+    if (!url) return fallback;
+    if (url.startsWith('/') || url.startsWith('http://') || url.startsWith('https://')) {
+      return url;
+    }
+    return fallback;
+  };
+
+  //this checks if the image a User has submitted is valid
+  const groupImageSrc = getValidImageUrl(group.image, '/images/default-image-user.jpg');
+
   const isOwner = Number(session?.user?.id) === group.userId;
 
   return (
     <main>
       <Container className="mt-5">
         <div className="d-flex justify-content-center">
-        <SafeImage 
-              src={group.image && group.image.startsWith('/') ? group.image : ''} 
-              fallbackSrc="/images/default-image-user.jpg"
+          <Image
+              src={groupImageSrc} 
               alt={group.name} 
-              className="group-details-pfp" 
-              roundedCircle 
+              className="group-details-pfp rounded-circle" 
             />
         </div>
         <Row className="align-items-center mt-5 mb-4">
-          <Col xs={3} className="d-flex justify-content-start">
-            
-          </Col>
+          <Col xs={3} className="d-flex justify-content-start"></Col>
           
           <Col xs={6} className="text-center">
             <h1 className="m-0">{group.name}</h1>
@@ -89,19 +101,17 @@ const GroupsDetailsPage = async ({
             {group.lastdate ? new Date(group.lastdate).toLocaleDateString() : 'N/A'}
           </p>
         </div>
-        
 
         <hr/>
         
         <p>{group.description}</p>
 
         <div className=" d-flex justify-content-end mb-4">
-                  {isOwner && <DeleteButtonGroup groupId={group.id} />}
-                </div>
+          {isOwner && <DeleteButtonGroup groupId={group.id} />}
+        </div>
 
       </Container>
     </main>
-
   );
 };
 

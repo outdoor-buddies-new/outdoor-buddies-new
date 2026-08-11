@@ -1,15 +1,21 @@
+/**
+ * @fileoverview EditEventForm component where User.Admin can edit a Event
+ * This file handles User.Admin inputs for Event revision
+ */
+
 'use client';
 
-import { Event } from '@prisma/client';
 import { useSession } from 'next-auth/react'; // v5 compatible
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import swal from 'sweetalert';
 import { redirect } from 'next/navigation';
+import swal from 'sweetalert';
+import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+
+import { Event } from '@prisma/client';
 import { editEvent } from '@/lib/dbActions';
-import LoadingSpinner from '@/components/LoadingSpinner';
 import { EditEventSchema } from '@/lib/validationSchemas';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 interface EditEventFormProps {
   eventData: Event;
@@ -48,6 +54,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
       date: eventData.date.toISOString().split('T')[0],
     },
   });
+
   if (status === 'loading') {
     return <LoadingSpinner />;
   }
@@ -67,7 +74,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
             Edit Event
           </h2>
 
-          <Card>
+          <Card className="bg-white">
             <Card.Body>
               <Form onSubmit={handleSubmit((data) => onSubmit(data, eventData))}>
                 <Form.Group>
@@ -77,7 +84,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
                   <input
                     type="text"
                     {...register('title')}
-                    className={`form-control ${errors.title ? 'is-invalid' : ''}`}
+                    className={`form-control bg-white ${errors.title ? 'is-invalid' : ''}`}
                   />
                   <div className="invalid-feedback">
                     {errors.title?.message}
@@ -90,7 +97,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
                   </Form.Label>
                   <textarea
                     {...register('description')}
-                    className={`form-control ${errors.description ? 'is-invalid' : ''}`}
+                    className={`form-control bg-white ${errors.description ? 'is-invalid' : ''}`}
                   />
                   <div className="invalid-feedback">
                     {errors.description?.message}
@@ -104,7 +111,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
                   <input
                     type="date"
                     {...register('date')}
-                    className={`form-control ${errors.date ? 'is-invalid' : ''}`}
+                    className={`form-control bg-white ${errors.date ? 'is-invalid' : ''}`}
                   />
                   <div className="invalid-feedback">
                     {errors.date?.message}
@@ -113,7 +120,7 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
 
                 <Row className="pt-3">
                   <Col>
-                    <Button type="submit">
+                    <Button type="submit" className="page-button">
                       Submit
                     </Button>
                   </Col>
@@ -128,7 +135,6 @@ const EditEventForm: React.FC<EditEventFormProps> = ({ eventData }) => {
                     </Button>
                   </Col>
                 </Row>
-
               </Form>
             </Card.Body>
           </Card>

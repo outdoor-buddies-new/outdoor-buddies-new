@@ -1,10 +1,14 @@
+/**
+ * Page that displays the EditHikeForm for Users to create a new Trail
+ * Only ADMIN can use 
+ * IS THIS PAGE OBSOLETE
+ */
+
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import EditHikeForm from '@/components/EditHikeForm';
-
-/** The Edit Hikes page. */
 
 const editHike = async ({ params,}: { params: Promise<{ id: string }>; }) => {
   const session = await auth();
@@ -23,9 +27,7 @@ const editHike = async ({ params,}: { params: Promise<{ id: string }>; }) => {
   const { id } = await params;
 
   const trail = await prisma.trail.findUnique({
-    where: {
-      id,
-    },
+    where: { id, },
   });
 
   if (!trail) {

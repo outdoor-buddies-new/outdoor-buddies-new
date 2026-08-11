@@ -1,8 +1,10 @@
+/**
+ * Page that displays the AddEventForm for creating new Event/Announcement
+ */
+
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import AddEventForm from '@/components/AddEventForm';
 import { auth } from '@/lib/auth';
-
-/** The Add Announcements page. */
 
 const addAnnouncement = async () => {
   // Protect the page, only logged in users can access it.

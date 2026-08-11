@@ -1,16 +1,20 @@
+/**
+ * @fileoverview EventCard component renders one Event Card
+ */
+
 'use client';
 
-import { Event } from '@prisma/client';
 import { useSession } from 'next-auth/react';
 import { Card, Button } from 'react-bootstrap';
 import { Trash } from 'react-bootstrap-icons';
+
+import { Event } from '@prisma/client';
 import { deleteEvent } from '@/lib/dbActions';
 
 interface EventCardProps {
 	event: Event;
 }
 
-/* Renders a single event card. */
 const EventCard = ({ event }: EventCardProps) => {
 	const { data: session } = useSession();
 	const role = session?.user?.role;

@@ -1,16 +1,23 @@
+/**
+ * @fileoverview ForumPageInd component where User can view all Post Cards associated with a Group
+ * User: Can create a Post Card through: AddPostForm in groups/[id]/forum/add
+ * User.Admin: Can delete Post Cards through: DeleteButtonPost in components on Post Card
+ */
+
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { Button, Row, Col, Container} from 'react-bootstrap';
 import { redirect } from 'next/navigation';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import PostCard from '@/components/PostCard';
+import { Button, Row, Col, Container} from 'react-bootstrap';
+
 import { Note, Group } from '@prisma/client';
+import PostCard from '@/components/PostCard';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 type NoteWithGroup = Note & { group?: Group };
 
 interface ForumProps {
-  group: Group; // Receives the group data directly
+  group: Group;
   posts: NoteWithGroup[];
 }
 
@@ -25,11 +32,15 @@ const Forum: React.FC<ForumProps> = ({ group, posts }) => {
     redirect('/auth/signin');
   }
 
+  if (!session?.user?.id) {
+    console.error('User is not logged in or user ID is missing.');
+    return;
+  }
+
   return (
     <Container className="py-4">
       <Row className="align-items-center mb-3">
         <Col>
-          {/* Always shows the correct group name! */}
           <h1 className="mb-0 title-font">
             {group.name} Forum
           </h1>

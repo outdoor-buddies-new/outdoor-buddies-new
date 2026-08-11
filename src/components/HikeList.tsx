@@ -1,16 +1,26 @@
+/**
+ * @fileoverview HikeList component where User can view and search through all Hike Cards
+ * User: This file displays all Hike Cards
+ * User.Admin: Can create, edit, and delete Hike Cards through:
+ *  - AddEventForm in hikes/add
+ *  - EditEventForm in hikess/edit/[id] on HikeCard
+ *  - deleteHike in dbActions
+ */
+
 'use client';
 
-import { Trail } from '@prisma/client';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
-import { redirect } from 'next/navigation';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import HikeCard from '@/components/HikeCard';
-import { useState } from 'react';
-import { searchTrails } from '@/lib/dbActions';
 import { useSession } from 'next-auth/react';
+import { useState } from 'react';
+import { redirect } from 'next/navigation';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+
+import { Trail } from '@prisma/client';
+import { searchTrails } from '@/lib/dbActions';
+import HikeCard from '@/components/HikeCard';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 interface HikeListProps {
-trails: Trail[];
+  trails: Trail[];
 }
 
 const HikeList: React.FC<HikeListProps> = ({ trails }) => {

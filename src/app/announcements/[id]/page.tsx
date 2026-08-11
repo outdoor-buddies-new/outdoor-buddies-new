@@ -1,3 +1,7 @@
+/**
+ * Page that displays a details page of the Event/Announcement
+ */
+
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import { Container } from 'react-bootstrap';

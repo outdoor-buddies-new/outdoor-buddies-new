@@ -1,16 +1,22 @@
+/**
+ * @fileoverview EditGroupForm component where User can edit a Group
+ * This file handles User inputs for Group revision
+ */
+
 'use client';
 
-import { Commitment, Group } from '@prisma/client';
 import { useSession } from 'next-auth/react'; // v5 compatible
-import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import type { InferType } from 'yup';
-import swal from 'sweetalert';
 import { redirect } from 'next/navigation';
+import swal from 'sweetalert';
+import { Button, Card, Col, Container, Form, Row } from 'react-bootstrap';
+
+import { Group, Commitment } from '@prisma/client';
 import { editGroup } from '@/lib/dbActions';
-import LoadingSpinner from '@/components/LoadingSpinner';
 import { EditGroupSchema } from '@/lib/validationSchemas';
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 type EditGroupFormData = InferType<typeof EditGroupSchema>;
 
@@ -36,24 +42,25 @@ const onSubmit = async (data: EditGroupFormData, groupData: Group) => {
 
 const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
   const { data: session, status } = useSession();
-  const role = session?.user?.role;
+
   const {
-  register,
-  handleSubmit,
-  reset,
-  formState: { errors },
-} = useForm({
-  resolver: yupResolver(EditGroupSchema),
-  defaultValues: {
-    id: groupData.id,
-    name: groupData.name,
-    image: groupData.image,
-    members: groupData.members,
-    maxmembers: groupData.maxmembers ?? null,
-    intensity: groupData.intensity as Commitment,
-    description: groupData.description,
-  },
-});
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(EditGroupSchema),
+    defaultValues: {
+      id: groupData.id,
+      name: groupData.name,
+      image: groupData.image,
+      members: groupData.members,
+      maxmembers: groupData.maxmembers ?? null,
+      intensity: groupData.intensity as Commitment,
+      description: groupData.description ?? '',
+    },
+  });
+
   if (status === 'loading') {
     return <LoadingSpinner />;
   }
@@ -61,9 +68,31 @@ const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
     redirect('/auth/signin');
   }
 
-  /*if (role !== 'ADMIN') {
-    redirect('/announcements'); fix later maybe
-  }*/
+  const onSubmit = async (data: EditGroupFormData, groupData: Group) => {
+    if (!session?.user?.id) {
+      console.error('User is not logged in or user ID is missing.');
+      return;
+    }
+
+    try {
+      await editGroup({
+        id: groupData.id,
+        name: data.name,
+        image: data.image,
+        members: data.members,
+        maxmembers: data.maxmembers ?? null,
+        intensity: data.intensity,
+        description: data.description ?? "",
+      });
+
+      swal('Success', 'Your event has been edited', 'success', {
+        timer: 2000,
+      });
+    } catch(error) {
+      console.error('Failed to save group:', error);
+      swal('Error', 'Something went wrong while editing the group.', 'error');
+    }
+  };
 
   return (
     <Container className="py-3">
@@ -76,6 +105,7 @@ const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
           <Card className="bg-white">
             <Card.Body>
               <Form onSubmit={handleSubmit((data) => onSubmit(data, groupData))}>
+                
                 <Form.Group className="mb-3">
                   <Form.Label>Name</Form.Label>
                   <input
@@ -117,21 +147,21 @@ const EditGroupForm: React.FC<EditGroupFormProps> = ({ groupData }) => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                      <Form.Label>
-                        Commitment
-                      </Form.Label>
+                  <Form.Label>
+                    Commitment
+                  </Form.Label>
 
-                      <Form.Select {...register('intensity')}
-                        className={`form-control bg-white ${errors.intensity ? 'is-invalid' : ''}`}>
-                          <option value="">Select commitment level...</option>
-                        <option value="Casual">Casual</option>
-                        <option value="Sometimes_Casual">Sometimes Casual, Sometimes Moderate</option>
-                        <option value="Moderate">Moderate</option>
-                        <option value="Sometimes_Moderate">Sometimes Moderate, Sometimes Serious</option>
-                        <option value="Serious">Serious</option>
-                      </Form.Select>
-                      <div className="invalid-feedback">{errors.intensity?.message}</div>
-                    </Form.Group>
+                  <Form.Select {...register('intensity')}
+                    className={`form-control bg-white ${errors.intensity ? 'is-invalid' : ''}`}>
+                      <option value="">Select commitment level...</option>
+                      <option value="Casual">Casual</option>
+                      <option value="Sometimes_Casual">Sometimes Casual, Sometimes Moderate</option>
+                      <option value="Moderate">Moderate</option>
+                      <option value="Sometimes_Moderate">Sometimes Moderate, Sometimes Serious</option>
+                      <option value="Serious">Serious</option>
+                  </Form.Select>
+                  <div className="invalid-feedback">{errors.intensity?.message}</div>
+                </Form.Group>
 
                 <Form.Group className="mb-3">
                   <Form.Label>Description</Form.Label>

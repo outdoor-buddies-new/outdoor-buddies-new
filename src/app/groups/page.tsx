@@ -1,11 +1,6 @@
-/*import { Container, Row, Col, Form, Button } from 'react-bootstrap';
-import { Group } from '@prisma/client';
-import GroupCard from '@/components/GroupCard';
-import { loggedInProtectedPage } from '@/lib/page-protection';
-import { auth } from '@/lib/auth';
-import Link from 'next/link';
-import { prisma } from '@/lib/prisma';
-import GroupSearch from '@/components/GroupSearch';*/
+/**
+ * Page displays a list of Group through the GroupSearch component
+ */
 
 import { loggedInProtectedPage } from '@/lib/page-protection';
 import GroupSearch from '@/components/GroupSearch';
@@ -20,13 +15,6 @@ const GroupsPage = async () => {
       user: { email: string; id: string; name: string };
     } | null,
   );
-
-  const owner = session?.user!.email ? session.user.email : '';
-  /*const group: Group[] = await prisma.group.findMany({
-    where: {
-      owner
-    },
-  });*/
 
   const group = await getGroups();
 

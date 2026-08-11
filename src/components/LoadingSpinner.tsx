@@ -1,3 +1,7 @@
+/**
+ * Loading Spinner Component for Form submissions
+ */
+
 import { Container, Row, Spinner } from 'react-bootstrap';
 
 const LoadingSpinner = () => (
