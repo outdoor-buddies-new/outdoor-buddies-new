@@ -1,5 +1,5 @@
 /**
- * Our seed.ts file imports seed data from defaultTrails, defaultEvents, defaultGroups, and defaultProfiles 
+ * Our seed.ts file imports seed data from defaultTrails, defaultEvents, defaultGroups, and defaultProfiles
  */
 
 import 'dotenv/config';
